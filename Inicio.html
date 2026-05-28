@@ -16,10 +16,6 @@
 </head>
 <body>
 
-<!-- Demo banner (mostra fonte de dados — remover quando API estiver wired) -->
-<div class="demo-banner" id="demoBanner" style="display:none">
-  Modo demo · exibindo competições de exemplo. Configure <code>window.COMPETI_API_BASE</code> para conectar à API real.
-</div>
 
 <!-- ========================================================================
      TOPBAR
@@ -366,7 +362,6 @@
     }
 
     state.loading = false;
-    document.getElementById('demoBanner').style.display = state.usingMock ? 'block' : 'none';
     render();
   }
 

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Competi — Competição</title>
+  <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/tokens.css" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+  <link rel="stylesheet" href="assets/css/discover.css" />
+  <link rel="stylesheet" href="assets/css/detail.css" />
+  <script src="assets/js/mock-data.js" defer></script>
+</head>
+<body>
+
+<!-- ========================================================================
+     TOPBAR (mesmo padrão do site)
+     ======================================================================== -->
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a href="Inicio.html" class="brand" aria-label="Competi">
+      <img src="assets/img/logo-competi-horizontal.png" alt="Competi" class="brand-logo" />
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <nav class="nav" id="mainNav">
+      <a href="Inicio.html">Início</a>
+      <a href="Inicio.html#explorar">Explorar</a>
+      <a href="CompetiSite Redesign.html#plataforma">A plataforma</a>
+      <a href="CompetiSite Redesign.html#planos">Planos</a>
+      <a href="Entrar.html">Entrar</a>
+      <a href="Cadastro.html" class="nav-cta">Criar conta</a>
+    </nav>
+  </div>
+</header>
+
+<main id="detailRoot">
+  <div class="detail-loading">Carregando competição…</div>
+</main>
+
+
+<!-- ========================================================================
+     FOOTER (compartilhado)
+     ======================================================================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand-block">
+        <img src="assets/img/logo-competi-footer-cropped.png" alt="Competi" class="footer-logo" />
+        <p class="footer-tag">A plataforma que coloca quem organiza, quem compete, quem treina, quem apita e quem assiste no mesmo lugar.</p>
+      </div>
+      <div>
+        <h4>Encontrar</h4>
+        <div class="footer-links">
+          <a href="Inicio.html">Competições publicadas</a>
+          <a href="Inicio.html#explorar">Explorar por esporte</a>
+          <a href="Inicio.html#explorar">Inscrições abertas</a>
+        </div>
+      </div>
+      <div>
+        <h4>Para organizadores</h4>
+        <div class="footer-links">
+          <a href="CompetiSite Redesign.html#plataforma">A plataforma</a>
+          <a href="CompetiSite Redesign.html#para-quem">Para quem é</a>
+          <a href="CompetiSite Redesign.html#planos">Planos</a>
+          <a href="CompetiSite Redesign.html#contato">Falar com a gente</a>
+        </div>
+      </div>
+      <div>
+        <h4>Companhia</h4>
+        <div class="footer-links">
+          <a href="CompetiSite Redesign.html#faq">FAQ</a>
+          <a href="mailto:contato@competihub.com.br">contato@competihub.com.br</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Competi — Todos os direitos reservados.</div>
+      <div class="footer-badges">
+        <span class="footer-badge"><span class="d"></span> Pagamentos · Mercado Pago</span>
+        <span class="footer-badge">LGPD</span>
+        <span class="footer-badge">Dados no Brasil</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ========================================================================
+     SCRIPT
+     ======================================================================== -->
+<script>
+  const root = document.getElementById('detailRoot');
+  const now = Date.now();
+
+  // -------------------------- helpers --------------------------
+  const fmt = new Intl.NumberFormat('pt-BR');
+  const currency = (n, c = 'BRL') => n === 0
+    ? 'Grátis'
+    : new Intl.NumberFormat('pt-BR', { style: 'currency', currency: c }).format(n);
+
+  function fmtDate(iso) {
+    if (!iso) return '—';
+    return new Date(iso).toLocaleDateString('pt-BR');
+  }
+  function fmtTime(iso) {
+    if (!iso) return '—';
+    return new Date(iso).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  }
+  function fmtDateRange(a, b) {
+    if (!a) return '—';
+    const sa = fmtDate(a), sb = fmtDate(b);
+    return sa === sb ? sa : `${sa} — ${sb}`;
+  }
+  function sportSlug(name) {
+    return (name || '').toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  }
+  function isLive(c) {
+    const s = new Date(c.startsAt).getTime();
+    const e = new Date(c.endsAt).getTime();
+    return s <= now && e >= now;
+  }
+  function dayChip(c) {
+    const s = new Date(c.startsAt).getTime();
+    const e = new Date(c.endsAt).getTime();
+    if (now < s || now > e) return null;
+    const totalDays = Math.max(1, Math.round((e - s) / 86400000) + 1);
+    const dayIdx = Math.min(totalDays, Math.max(1, Math.round((now - s) / 86400000) + 1));
+    return `${dayIdx}º dia de ${totalDays}`;
+  }
+  function regInfo(c) {
+    if (!c.registrationEndAt) return { label: '—', cls: 'reg-closed' };
+    const end = new Date(c.registrationEndAt).getTime();
+    const d = Math.round((end - now) / 86400000);
+    if (d < 0) return { label: 'Inscrições encerradas', cls: 'reg-closed' };
+    if (d <= 3) return { label: `Fecha em ${d === 0 ? 'horas' : d + 'd'}`, cls: 'reg-closing' };
+    return { label: `Inscrições abertas · ${d}d`, cls: 'reg-open' };
+  }
+  function genderLabel(g) {
+    if (!g) return null;
+    if (g === 'M' || g === 'Male') return 'Só masculino';
+    if (g === 'F' || g === 'Female') return 'Só feminino';
+    if (g === 'Open' || g === 'Mixed') return 'Aberto a todos';
+    return g;
+  }
+  function ageLabel(min, max) {
+    if (min == null && max == null) return null;
+    if (min != null && max != null) return `${min}–${max} anos`;
+    if (min != null) return `${min}+ anos`;
+    return `Até ${max} anos`;
+  }
+  function vagasLabel(n) {
+    if (!n) return null;
+    return `${n} vagas`;
+  }
+  function rosterLabel(ev) {
+    if (!ev.isTeam) return null;
+    if (ev.minRoster && ev.maxRoster && ev.minRoster !== ev.maxRoster) return `Equipe de ${ev.minRoster}–${ev.maxRoster} atletas`;
+    if (ev.minRoster) return `Equipe de ${ev.minRoster} atletas`;
+    return 'Prova coletiva';
+  }
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+  }
+
+  // -------------------------- data loader --------------------------
+  function loadCompetition(id) {
+    const list = window.COMPETI_MOCK || [];
+    return list.find(c => c.id === id) || null;
+  }
+
+  // -------------------------- render --------------------------
+  function render(c) {
+    if (!c) {
+      root.innerHTML = `
+        <div class="container detail-error">
+          <h2>Competição não encontrada</h2>
+          <p style="color:var(--muted)">Talvez ela já tenha sido encerrada ou despublicada.</p>
+          <p><a href="Inicio.html">← Voltar para a página inicial</a></p>
+        </div>`;
+      return;
+    }
+    document.title = `${c.name} · Competi`;
+
+    const live = isLive(c);
+    const day = dayChip(c);
+    const reg = regInfo(c);
+    const slug = sportSlug(c.sportName);
+
+    root.innerHTML = `
+      <section class="detail-hero sport-${slug}">
+        <div class="container">
+          <a href="Inicio.html" class="detail-back">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Voltar para competições
+          </a>
+          <div class="detail-hero-chips">
+            ${live ? `<span class="hero-chip live">Ao vivo</span>` : ''}
+            ${day ? `<span class="hero-chip day">${day}</span>` : ''}
+            ${reg.label !== '—' && !live ? `<span class="hero-chip ${reg.cls}">${reg.label}</span>` : ''}
+            <span class="hero-chip">${escapeHtml(c.sportName)}</span>
+          </div>
+          <h1>${escapeHtml(c.name)}</h1>
+          <div class="where">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>${escapeHtml(c.venue || '')}${c.venue ? ' · ' : ''}${escapeHtml(c.city || '')}${c.state ? ' · ' + escapeHtml(c.state) : ''}</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="detail-wrap">
+        <div class="container">
+          ${statsTiles(c)}
+
+          <div class="detail-grid">
+            <div class="detail-main">
+              ${infoCard(c)}
+              ${descriptionCard(c)}
+              ${live ? '' : ''}
+              ${scheduleCard(c)}
+              ${eventsCard(c)}
+              ${teamsCard(c)}
+              ${medalTableCard(c)}
+              ${highlightsCard(c)}
+              ${medalistsCard(c)}
+            </div>
+
+            <aside class="detail-side">
+              ${live ? liveMini(c) : ''}
+              ${pricingCard(c, live)}
+              ${organizerCard(c)}
+            </aside>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  // -------------------------- partials --------------------------
+  function statsTiles(c) {
+    const tiles = [
+      { val: c.athletes ? fmt.format(c.athletes) : '—', lbl: 'atletas inscritos' },
+      { val: c.eventsCount || (c.events ? c.events.length : '—'), lbl: c.eventsCount === 1 ? 'prova' : 'provas' },
+      { val: c.clubsCount || '—', lbl: 'clubes/equipes' },
+      c.completedCount != null
+        ? { val: c.completedCount, lbl: 'já decididas' }
+        : { val: c.formatLabel ? c.formatCode?.split(/[+\s]/)[0] || '14' : '—', lbl: 'formato' },
+    ];
+    // Replace 4th tile heuristic with cleaner version
+    const fourth = c.completedCount != null
+      ? `<div class="stat-tile"><span class="val">${c.completedCount}</span><span class="lbl">provas decididas</span></div>`
+      : c.tags && c.tags[0]
+        ? `<div class="stat-tile"><span class="val" style="font-size:1.05rem;text-transform:uppercase;letter-spacing:.04em">${escapeHtml(c.tags[0])}</span><span class="lbl">característica</span></div>`
+        : '';
+    return `
+      <div class="stats-tiles">
+        <div class="stat-tile"><span class="val">${c.athletes ? fmt.format(c.athletes) : '—'}</span><span class="lbl">atletas inscritos</span></div>
+        <div class="stat-tile"><span class="val">${c.eventsCount || (c.events ? c.events.length : '—')}</span><span class="lbl">${c.eventsCount === 1 ? 'prova' : 'provas'}</span></div>
+        <div class="stat-tile"><span class="val">${c.clubsCount || '—'}</span><span class="lbl">${c.clubsCount === 1 ? 'clube' : 'clubes / equipes'}</span></div>
+        ${fourth}
+      </div>
+    `;
+  }
+
+  function infoCard(c) {
+    return `
+      <div class="info-card">
+        <div class="info-block">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div>
+            <div class="label">Quando acontece</div>
+            <div class="val">${fmtDateRange(c.startsAt, c.endsAt)}</div>
+            ${c.startsAt ? `<div class="sub">${fmtTime(c.startsAt)}h</div>` : ''}
+          </div>
+        </div>
+        <div class="info-block">
+          <div class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <div>
+            <div class="label">Inscrições</div>
+            <div class="val">${c.registrationEndAt ? fmtDateRange(c.registrationStartAt, c.registrationEndAt) : '—'}</div>
+            ${c.registrationEndAt ? `<div class="sub">até ${fmtDate(c.registrationEndAt)}</div>` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function descriptionCard(c) {
+    if (!c.description && !c.formatLabel) return '';
+    return `
+      <article class="dcard desc-card">
+        <div class="dcard-header">
+          <h2>Sobre a competição</h2>
+        </div>
+        <div class="dcard-body">
+          ${c.description ? `<p>${escapeHtml(c.description)}</p>` : ''}
+          ${c.formatLabel ? `
+            <div class="format-pill">
+              <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="12" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><line x1="9" y1="12" x2="15" y2="6"/><line x1="9" y1="12" x2="15" y2="18"/></svg></span>
+              <div>
+                <div class="ft-name">${escapeHtml(c.formatLabel)}</div>
+                ${c.formatDescription ? `<div class="ft-sub">${escapeHtml(c.formatDescription)}</div>` : ''}
+              </div>
+            </div>
+          ` : ''}
+          ${c.tags && c.tags.length ? `<div class="tag-row">${c.tags.map(t => `<span class="dtag">${escapeHtml(t)}</span>`).join('')}</div>` : ''}
+        </div>
+      </article>
+    `;
+  }
+
+  function scheduleCard(c) {
+    if (!c.schedule || c.schedule.length === 0) return '';
+    return `
+      <article class="dcard">
+        <div class="dcard-header">
+          <h2>Programação de hoje</h2>
+          <span class="label">${c.schedule.length} atividades</span>
+        </div>
+        <div class="dcard-body flush">
+          ${c.schedule.map(s => `
+            <div class="sched-row ${s.status}">
+              <span class="time">${fmtTime(s.time)}</span>
+              <span class="dot"></span>
+              <div>
+                <div class="title">${escapeHtml(s.name)}</div>
+                ${s.sport ? `<div class="meta">${escapeHtml(s.sport)}</div>` : ''}
+              </div>
+              <span class="status">${s.status === 'done' ? '✓ concluída' : s.status === 'live' ? 'Ao vivo' : 'A seguir'}</span>
+            </div>
+          `).join('')}
+        </div>
+      </article>
+    `;
+  }
+
+  function eventsCard(c) {
+    if (!c.events || c.events.length === 0) return '';
+    return `
+      <article class="dcard">
+        <div class="dcard-header">
+          <h2>Provas dessa competição</h2>
+          <span class="label">${c.events.length} ${c.events.length === 1 ? 'prova' : 'provas'}${c.eventsCount && c.eventsCount > c.events.length ? ' · de ' + c.eventsCount : ''}</span>
+        </div>
+        <div class="dcard-body flush">
+          ${c.events.map(ev => {
+            const metaParts = [genderLabel(ev.gender), ageLabel(ev.minAge, ev.maxAge), vagasLabel(ev.maxParticipants)].filter(Boolean);
+            const roster = rosterLabel(ev);
+            return `
+              <div class="event-row ${ev.isTeam ? 'team' : ''}">
+                <div class="ev-name">${escapeHtml(ev.name)}</div>
+                ${metaParts.length ? `<div class="ev-meta">${escapeHtml(metaParts.join(' · '))}</div>` : ''}
+                ${roster ? `<span class="ev-roster">${escapeHtml(roster)}</span>` : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </article>
+    `;
+  }
+
+  function teamsCard(c) {
+    if (!c.teamsList || c.teamsList.length === 0) return '';
+    return `
+      <article class="dcard">
+        <div class="dcard-header">
+          <h2>Equipes participantes</h2>
+          <span class="label">${c.teamsList.length} times</span>
+        </div>
+        <div class="teams-wrap">
+          ${c.teamsList.map(t => `<span class="team-chip">${escapeHtml(t)}</span>`).join('')}
+        </div>
+      </article>
+    `;
+  }
+
+  function medalTableCard(c) {
+    if (!c.medalTable || c.medalTable.length === 0) return '';
+    return `
+      <article class="dcard">
+        <div class="dcard-header">
+          <h2>Quadro de medalhas</h2>
+          <span class="label">parcial</span>
+        </div>
+        <div class="dcard-body flush">
+          ${c.medalTable.map((r, i) => `
+            <div class="medal-row r${i + 1}">
+              <span class="rank">${i + 1}º</span>
+              <span class="club">${escapeHtml(r.club)}</span>
+              <span class="medal-dot gold">${r.gold}</span>
+              <span class="medal-dot silver">${r.silver}</span>
+              <span class="medal-dot bronze">${r.bronze}</span>
+            </div>
+          `).join('')}
+        </div>
+      </article>
+    `;
+  }
+
+  function highlightsCard(c) {
+    if (!c.topAthletes || c.topAthletes.length === 0) return '';
+    return `
+      <article class="dcard">
+        <div class="dcard-header">
+          <h2>Top atletas</h2>
+          <span class="label">classificação parcial</span>
+        </div>
+        <div class="dcard-body flush">
+          ${c.topAthletes.map((a, i) => `
+            <div class="h-row r${i + 1}">
+              <span class="pos">${a.rank}º</span>
+              <div class="nm">${escapeHtml(a.name)}<small>${escapeHtml(a.team || '')}</small></div>
+              <span class="pts">${a.points}<small>pts</small></span>
+            </div>
+          `).join('')}
+        </div>
+      </article>
+    `;
+  }
+
+  function medalistsCard(c) {
+    if (!c.medalists || c.medalists.length === 0) return '';
+    const medalLabel = (rank) => rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank;
+    return `
+      <article class="dcard">
+        <div class="dcard-header">
+          <h2>Medalhistas recentes</h2>
+        </div>
+        <div class="dcard-body flush">
+          ${c.medalists.map(m => `
+            <div class="medalist-row r${m.rank}">
+              <span class="badge-medal">${m.rank}</span>
+              <div class="nm-block">
+                <div class="name">${escapeHtml(m.name)}</div>
+                <div class="event">${escapeHtml(m.event)}</div>
+              </div>
+              ${m.value ? `<span class="value">${escapeHtml(m.value)}</span>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      </article>
+    `;
+  }
+
+  function pricingCard(c, live) {
+    const pricing = c.pricing || {};
+    const amount = pricing.amount;
+    const isAvailable = pricing.available !== false && c.registrationEndAt && new Date(c.registrationEndAt).getTime() > now;
+    const priceStr = amount === 0 ? 'Grátis' : amount != null ? currency(amount, pricing.currency) : '—';
+    const cta = isAvailable ? 'Inscrever pelo app' : 'Inscrições encerradas';
+    const ctaCls = isAvailable ? 'cta' : 'cta disabled';
+
+    return `
+      <article class="side-pricing">
+        ${pricing.tierName ? `<div class="tier-label">${escapeHtml(pricing.tierName)}</div>` : '<div class="tier-label">Inscrição</div>'}
+        <div class="price ${amount === 0 ? 'free' : ''}">${escapeHtml(priceStr)}${amount > 0 ? '<small>por atleta</small>' : ''}</div>
+        ${pricing.endsAt ? `<div class="price-meta">Lote até <strong>${fmtDate(pricing.endsAt)}</strong></div>` : ''}
+        ${pricing.message ? `<div class="price-warn">${escapeHtml(pricing.message)}</div>` : ''}
+        <a class="${ctaCls}" href="${isAvailable ? 'CompetiSite Redesign.html#baixar-app' : '#'}">${cta} ${isAvailable ? '↓' : ''}</a>
+        ${isAvailable ? `
+          <div class="cta-note">A inscrição é feita pelo <strong>app da Competi</strong>. Baixe abaixo e crie sua conta uma vez.</div>
+          <div class="stores">
+            <a href="https://apps.apple.com/br/app/competi" target="_blank" rel="noopener" class="store-mini">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 12.04c-.03-2.93 2.39-4.34 2.5-4.41-1.36-2-3.48-2.27-4.24-2.3-1.81-.18-3.53 1.07-4.45 1.07-.92 0-2.34-1.04-3.84-1.01-1.98.03-3.8 1.15-4.82 2.92-2.05 3.56-.53 8.82 1.47 11.71.98 1.42 2.15 3 3.69 2.94 1.48-.06 2.04-.96 3.83-.96 1.79 0 2.29.96 3.86.93 1.59-.03 2.6-1.44 3.58-2.86 1.12-1.64 1.59-3.23 1.61-3.31-.04-.02-3.09-1.19-3.12-4.72zM14.4 4.27c.8-.97 1.34-2.32 1.19-3.66-1.15.05-2.55.77-3.38 1.74-.74.86-1.39 2.23-1.22 3.55 1.28.1 2.6-.65 3.41-1.63z"/></svg>
+              App Store
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=br.com.competi.app" target="_blank" rel="noopener" class="store-mini">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="gpAA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00C2FF"/><stop offset="1" stop-color="#0073FF"/></linearGradient><linearGradient id="gpBB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFCE3D"/><stop offset="1" stop-color="#FF9100"/></linearGradient><linearGradient id="gpCC" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF4F4F"/><stop offset="1" stop-color="#D7263D"/></linearGradient><linearGradient id="gpDD" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#43E660"/><stop offset="1" stop-color="#1FB04F"/></linearGradient></defs><path d="M3.6 1.9c-.4.3-.6.8-.6 1.5v17.2c0 .7.2 1.2.6 1.5L13 12 3.6 1.9z" fill="url(#gpAA)"/><path d="M16.6 8.7L13 12l3.6 3.3 4.1-2.4c1.2-.7 1.2-1.8 0-2.5l-4.1-1.7z" fill="url(#gpBB)"/><path d="M3.6 22.1c.5.4 1.2.4 2 .1l11-6.9L13 12 3.6 22.1z" fill="url(#gpCC)"/><path d="M5.6 1.8c-.8-.4-1.5-.3-2 .1L13 12l3.6-3.3-11-6.9z" fill="url(#gpDD)"/></svg>
+              Google Play
+            </a>
+          </div>
+        ` : '<div class="cta-note">Acompanhe os resultados nas próximas seções, ou volte na próxima edição.</div>'}
+      </article>
+    `;
+  }
+
+  function liveMini(c) {
+    const liveEvent = c.schedule?.find(s => s.status === 'live');
+    return `
+      <article class="live-mini">
+        <span class="topline">Ao vivo agora</span>
+        ${liveEvent
+          ? `<div class="now-event">
+              <span class="ev">${escapeHtml(liveEvent.name)}</span>
+              <span class="ev-meta">${escapeHtml(liveEvent.sport || '')} · ${fmtTime(liveEvent.time)}h</span>
+            </div>`
+          : `<p>A competição está rolando agora. Acompanhe resultados em tempo real.</p>`
+        }
+        <a href="#" class="follow" onclick="alert('Em breve: acompanhamento ao vivo no site. Por enquanto, abra o app Competi.'); return false;">
+          Acompanhar ao vivo →
+        </a>
+      </article>
+    `;
+  }
+
+  function organizerCard(c) {
+    if (!c.organizer) return '';
+    const initials = c.organizer.split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+    return `
+      <article class="org-card">
+        <div class="avatar">${escapeHtml(initials)}</div>
+        <div class="info">
+          <div class="lbl">Organizado por</div>
+          <div class="nm">${escapeHtml(c.organizer)}</div>
+        </div>
+      </article>
+    `;
+  }
+
+  // -------------------------- bootstrap --------------------------
+  function bootstrap() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    if (!id) {
+      render(null);
+      return;
+    }
+
+    // Try API first; fall back to mock
+    const base = window.COMPETI_API_BASE;
+    if (base) {
+      fetch(`${base}/public/competitions/${encodeURIComponent(id)}`)
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(body => {
+          const data = body?.data || body;
+          render(data);
+        })
+        .catch(() => render(loadCompetition(id)));
+    } else {
+      render(loadCompetition(id));
+    }
+  }
+
+  // wait for mock-data to load (defer guarantees parse order)
+  if (window.COMPETI_MOCK) {
+    bootstrap();
+  } else {
+    window.addEventListener('DOMContentLoaded', bootstrap);
+  }
+
+  // mobile nav
+  document.getElementById('menuBtn').addEventListener('click', () =>
+    document.getElementById('mainNav').classList.toggle('open'));
+</script>
+
+</body>
+</html>

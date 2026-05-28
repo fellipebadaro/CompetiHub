@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entrar — Competi</title>
+  <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+  <meta name="description" content="Entre na sua conta Competi para acessar competições, inscrições e resultados." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/tokens.css" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+  <link rel="stylesheet" href="assets/css/auth.css" />
+</head>
+<body>
+
+<main class="auth-shell" data-screen-label="01 Entrar">
+
+  <!-- ============================================================
+       PAINEL ESQUERDO — MARCA (oculto no mobile)
+       ============================================================ -->
+  <aside class="auth-aside">
+    <a href="Inicio.html" class="brand" aria-label="Competi">
+      <img src="assets/img/logo-competi-horizontal.png" alt="Competi" class="brand-logo" />
+    </a>
+
+    <div class="auth-aside-headline">
+      <span class="badge">Plataforma esportiva</span>
+      <h1>Onde o esporte <em>brasileiro</em> compete.</h1>
+      <p class="lede">Inscrições, cronograma, resultados e ranking — para atletas, equipes e organizadores em um só lugar.</p>
+
+      <div class="aside-tip">
+        <div class="role">Organização</div>
+        <blockquote>"Migramos seis competições para a Competi no último ano. As inscrições passaram a ser auditáveis e o resultado vai pro ranking automaticamente."</blockquote>
+        <cite>Liga Paulista de Natação</cite>
+      </div>
+    </div>
+
+    <div class="auth-aside-foot">
+      <div class="stat"><span class="n">38</span><span class="l">modalidades</span></div>
+      <div class="stat"><span class="n">12k</span><span class="l">atletas ativos</span></div>
+      <div class="stat"><span class="n">240+</span><span class="l">organizações</span></div>
+    </div>
+  </aside>
+
+  <!-- ============================================================
+       LADO DIREITO — FORM
+       ============================================================ -->
+  <section class="auth-main">
+    <div class="auth-topbar">
+      <a href="Inicio.html" class="auth-back" aria-label="Voltar para o início">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Voltar ao site
+      </a>
+      <div class="auth-topbar-aux">Sem conta? <a href="Cadastro.html">Criar conta</a></div>
+    </div>
+
+    <div class="auth-card">
+      <div class="auth-aside-mobile">
+        <a href="Inicio.html" class="brand" aria-label="Competi">
+          <img src="assets/img/logo-competi-horizontal.png" alt="Competi" class="brand-logo" style="height: 32px;" />
+        </a>
+      </div>
+
+      <header class="auth-head">
+        <h2>Entrar na Competi</h2>
+        <p>Acesse para acompanhar suas inscrições, ranking e equipes.</p>
+      </header>
+
+      <div class="social-row">
+        <button class="social-btn" type="button" data-social="apple">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.365 1.43c0 1.14-.485 2.27-1.273 3.06-.872.876-2.32 1.55-3.503 1.46-.143-1.105.41-2.27 1.16-3.03.86-.88 2.31-1.53 3.616-1.49zM21.5 17.04c-.512 1.21-.76 1.75-1.42 2.83-.92 1.5-2.22 3.36-3.83 3.38-1.43.01-1.8-.94-3.74-.93-1.94.01-2.35.94-3.78.93-1.61-.02-2.84-1.71-3.76-3.2C2.81 16.05 2.5 11.4 3.97 9c1.04-1.7 2.69-2.7 4.24-2.7 1.58 0 2.57.86 3.87.86 1.27 0 2.04-.86 3.86-.86 1.4 0 2.86.76 3.91 2.07-3.44 1.89-2.88 6.81 1.65 8.67z"/></svg>
+          Apple
+        </button>
+        <button class="social-btn" type="button" data-social="google">
+          <svg viewBox="0 0 24 24" fill="none"><path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.28 1.4-1.07 2.62-2.28 3.42v2.85h3.69c2.15-1.98 3.4-4.91 3.4-8.51z"/><path fill="#34A853" d="M12 24c3.27 0 6.01-1.07 8.01-2.93l-3.69-2.85c-1.07.72-2.45 1.16-4.32 1.16-3.31 0-6.13-2.23-7.13-5.25H1.05v3.04C3.04 21.3 7.21 24 12 24z"/><path fill="#FBBC05" d="M4.87 14.13c-.25-.72-.4-1.5-.4-2.13s.15-1.41.4-2.13V6.83H1.05C.38 8.13 0 9.74 0 12s.38 3.87 1.05 5.17l3.82-3.04z"/><path fill="#EA4335" d="M12 4.75c1.78 0 3.36.61 4.62 1.81l3.27-3.27C18.01 1.65 15.27.5 12 .5 7.21.5 3.04 3.2 1.05 6.83l3.82 3.04c1-3.02 3.82-5.12 7.13-5.12z"/></svg>
+          Google
+        </button>
+      </div>
+
+      <div class="divider">OU ENTRE COM E-MAIL</div>
+
+      <div class="error-banner" id="errorBanner" role="alert">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="errorText">E-mail ou senha incorretos.</span>
+      </div>
+
+      <form class="form-grid" id="loginForm" novalidate>
+        <div class="field" id="emailField">
+          <label for="email">E-mail</label>
+          <div class="ctrl"><input id="email" type="email" placeholder="voce@dominio.com" autocomplete="email" required /></div>
+          <span class="err">Informe um e-mail válido.</span>
+        </div>
+
+        <div class="field" id="passField">
+          <label for="password">Senha</label>
+          <div class="ctrl">
+            <input id="password" type="password" placeholder="Mínimo 8 caracteres" autocomplete="current-password" required />
+            <button class="reveal" type="button" id="revealBtn" aria-label="Mostrar senha">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <span class="err">Informe sua senha.</span>
+        </div>
+
+        <div class="row-flex">
+          <label class="check">
+            <input type="checkbox" id="remember" checked />
+            Manter conectado
+          </label>
+          <a href="#" class="forgot-link">Esqueci a senha</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">
+          Entrar
+          <svg class="arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </form>
+
+      <p class="foot-switch">Ainda não tem conta? <a href="Cadastro.html">Criar conta gratuita</a></p>
+    </div>
+  </section>
+</main>
+
+<script>
+  const $ = (s) => document.querySelector(s);
+
+  // toggle senha
+  $('#revealBtn').addEventListener('click', () => {
+    const p = $('#password');
+    p.type = p.type === 'password' ? 'text' : 'password';
+  });
+
+  // simulação do submit — em produção chama a API real
+  $('#loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = $('#email').value.trim();
+    const pass = $('#password').value;
+    const eF = $('#emailField'), pF = $('#passField');
+    const ok1 = /\S+@\S+\.\S+/.test(email);
+    const ok2 = pass.length > 0;
+    eF.classList.toggle('invalid', !ok1);
+    pF.classList.toggle('invalid', !ok2);
+    if (!ok1 || !ok2) return;
+
+    // sucesso simulado — encaminha para tela de seleção de papéis
+    window.location.href = 'EscolherPerfil.html';
+  });
+
+  // social handlers (simulados)
+  document.querySelectorAll('[data-social]').forEach(b => {
+    b.addEventListener('click', () => {
+      const banner = $('#errorBanner');
+      $('#errorText').textContent = 'Login social ainda não disponível neste ambiente. Use seu e-mail e senha.';
+      banner.classList.add('shown');
+    });
+  });
+</script>
+</body>
+</html>

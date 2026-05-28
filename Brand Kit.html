@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Competi — Brand Kit</title>
+<link rel="icon" type="image/png" href="assets/img/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --blue: #0A59CD; --blue-700: #1B57B7; --blue-050: #EAF2FD;
+    --orange: #F97005; --orange-400: #F99A08; --orange-700: #D85C00;
+    --ink: #0F1B2D; --graphite: #243B53; --text: #334155; --muted: #64748B;
+    --hairline: #E6ECF4; --border: #DCE6F3; --cool: #F6F9FE; --warm: #FBFBF8; --paper: #FFFFFF;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; color: var(--text); background: var(--paper); -webkit-font-smoothing: antialiased; line-height: 1.55; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  section { padding: 88px 0; border-top: 1px solid var(--hairline); }
+  section:first-of-type { border-top: 0; }
+  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+  h1, h2, h3, h4 { color: var(--ink); margin: 0; font-weight: 800; letter-spacing: -0.02em; }
+  h1 { font-size: 64px; line-height: 1.02; letter-spacing: -0.035em; font-weight: 900; }
+  h2 { font-size: 36px; line-height: 1.1; letter-spacing: -0.025em; }
+  h3 { font-size: 18px; line-height: 1.25; }
+  h4 { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  p { margin: 0 0 14px; max-width: 64ch; }
+  p.lead { font-size: 18px; color: var(--graphite); max-width: 60ch; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .accent { color: var(--orange); }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { color: var(--blue-700); }
+
+  /* HERO */
+  .hero { padding: 80px 0; background: radial-gradient(900px 500px at 90% 0%, rgba(249,112,5,0.10), transparent 60%), radial-gradient(700px 400px at 0% 100%, rgba(10,89,205,0.08), transparent 60%); }
+  .hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px; align-items: center; }
+  .hero-tag { display:inline-flex; align-items:center; gap:10px; background:var(--paper); border:1px solid var(--border); padding:8px 14px; border-radius:999px; font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--graphite); margin-bottom:24px; }
+  .hero-tag .pulse { width: 8px; height: 8px; border-radius: 50%; background: #16A34A; box-shadow: 0 0 0 4px rgba(22,163,74,0.18); }
+  .hero-stage { background: var(--cool); border: 1px solid var(--border); border-radius: 28px; aspect-ratio: 1 / 1; display: grid; place-items: center; position: relative; overflow: hidden; }
+  .hero-stage::before { content:""; position:absolute; inset:0; background-image: linear-gradient(to right, rgba(10,89,205,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(10,89,205,0.05) 1px, transparent 1px); background-size: 32px 32px; }
+  .hero-stage img { position: relative; width: 60%; height: auto; }
+
+  /* Quicknav */
+  .quicknav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+  .quicknav a { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; padding: 8px 14px; border-radius: 8px; background: var(--paper); border: 1px solid var(--border); color: var(--graphite); }
+  .quicknav a:hover { border-color: var(--orange); color: var(--orange); }
+
+  /* Section header */
+  .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+  .sec-head h2 { max-width: 22ch; }
+  .sec-head p { max-width: 44ch; }
+
+  /* Asset card */
+  .assets-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 48px; }
+  .asset { border: 1px solid var(--border); border-radius: 22px; overflow: hidden; background: var(--paper); display: flex; flex-direction: column; }
+  .asset-preview { aspect-ratio: 5 / 4; background: var(--warm); border-bottom: 1px solid var(--hairline); display: grid; place-items: center; padding: 28px; position: relative; }
+  .asset-preview.dark { background: var(--ink); }
+  .asset-preview.cool { background: var(--cool); }
+  .asset-preview.checker { background-color: var(--warm); background-image: linear-gradient(45deg, rgba(0,0,0,0.025) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.025) 75%, rgba(0,0,0,0.025)), linear-gradient(45deg, rgba(0,0,0,0.025) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.025) 75%, rgba(0,0,0,0.025)); background-size: 16px 16px; background-position: 0 0, 8px 8px; }
+  .asset-preview img { max-width: 78%; max-height: 78%; height: auto; }
+  .asset-meta { padding: 22px 26px; display: flex; flex-direction: column; gap: 14px; }
+  .asset-row1 { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .asset-name { font-size: 16px; font-weight: 700; color: var(--ink); }
+  .asset-meta p { font-size: 13px; color: var(--text); margin: 0; }
+  .asset-files { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 4px; border-top: 1px dashed var(--hairline); }
+  .asset-files a { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 6px 10px; border-radius: 6px; background: var(--cool); color: var(--graphite); border: 1px solid var(--hairline); font-weight: 600; }
+  .asset-files a:hover { background: var(--orange-050) ; color: var(--orange-700); border-color: var(--orange-400); }
+  .asset-files a.primary { background: var(--blue); color: white; border-color: var(--blue); }
+  .asset-files a.primary:hover { background: var(--blue-700); color: white; border-color: var(--blue-700); }
+  .asset-files a::before { content: "↓"; font-weight: 700; opacity: 0.5; }
+  .asset-files a.primary::before { opacity: 0.85; }
+
+  /* Colors */
+  .palette { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 40px; }
+  .swatch-card { border: 1px solid var(--border); border-radius: 18px; overflow: hidden; }
+  .swatch-hex { aspect-ratio: 16 / 11; display: flex; align-items: flex-end; padding: 18px; color: white; font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; }
+  .swatch-info { padding: 14px 18px; }
+  .swatch-info .name { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+  .swatch-info .note { font-size: 12px; color: var(--muted); }
+
+  /* Sizes scale */
+  .sizes-row { display: flex; gap: 32px; align-items: flex-end; margin-top: 40px; padding: 40px; background: var(--cool); border: 1px solid var(--border); border-radius: 22px; flex-wrap: wrap; }
+  .size-item { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .size-item img { border-radius: 4px; }
+  .size-item .lab { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.12em; text-align: center; }
+  .size-item .lab b { display: block; color: var(--ink); font-size: 12px; margin-bottom: 2px; }
+
+  /* App icon tiles */
+  .icons-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 40px; }
+  .ai-card { display: flex; flex-direction: column; gap: 14px; }
+  .ai-tile { aspect-ratio: 1 / 1; border-radius: 22%; display: grid; place-items: center; box-shadow: 0 18px 40px rgba(15,27,45,0.18); }
+  .ai-tile img { width: 64%; height: auto; }
+  .ai-tile.bg-orange { background: linear-gradient(160deg, var(--orange) 0%, #FF8A1F 100%); box-shadow: 0 24px 60px rgba(249,112,5,0.28); }
+  .ai-tile.bg-blue { background: linear-gradient(160deg, var(--blue) 0%, #1E6CE6 100%); box-shadow: 0 24px 60px rgba(10,89,205,0.28); }
+  .ai-tile.bg-dark { background: linear-gradient(160deg, #15263F 0%, #0A1525 100%); box-shadow: 0 24px 60px rgba(15,27,45,0.4); }
+  .ai-tile.bg-light { background: var(--cool); border: 1px solid var(--border); box-shadow: 0 18px 40px rgba(36,59,83,0.07); }
+  .ai-name { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink); font-weight: 600; letter-spacing: 0.05em; }
+  .ai-note { font-size: 12px; color: var(--muted); margin-top: -8px; }
+
+  /* Site context */
+  .site-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
+  .site-card { border: 1px solid var(--border); border-radius: 22px; overflow: hidden; background: var(--paper); }
+  .site-card.dark { background: var(--ink); border-color: #1B2C46; }
+  .site-card .lab { padding: 14px 22px; border-bottom: 1px solid var(--hairline); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; }
+  .site-card.dark .lab { border-color: #1B2C46; color: #7B8FA8; }
+  .site-card .body { padding: 28px; }
+  .browser { background: var(--paper); border: 1px solid var(--hairline); border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(15,27,45,0.06); }
+  .browser-bar { background: var(--cool); padding: 10px 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--hairline); }
+  .browser-bar .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--hairline); }
+  .browser-bar .url { flex: 1; background: var(--paper); border-radius: 5px; padding: 4px 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); margin-left: 6px; display: flex; align-items: center; gap: 6px; }
+  .browser-bar .url img { width: 12px; height: 12px; }
+  .site-header-mock { display: flex; align-items: center; justify-content: space-between; padding: 16px 22px; border-bottom: 1px solid var(--hairline); }
+  .site-header-mock img { height: 32px; width: auto; }
+  .site-nav { display: flex; gap: 14px; font-size: 12px; color: var(--text); align-items: center; }
+  .site-nav .cta { background: var(--blue); color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+  .site-body { padding: 24px 22px; }
+  .site-body h5 { margin: 0 0 6px; font-size: 18px; color: var(--ink); font-weight: 800; letter-spacing: -0.02em; }
+  .site-body p { font-size: 12px; color: var(--muted); margin: 0; }
+
+  /* Footer mock dark */
+  .footer-mock { background: var(--ink); padding: 28px 22px; }
+  .footer-mock img { height: 38px; width: auto; }
+  .footer-mock p { color: rgba(255,255,255,0.6); font-size: 11px; margin-top: 10px; }
+
+  /* Rules */
+  .rules-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 32px; }
+  .rule { padding: 24px; border: 1px solid var(--border); border-radius: 18px; background: var(--paper); }
+  .rule.ok { background: #ECFDF5; border-color: #A7F3D0; }
+  .rule.no { background: #FEF2F2; border-color: #FECACA; }
+  .rule h4 { color: var(--ink); }
+  .rule.ok h4 { color: #047857; }
+  .rule.no h4 { color: #B91C1C; }
+  .rule h4::before { font-family: 'JetBrains Mono', monospace; font-size: 12px; margin-right: 8px; }
+  .rule.ok h4::before { content: "✓"; color: #16A34A; }
+  .rule.no h4::before { content: "✕"; color: #DC2626; }
+  .rule p { font-size: 14px; margin: 8px 0 0; color: var(--graphite); }
+
+  /* CSS snippet */
+  .snippet { background: var(--ink); color: #E6ECF4; border-radius: 16px; padding: 24px 28px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.7; overflow-x: auto; margin-top: 32px; }
+  .snippet .com { color: #7B8FA8; }
+  .snippet .key { color: #F99A08; }
+  .snippet .val { color: #9FB1CC; }
+  .snippet .str { color: #86EFAC; }
+  .snippet .tag { color: #F87171; }
+
+  /* Download all */
+  .dl-all { background: var(--ink); color: white; padding: 32px; border-radius: 22px; display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 32px; flex-wrap: wrap; }
+  .dl-all h3 { color: white; font-size: 18px; }
+  .dl-all p { color: rgba(255,255,255,0.7); font-size: 13px; margin: 4px 0 0; }
+  .dl-all a { background: var(--orange); color: white; padding: 12px 22px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
+  .dl-all a:hover { background: var(--orange-400); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="hero-tag"><span class="pulse"></span>v1.0 · publicada</div>
+      <h1>Brand kit <span class="accent">Competi</span>.</h1>
+      <p class="lead" style="margin-top:18px;font-size:19px">Sistema de identidade definitivo. Tudo o que aparece neste documento já está vivo nos arquivos do projeto, e o site (Início, Cadastro, Entrar, Competição, etc.) já usa estes assets.</p>
+      <div class="quicknav">
+        <a href="#logos">Logos</a>
+        <a href="#colors">Cores</a>
+        <a href="#favicon">Favicon</a>
+        <a href="#app">App icon</a>
+        <a href="#site">No site</a>
+        <a href="#regras">Regras</a>
+      </div>
+    </div>
+    <div class="hero-stage">
+      <img src="assets/brand/logo-symbol-1024.png" alt="Símbolo Competi" />
+    </div>
+  </div>
+</section>
+
+<!-- LOGOS -->
+<section id="logos">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">01 · Lockups</div>
+        <h2>Quatro arquivos. Três contextos.</h2>
+      </div>
+      <p>Use o lockup <b>horizontal</b> em headers e contextos amplos; o <b>stacked</b> quando o espaço é mais alto que largo; o <b>símbolo</b> sozinho em avatares, ícones e selos; o <b>monocromático</b> em bordado e impressão 1-cor.</p>
+    </div>
+
+    <div class="assets-grid">
+
+      <!-- Horizontal -->
+      <div class="asset">
+        <div class="asset-preview cool">
+          <img src="assets/brand/logo-horizontal-2000.png" alt="Competi horizontal" />
+        </div>
+        <div class="asset-meta">
+          <div class="asset-row1">
+            <div>
+              <div class="asset-name">Lockup horizontal</div>
+              <p>Símbolo à esquerda, wordmark à direita. Uso primário no site, e-mail, apresentações.</p>
+            </div>
+            <h4>1000 × 280</h4>
+          </div>
+          <div class="asset-files">
+            <a class="primary" href="assets/brand/logo-horizontal.svg" download>SVG</a>
+            <a href="assets/brand/logo-horizontal-2000.png" download>PNG 2000</a>
+            <a href="assets/brand/logo-horizontal-1000.png" download>PNG 1000</a>
+            <a href="assets/brand/logo-horizontal-500.png" download>PNG 500</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stacked -->
+      <div class="asset">
+        <div class="asset-preview cool">
+          <img src="assets/brand/logo-stacked-1520.png" alt="Competi stacked" style="max-height: 80%;" />
+        </div>
+        <div class="asset-meta">
+          <div class="asset-row1">
+            <div>
+              <div class="asset-name">Lockup empilhado</div>
+              <p>Quando o espaço é vertical: card, poster, selo de patrocínio.</p>
+            </div>
+            <h4>760 × 460</h4>
+          </div>
+          <div class="asset-files">
+            <a class="primary" href="assets/brand/logo-stacked.svg" download>SVG</a>
+            <a href="assets/brand/logo-stacked-1520.png" download>PNG 1520</a>
+            <a href="assets/brand/logo-stacked-760.png" download>PNG 760</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Símbolo -->
+      <div class="asset">
+        <div class="asset-preview cool">
+          <img src="assets/brand/logo-symbol-1024.png" alt="Competi símbolo" style="max-height: 88%;" />
+        </div>
+        <div class="asset-meta">
+          <div class="asset-row1">
+            <div>
+              <div class="asset-name">Só símbolo</div>
+              <p>Sem wordmark. Para avatares (Instagram, X), assinaturas curtas, selos.</p>
+            </div>
+            <h4>240 × 280</h4>
+          </div>
+          <div class="asset-files">
+            <a class="primary" href="assets/brand/logo-symbol.svg" download>SVG</a>
+            <a href="assets/brand/logo-symbol-1024.png" download>PNG 1024</a>
+            <a href="assets/brand/logo-symbol-512.png" download>PNG 512</a>
+            <a href="assets/brand/logo-symbol-256.png" download>PNG 256</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mono -->
+      <div class="asset">
+        <div class="asset-preview dark">
+          <img src="assets/brand/logo-symbol-mono-512.png" alt="Competi monocromático" style="max-height: 88%;" />
+        </div>
+        <div class="asset-meta">
+          <div class="asset-row1">
+            <div>
+              <div class="asset-name">Monocromático</div>
+              <p>1 cor. Bordado, fax, gravação a laser, documentos em P&amp;B.</p>
+            </div>
+            <h4>240 × 280</h4>
+          </div>
+          <div class="asset-files">
+            <a class="primary" href="assets/brand/logo-symbol-mono.svg" download>SVG</a>
+            <a href="assets/brand/logo-symbol-mono-512.png" download>PNG 512</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Knockout (white wordmark on dark) -->
+      <div class="asset" style="grid-column: 1 / 3">
+        <div class="asset-preview dark">
+          <img src="assets/brand/logo-horizontal-knockout-1880.png" alt="Competi knockout horizontal" style="max-height: 70%;" />
+        </div>
+        <div class="asset-meta">
+          <div class="asset-row1">
+            <div>
+              <div class="asset-name">Knockout · fundo escuro</div>
+              <p>Mesma marca em wordmark branco e disco invertido (azul no branco). Para footer, splash, slides escuros.</p>
+            </div>
+            <h4>1000 × 280</h4>
+          </div>
+          <div class="asset-files">
+            <a class="primary" href="assets/brand/logo-horizontal-knockout.svg" download>SVG</a>
+            <a href="assets/brand/logo-horizontal-knockout-1880.png" download>PNG 1880</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLORS -->
+<section id="colors" style="background:var(--cool)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">02 · Paleta</div>
+        <h2>Mesma paleta do app.</h2>
+      </div>
+      <p>Sem cores novas. As mesmas do <span class="mono">tokens.css</span> do site e <span class="mono">tokens.ts</span> do app — para garantir consistência cross-platform.</p>
+    </div>
+
+    <div class="palette">
+      <div class="swatch-card">
+        <div class="swatch-hex" style="background:#0A59CD">#0A59CD</div>
+        <div class="swatch-info"><div class="name">Blue 600</div><div class="note">Primária · disco da medalha · CTA</div></div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-hex" style="background:#F97005">#F97005</div>
+        <div class="swatch-info"><div class="name">Orange 500</div><div class="note">Acento · fita · pingo</div></div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-hex" style="background:#D85C00">#D85C00</div>
+        <div class="swatch-info"><div class="name">Orange 700</div><div class="note">Sombra da fita (lado direito)</div></div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-hex" style="background:#F99A08">#F99A08</div>
+        <div class="swatch-info"><div class="name">Orange 400</div><div class="note">Highlight da fita (lado esquerdo)</div></div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-hex" style="background:#0F1B2D">#0F1B2D</div>
+        <div class="swatch-info"><div class="name">Ink</div><div class="note">Wordmark · texto forte</div></div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-hex" style="background:#FFFFFF;color:var(--ink);border-top:1px solid var(--border)">#FFFFFF</div>
+        <div class="swatch-info"><div class="name">Paper</div><div class="note">C do monograma · superfícies</div></div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-hex" style="background:#F6F9FE;color:var(--ink);border-top:1px solid var(--border)">#F6F9FE</div>
+        <div class="swatch-info"><div class="name">Cool surface</div><div class="note">Fundos secundários</div></div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-hex" style="background:#243B53">#243B53</div>
+        <div class="swatch-info"><div class="name">Graphite</div><div class="note">Texto · títulos</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAVICON -->
+<section id="favicon">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">03 · Favicon</div>
+        <h2>Versão simplificada para tamanhos pequenos.</h2>
+      </div>
+      <p>A 16/32px a fita some — só o disco azul com o C branco e o ponto laranja. O DNA continua reconhecível. Use o <b>SVG</b> sempre que o navegador aceitar (Chrome, Firefox, Safari atuais).</p>
+    </div>
+
+    <div class="sizes-row">
+      <div class="size-item">
+        <img src="assets/brand/favicon-1024.png" alt="1024" style="width:128px;height:128px;border-radius:20px" />
+        <div class="lab"><b>1024 px</b>app icon / social</div>
+      </div>
+      <div class="size-item">
+        <img src="assets/brand/favicon-512.png" alt="512" style="width:96px;height:96px;border-radius:16px" />
+        <div class="lab"><b>512 px</b>PWA · OG</div>
+      </div>
+      <div class="size-item">
+        <img src="assets/brand/favicon-180.png" alt="180" style="width:64px;height:64px;border-radius:14px" />
+        <div class="lab"><b>180 px</b>iOS apple-touch</div>
+      </div>
+      <div class="size-item">
+        <img src="assets/brand/favicon-64.png" alt="64" style="width:48px;height:48px;border-radius:8px" />
+        <div class="lab"><b>64 px</b>fav padrão</div>
+      </div>
+      <div class="size-item">
+        <img src="assets/brand/favicon-32.png" alt="32" style="width:32px;height:32px;border-radius:6px" />
+        <div class="lab"><b>32 px</b>aba browser</div>
+      </div>
+      <div class="size-item">
+        <img src="assets/brand/favicon-16.png" alt="16" style="width:16px;height:16px;border-radius:3px" />
+        <div class="lab"><b>16 px</b>aba @100%</div>
+      </div>
+    </div>
+
+    <div class="assets-grid" style="margin-top:24px">
+      <div class="asset">
+        <div class="asset-meta" style="padding: 28px">
+          <div class="asset-row1">
+            <div>
+              <div class="asset-name">Favicon · todos os formatos</div>
+              <p>Master vetorial + raster para fallback nos tamanhos canônicos.</p>
+            </div>
+          </div>
+          <div class="asset-files">
+            <a class="primary" href="assets/brand/favicon.svg" download>SVG</a>
+            <a href="assets/brand/favicon-1024.png" download>1024</a>
+            <a href="assets/brand/favicon-512.png" download>512</a>
+            <a href="assets/brand/favicon-180.png" download>180</a>
+            <a href="assets/brand/favicon-64.png" download>64</a>
+            <a href="assets/brand/favicon-32.png" download>32</a>
+            <a href="assets/brand/favicon-16.png" download>16</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="asset">
+        <div class="asset-meta" style="padding: 28px">
+          <div class="asset-row1">
+            <div>
+              <div class="asset-name">HTML — como referenciar</div>
+              <p>Copie no <code>&lt;head&gt;</code> de todas as páginas. O navegador escolhe o melhor.</p>
+            </div>
+          </div>
+          <div class="snippet" style="margin-top:0">
+<span class="tag">&lt;link</span> <span class="key">rel</span>=<span class="str">"icon"</span> <span class="key">type</span>=<span class="str">"image/svg+xml"</span> <span class="key">href</span>=<span class="str">"assets/brand/favicon.svg"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;link</span> <span class="key">rel</span>=<span class="str">"icon"</span> <span class="key">type</span>=<span class="str">"image/png"</span> <span class="key">sizes</span>=<span class="str">"32x32"</span> <span class="key">href</span>=<span class="str">"assets/brand/favicon-32.png"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;link</span> <span class="key">rel</span>=<span class="str">"apple-touch-icon"</span> <span class="key">href</span>=<span class="str">"assets/brand/favicon-180.png"</span><span class="tag">&gt;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APP ICON -->
+<section id="app" style="background:var(--cool)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">04 · App icon</div>
+        <h2>Quatro fundos. Mesma marca.</h2>
+      </div>
+      <p>Para iOS / Android, o sistema corta a borda — então a marca vive dentro de uma área segura. As 4 versões abaixo cobrem light, dark, brand-blue e brand-orange.</p>
+    </div>
+
+    <div class="icons-row">
+      <div class="ai-card">
+        <div class="ai-tile bg-orange"><img src="assets/brand/favicon-512.png" alt="ícone laranja" style="filter: brightness(0) invert(1); width: 64%;" /></div>
+        <div class="ai-name">app-icon-orange.png</div>
+        <div class="ai-note">Fundo laranja · ícone branco</div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-tile bg-blue"><img src="assets/brand/favicon-512.png" alt="ícone azul" /></div>
+        <div class="ai-name">app-icon-blue.png</div>
+        <div class="ai-note">Fundo azul · marca completa</div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-tile bg-dark"><img src="assets/brand/favicon-512.png" alt="ícone escuro" /></div>
+        <div class="ai-name">app-icon-dark.png</div>
+        <div class="ai-note">Dark mode</div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-tile bg-light"><img src="assets/brand/favicon-512.png" alt="ícone light" /></div>
+        <div class="ai-name">app-icon-light.png</div>
+        <div class="ai-note">Sobre superfície clara</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SITE -->
+<section id="site">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">05 · No site</div>
+        <h2>Como aparece em uso real.</h2>
+      </div>
+      <p>O site já está usando os novos arquivos. Estes mocks são gerados a partir do mesmo PNG que o navegador carrega.</p>
+    </div>
+
+    <div class="site-grid">
+      <div class="site-card">
+        <div class="lab"><span>Header · light</span><span>competi.app</span></div>
+        <div class="body">
+          <div class="browser">
+            <div class="browser-bar">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <span class="url"><img src="assets/brand/favicon-32.png" alt="" />https://competi.app</span>
+            </div>
+            <div class="site-header-mock">
+              <img src="assets/img/logo-competi-horizontal.png" alt="Competi" />
+              <div class="site-nav">
+                <span>A plataforma</span><span>Esportes</span><span>Planos</span>
+                <span class="cta">Entrar</span>
+              </div>
+            </div>
+            <div class="site-body">
+              <h5>Onde o jogo acontece.</h5>
+              <p>Organizador, atleta, equipe, oficial e torcida — no mesmo lugar.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="site-card dark">
+        <div class="lab"><span>Footer · dark</span><span>knockout</span></div>
+        <div class="body">
+          <div class="footer-mock" style="border-radius:10px">
+            <img src="assets/img/logo-competi-footer-cropped.png" alt="Competi" />
+            <p>A plataforma que coloca quem organiza, quem compete, quem treina, quem apita e quem assiste no mesmo lugar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RULES -->
+<section id="regras" style="background:var(--cool)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">06 · Regras</div>
+        <h2>O que pode, o que não pode.</h2>
+      </div>
+      <p>Quando em dúvida, use o lockup horizontal sobre fundo branco. Tudo o mais é exceção.</p>
+    </div>
+
+    <div class="rules-grid">
+      <div class="rule ok">
+        <h4>Use as cores oficiais</h4>
+        <p>Azul <span class="mono">#0A59CD</span> e laranja <span class="mono">#F97005</span>. Nada de derivados, nada de gradiente novo.</p>
+      </div>
+      <div class="rule no">
+        <h4>Não recolora</h4>
+        <p>Não trocar o azul por roxo, verde, preto. Use a versão monocromática quando precisar de 1 cor.</p>
+      </div>
+      <div class="rule ok">
+        <h4>Respire</h4>
+        <p>Mínimo de "altura do C do wordmark" de espaço livre em volta da marca. Mais é melhor.</p>
+      </div>
+      <div class="rule no">
+        <h4>Não comprime</h4>
+        <p>Mantenha sempre a proporção original. Esticar/achatar é proibido — sempre <span class="mono">width: auto</span> ou <span class="mono">height: auto</span>.</p>
+      </div>
+      <div class="rule ok">
+        <h4>Tamanhos mínimos</h4>
+        <p>Horizontal: <span class="mono">96px</span> de largura no digital, <span class="mono">24mm</span> impresso. Só símbolo: <span class="mono">16px</span> / <span class="mono">6mm</span>.</p>
+      </div>
+      <div class="rule no">
+        <h4>Não decora</h4>
+        <p>Sem sombra externa, sem outline, sem rotação, sem "emojificar". O símbolo já é o ícone.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TYPOGRAPHY -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="eyebrow">07 · Tipografia</div>
+        <h2>Inter, em quatro pesos.</h2>
+      </div>
+      <p>Mesma família do site e do app. O "Competi" do wordmark é desenhado — não tente recriar em CSS.</p>
+    </div>
+
+    <div style="margin-top:40px; display:grid; grid-template-columns: 1fr; gap: 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+      <div style="padding: 28px 0; border-bottom: 1px solid var(--hairline); display:flex; align-items:baseline; justify-content:space-between; gap:24px">
+        <div style="font-family:'Inter';font-weight:900;font-size:72px;line-height:1;letter-spacing:-0.035em;color:var(--ink)">Onde o jogo acontece.</div>
+        <div class="mono" style="font-size:11px;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase">Inter 900 · 72 / -3.5%</div>
+      </div>
+      <div style="padding: 28px 0; border-bottom: 1px solid var(--hairline); display:flex; align-items:baseline; justify-content:space-between; gap:24px">
+        <div style="font-family:'Inter';font-weight:800;font-size:40px;line-height:1.1;letter-spacing:-0.025em;color:var(--ink)">Da inscrição ao pódio.</div>
+        <div class="mono" style="font-size:11px;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase">Inter 800 · 40 / -2.5%</div>
+      </div>
+      <div style="padding: 28px 0; border-bottom: 1px solid var(--hairline); display:flex; align-items:baseline; justify-content:space-between; gap:24px">
+        <div style="font-family:'Inter';font-weight:600;font-size:20px;line-height:1.4;color:var(--graphite)">Organizador, atleta, oficial e público — no mesmo lugar.</div>
+        <div class="mono" style="font-size:11px;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase">Inter 600 · 20</div>
+      </div>
+      <div style="padding: 28px 0; display:flex; align-items:baseline; justify-content:space-between; gap:24px">
+        <div style="font-family:'Inter';font-weight:400;font-size:16px;line-height:1.6;color:var(--text)">A plataforma reúne inscrições, resultados oficiais, baterias, financeiro e ranking em um único lugar.</div>
+        <div class="mono" style="font-size:11px;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase">Inter 400 · 16</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD ALL -->
+<section style="padding-top: 32px;">
+  <div class="wrap">
+    <div class="dl-all">
+      <div>
+        <h3>Quer baixar tudo de uma vez?</h3>
+        <p>16 arquivos · 4 SVGs + 12 PNGs · ~1.2 MB total — na pasta <span class="mono">assets/brand/</span>.</p>
+      </div>
+      <a href="assets/brand/" download>↓ ABRIR PASTA</a>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

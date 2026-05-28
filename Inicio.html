@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Competi — Encontre uma competição</title>
+  <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+  <meta name="description" content="Encontre competições esportivas abertas, em andamento e próximas. Inscrições, cronograma e resultados — em um só lugar." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/tokens.css" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+  <link rel="stylesheet" href="assets/css/discover.css" />
+  <script src="assets/js/mock-data.js" defer></script>
+</head>
+<body>
+
+<!-- Demo banner (mostra fonte de dados — remover quando API estiver wired) -->
+<div class="demo-banner" id="demoBanner" style="display:none">
+  Modo demo · exibindo competições de exemplo. Configure <code>window.COMPETI_API_BASE</code> para conectar à API real.
+</div>
+
+<!-- ========================================================================
+     TOPBAR
+     ======================================================================== -->
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a href="Inicio.html" class="brand" aria-label="Competi">
+      <img src="assets/img/logo-competi-horizontal.png" alt="Competi" class="brand-logo" />
+    </a>
+
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+
+    <nav class="nav" id="mainNav">
+      <a href="Inicio.html" class="active">Início</a>
+      <a href="Inicio.html#explorar">Explorar</a>
+      <a href="CompetiSite Redesign.html#plataforma">A plataforma</a>
+      <a href="CompetiSite Redesign.html#planos">Planos</a>
+      <a href="Entrar.html">Entrar</a>
+      <a href="Cadastro.html" class="nav-cta">Criar conta</a>
+    </nav>
+  </div>
+</header>
+
+
+<!-- ========================================================================
+     HERO COMPACTO + BUSCA
+     ======================================================================== -->
+<section class="discover-hero" data-screen-label="01 Hero descoberta">
+  <div class="container">
+    <div class="eyebrow">Descobrir competições</div>
+    <h1>O que tem rolando no esporte hoje?</h1>
+    <p class="sub">Encontre competições abertas para inscrição, eventos ao vivo agora e calendário das próximas semanas. Navegar e acompanhar resultados é livre — você só cria conta na hora de se inscrever em uma competição.</p>
+
+    <form class="search-row" id="searchForm" onsubmit="event.preventDefault(); applyFilters();">
+      <label class="search-field" aria-label="Buscar">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <div class="stack">
+          <span class="lbl">Buscar</span>
+          <input id="searchInput" type="search" placeholder="Esporte, cidade ou organizador…" autocomplete="off" />
+        </div>
+      </label>
+
+      <label class="search-field" aria-label="Esporte">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <div class="stack">
+          <span class="lbl">Esporte</span>
+          <select id="sportSelect">
+            <option value="">Todos</option>
+            <option>Natação</option>
+            <option>Atletismo</option>
+            <option>Futebol</option>
+            <option>Futsal</option>
+            <option>Vôlei</option>
+            <option>Judô</option>
+            <option>Ciclismo</option>
+            <option>Ginástica</option>
+            <option>BMX</option>
+            <option>Calistenia</option>
+            <option>Triathlon</option>
+          </select>
+        </div>
+      </label>
+
+      <label class="search-field" aria-label="Estado">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div class="stack">
+          <span class="lbl">Estado</span>
+          <select id="stateSelect">
+            <option value="">Todos</option>
+            <option>SP</option><option>RJ</option><option>MG</option><option>RS</option>
+            <option>PR</option><option>SC</option><option>BA</option><option>GO</option>
+            <option>DF</option><option>PE</option><option>CE</option><option>ES</option>
+          </select>
+        </div>
+      </label>
+
+      <button class="search-btn" type="submit">
+        Buscar
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </form>
+
+    <div class="hero-stats" id="heroStats">
+      <span><span class="dot"></span> <strong id="statTotal">—</strong> competições publicadas</span>
+      <span>·</span>
+      <span><strong id="statLive">—</strong> rolando agora</span>
+      <span>·</span>
+      <span><strong id="statOpen">—</strong> com inscrições abertas</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========================================================================
+     LIVE RAIL
+     ======================================================================== -->
+<section class="container disc-section" id="liveSection" style="display:none">
+  <div class="disc-head">
+    <div>
+      <h2>Ao vivo agora</h2>
+    </div>
+    <div class="right">
+      <span class="count" id="liveCount">0 eventos</span>
+    </div>
+  </div>
+  <div class="live-rail" id="liveRail"></div>
+</section>
+
+
+<!-- ========================================================================
+     PRÓXIMAS COMPETIÇÕES (com tabs + grid + sidebar)
+     ======================================================================== -->
+<section class="container disc-section" id="explorar" data-screen-label="02 Explorar">
+  <div class="disc-head">
+    <div>
+      <h2>Próximas competições</h2>
+    </div>
+    <div class="right">
+      <div class="tabs-row" role="tablist">
+        <button class="active" data-tab="proximas" type="button">Próximas</button>
+        <button data-tab="live" type="button"><span class="live-dot"></span>Ao vivo</button>
+        <button data-tab="semana" type="button">Esta semana</button>
+        <button data-tab="aberto" type="button">Inscrições abertas</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="pill-row" id="sportPills">
+    <button class="pill active" data-sport="">Todos esportes</button>
+    <button class="pill" data-sport="Natação">Natação</button>
+    <button class="pill" data-sport="Atletismo">Atletismo</button>
+    <button class="pill" data-sport="Futebol">Futebol</button>
+    <button class="pill" data-sport="Futsal">Futsal</button>
+    <button class="pill" data-sport="Vôlei">Vôlei</button>
+    <button class="pill" data-sport="Judô">Judô</button>
+    <button class="pill" data-sport="Ciclismo">Ciclismo</button>
+    <button class="pill" data-sport="Ginástica">Ginástica</button>
+    <button class="pill" data-sport="BMX">BMX</button>
+    <button class="pill" data-sport="Calistenia">Calistenia</button>
+    <button class="pill" data-sport="Triathlon">Triathlon</button>
+  </div>
+
+  <div class="disc-layout" style="margin-top:22px">
+    <div>
+      <div id="compResults"></div>
+    </div>
+
+    <aside class="disc-sidebar">
+
+      <article class="side-card dark">
+        <div class="promo-mark">+</div>
+        <h3>Você organiza eventos?</h3>
+        <p>A Competi tem o motor que move sua competição — da inscrição ao pódio. Publique o seu evento aqui e ele aparece nesta página para todo mundo.</p>
+        <a href="CompetiSite Redesign.html" class="side-cta">Conhecer a plataforma →</a>
+      </article>
+
+      <article class="side-card">
+        <h3>Acontecendo no Brasil</h3>
+        <p style="margin-bottom:6px">Competições publicadas, somando tudo que está no ar agora.</p>
+        <div class="side-stats">
+          <div class="stat"><strong id="sStatesActive">—</strong><span>estados com eventos</span></div>
+          <div class="stat"><strong id="sSportsActive">—</strong><span>esportes ativos</span></div>
+          <div class="stat"><strong id="sOpenReg">—</strong><span>inscrições abertas</span></div>
+          <div class="stat"><strong id="sNext30">—</strong><span>nos próximos 30 dias</span></div>
+        </div>
+      </article>
+
+      <article class="side-card">
+        <h3>Esportes em destaque</h3>
+        <p>Toque para filtrar a lista pelo esporte.</p>
+        <ul class="side-list" id="sportList" style="margin-top:12px"></ul>
+      </article>
+
+    </aside>
+  </div>
+</section>
+
+
+<!-- ========================================================================
+     FOOTER (compacto, reaproveitando estilos)
+     ======================================================================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand-block">
+        <img src="assets/img/logo-competi-footer-cropped.png" alt="Competi" class="footer-logo" />
+        <p class="footer-tag">A plataforma que coloca quem organiza, quem compete, quem treina, quem apita e quem assiste no mesmo lugar.</p>
+      </div>
+      <div>
+        <h4>Encontrar</h4>
+        <div class="footer-links">
+          <a href="Inicio.html">Competições publicadas</a>
+          <a href="Inicio.html#explorar">Explorar por esporte</a>
+          <a href="Inicio.html#explorar">Inscrições abertas</a>
+        </div>
+      </div>
+      <div>
+        <h4>Para organizadores</h4>
+        <div class="footer-links">
+          <a href="CompetiSite Redesign.html#plataforma">A plataforma</a>
+          <a href="CompetiSite Redesign.html#para-quem">Para quem é</a>
+          <a href="CompetiSite Redesign.html#planos">Planos</a>
+          <a href="CompetiSite Redesign.html#contato">Falar com a gente</a>
+        </div>
+      </div>
+      <div>
+        <h4>Companhia</h4>
+        <div class="footer-links">
+          <a href="CompetiSite Redesign.html#faq">FAQ</a>
+          <a href="mailto:contato@competihub.com.br">contato@competihub.com.br</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Competi — Todos os direitos reservados.</div>
+      <div class="footer-badges">
+        <span class="footer-badge"><span class="d"></span> Pagamentos · Mercado Pago</span>
+        <span class="footer-badge">LGPD</span>
+        <span class="footer-badge">Dados no Brasil</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ========================================================================
+     SCRIPTS
+     ======================================================================== -->
+<script>
+  // -------------------------------------------------------------------------
+  // Config: aponte para sua API.
+  // Quando window.COMPETI_API_BASE estiver definida, a página tenta
+  //   GET ${API_BASE}/public/competitions?searchTerm=...&sportName=...&state=...
+  // Caso falhe ou nada esteja configurado, usa o mock embutido.
+  // O contrato esperado segue o que o app móvel já consome
+  //   (ver AppCompeti/src/features/public/api/publicApi.ts).
+  // -------------------------------------------------------------------------
+  // window.COMPETI_API_BASE = "https://api.competihub.com.br";
+
+  // -------------------------------------------------------------------------
+  // Dados de competição — carregados de assets/js/mock-data.js (window.COMPETI_MOCK)
+  // Lemos no momento da chamada (loadCompetitions), não no parse, porque o
+  // mock é carregado com defer e este script inline não.
+  // -------------------------------------------------------------------------
+  const now = Date.now();
+
+  // -------------------------------------------------------------------------
+  // Helpers
+  // -------------------------------------------------------------------------
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+
+  const fmt = new Intl.NumberFormat('pt-BR');
+  const monthShort = (d) => d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).replace('.', '');
+
+  function formatDateRange(start, end) {
+    const s = new Date(start), e = new Date(end);
+    return s.toDateString() === e.toDateString()
+      ? monthShort(s)
+      : `${monthShort(s)} – ${monthShort(e)}`;
+  }
+
+  function daysUntil(iso) {
+    return Math.round((new Date(iso).getTime() - now) / 86400000);
+  }
+  function hoursUntil(iso) {
+    return Math.round((new Date(iso).getTime() - now) / 3600000);
+  }
+  function isLive(c) {
+    const s = new Date(c.startsAt).getTime(), e = new Date(c.endsAt).getTime();
+    return s <= now && e >= now;
+  }
+  function relativeStart(c) {
+    if (isLive(c)) return 'rolando agora';
+    const d = daysUntil(c.startsAt);
+    if (d < 0) return 'encerrado';
+    if (d === 0) return 'hoje';
+    if (d === 1) return 'amanhã';
+    if (d <= 7) return `daqui ${d} dias`;
+    if (d <= 21) return `daqui ${Math.round(d / 7)} sem`;
+    return `daqui ${Math.round(d / 30)} meses`;
+  }
+  function registrationInfo(c) {
+    if (!c.registrationEndAt) return { label: 'Sem inscrição', cls: 'closed' };
+    if (isLive(c)) return { label: 'Em andamento', cls: 'live' };
+    const d = daysUntil(c.registrationEndAt);
+    if (d < 0) return { label: 'Inscrições encerradas', cls: 'closed' };
+    if (d <= 3) return { label: `Fecha em ${d === 0 ? 'horas' : d + ' ' + (d === 1 ? 'dia' : 'dias')}`, cls: 'closing' };
+    if (d <= 14) return { label: `Abertas · fecha em ${d}d`, cls: 'open' };
+    return { label: 'Inscrições abertas', cls: 'open' };
+  }
+  function sportSlug(name) {
+    return (name || '').toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  // -------------------------------------------------------------------------
+  // State
+  // -------------------------------------------------------------------------
+  const state = {
+    competitions: [],
+    filters: { search: '', sport: '', stateUF: '', tab: 'proximas' },
+    loading: true,
+    error: null,
+    usingMock: false,
+  };
+
+  // -------------------------------------------------------------------------
+  // Data loader (real API w/ mock fallback)
+  // -------------------------------------------------------------------------
+  async function loadCompetitions() {
+    state.loading = true;
+    render();
+
+    const base = (typeof window !== 'undefined' && window.COMPETI_API_BASE) || null;
+    if (base) {
+      try {
+        const params = new URLSearchParams({
+          page: '1',
+          pageSize: '50',
+          ...(state.filters.search ? { searchTerm: state.filters.search } : {}),
+          ...(state.filters.stateUF ? { state: state.filters.stateUF } : {}),
+        });
+        const res = await fetch(`${base}/public/competitions?${params}`, {
+          headers: { 'Accept': 'application/json' },
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const body = await res.json();
+        const items = Array.isArray(body) ? body : (body?.data?.items || body?.items || body?.data || []);
+        state.competitions = items.map(normalize);
+        state.usingMock = false;
+      } catch (err) {
+        console.warn('[Competi] API indisponível — usando mock. Detalhe:', err);
+        state.competitions = (window.COMPETI_MOCK || []).map(normalize);
+        state.usingMock = true;
+      }
+    } else {
+      state.competitions = (window.COMPETI_MOCK || []).map(normalize);
+      state.usingMock = true;
+    }
+
+    state.loading = false;
+    document.getElementById('demoBanner').style.display = state.usingMock ? 'block' : 'none';
+    render();
+  }
+
+  function normalize(c) {
+    return {
+      id: String(c.id || c.competitionId || ''),
+      name: String(c.name || 'Competição'),
+      sportName: String(c.sportName || c.sport || 'Esporte'),
+      city: c.city || c.locationCity || null,
+      state: c.state || null,
+      venue: c.venue || c.locationName || null,
+      startsAt: c.startsAt || c.startDate,
+      endsAt: c.endsAt || c.endDate,
+      registrationEndAt: c.registrationEndAt || c.registrationEndsAt || null,
+      organizer: c.organizer || c.organizerName || null,
+      athletes: c.athletes || c.athleteCount || null,
+      events: typeof c.events === 'number'
+        ? c.events
+        : (c.eventsCount || (Array.isArray(c.events) ? c.events.length : null)),
+      tier: c.tier || c.priceLabel || (c.pricing && c.pricing.amount != null
+        ? (c.pricing.amount === 0 ? 'Grátis' : new Intl.NumberFormat('pt-BR', { style: 'currency', currency: c.pricing.currency || 'BRL' }).format(c.pricing.amount))
+        : null),
+    };
+  }
+
+  // -------------------------------------------------------------------------
+  // Filters
+  // -------------------------------------------------------------------------
+  function applyFilters() {
+    state.filters.search = ($('#searchInput').value || '').toLowerCase();
+    state.filters.sport = $('#sportSelect').value || '';
+    state.filters.stateUF = $('#stateSelect').value || '';
+    // sync pill selection
+    $$('#sportPills .pill').forEach(b => b.classList.toggle('active', (b.dataset.sport || '') === state.filters.sport));
+    render();
+  }
+
+  function getFiltered() {
+    const f = state.filters;
+    return state.competitions.filter(c => {
+      if (f.sport && (c.sportName || '').toLowerCase() !== f.sport.toLowerCase()) return false;
+      if (f.stateUF && (c.state || '').toUpperCase() !== f.stateUF.toUpperCase()) return false;
+      if (f.search) {
+        const hay = `${c.name} ${c.sportName} ${c.city} ${c.state} ${c.organizer || ''}`.toLowerCase();
+        if (!hay.includes(f.search)) return false;
+      }
+      switch (f.tab) {
+        case 'live': return isLive(c);
+        case 'semana': {
+          const d = daysUntil(c.startsAt);
+          return isLive(c) || (d >= 0 && d <= 7);
+        }
+        case 'aberto': {
+          if (!c.registrationEndAt) return false;
+          return daysUntil(c.registrationEndAt) >= 0;
+        }
+        default: return daysUntil(c.endsAt) >= -1; // próximas ou em curso
+      }
+    });
+  }
+
+  // -------------------------------------------------------------------------
+  // Render
+  // -------------------------------------------------------------------------
+  function render() {
+    renderLiveRail();
+    renderResults();
+    renderHeroStats();
+    renderSidebar();
+  }
+
+  function renderLiveRail() {
+    const liveList = state.competitions.filter(isLive);
+    const section = $('#liveSection');
+    const rail = $('#liveRail');
+    if (liveList.length === 0) {
+      section.style.display = 'none';
+      return;
+    }
+    section.style.display = '';
+    $('#liveCount').textContent = liveList.length + (liveList.length === 1 ? ' evento' : ' eventos');
+    rail.innerHTML = liveList.map(liveCard).join('');
+    $$('.live-card', rail).forEach((el, i) => el.addEventListener('click', () => openCompetition(liveList[i])));
+  }
+
+  function liveCard(c) {
+    const slug = sportSlug(c.sportName);
+    return `
+      <button class="live-card" type="button" aria-label="Acompanhar ${c.name}">
+        <div class="live-cover sport-${slug}">
+          <span class="live-tag"><span class="ld"></span>AO VIVO</span>
+          <span class="live-sport">${escapeHtml(c.sportName || '')}</span>
+        </div>
+        <div class="live-body">
+          <div class="title">${escapeHtml(c.name)}</div>
+          <div class="meta">${escapeHtml(c.city || '')} · ${escapeHtml(c.state || '')} · ${formatDateRange(c.startsAt, c.endsAt)}</div>
+          <div class="live-stats">
+            ${c.athletes ? `<span><strong>${fmt.format(c.athletes)}</strong> atletas</span>` : ''}
+            ${c.events ? `<span><strong>${c.events}</strong> provas</span>` : ''}
+          </div>
+        </div>
+      </button>
+    `;
+  }
+
+  function renderResults() {
+    const container = $('#compResults');
+    if (state.loading) {
+      container.innerHTML = `<div class="comp-grid">${Array.from({ length: 6 }).map(() => '<div class="skeleton-card"></div>').join('')}</div>`;
+      return;
+    }
+    const filtered = getFiltered();
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div class="state-block">
+          <div class="state-ico">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <h3>Nada encontrado por aqui</h3>
+          <p>Tente outro filtro, ou limpe a busca para ver tudo que está rolando.</p>
+          <button class="retry" onclick="resetFilters()">Limpar filtros</button>
+        </div>`;
+      return;
+    }
+    container.innerHTML = `<div class="comp-grid">${filtered.map(compCard).join('')}</div>`;
+    $$('.comp-card', container).forEach((el, i) => el.addEventListener('click', () => openCompetition(filtered[i])));
+  }
+
+  function compCard(c) {
+    const slug = sportSlug(c.sportName);
+    const reg = registrationInfo(c);
+    const live = isLive(c);
+    const startD = daysUntil(c.startsAt);
+    return `
+      <article class="comp-card" tabindex="0" aria-label="Ver detalhes de ${c.name}">
+        <div class="comp-cover sport-${slug}">
+          <span class="sport-label">${escapeHtml(c.sportName || '')}</span>
+          ${live ? `<span class="badge live">AO VIVO</span>` : `<span class="badge">${escapeHtml((c.state || '').toUpperCase())}</span>`}
+          <span class="sport-watermark">${(c.sportName || '').slice(0, 3).toUpperCase()}</span>
+        </div>
+        <div class="comp-body">
+          <div class="title">${escapeHtml(c.name)}</div>
+          <div class="meta-row">
+            <span class="item">
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <strong>${escapeHtml(c.city || '—')}</strong>${c.state ? ' · ' + escapeHtml(c.state) : ''}
+            </span>
+            <span class="item">
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <strong>${formatDateRange(c.startsAt, c.endsAt)}</strong> · ${relativeStart(c)}
+            </span>
+          </div>
+          ${c.organizer ? `<div class="meta-row"><span class="item" style="color:var(--graphite-700)"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${escapeHtml(c.organizer)}</span></div>` : ''}
+          <div class="comp-foot">
+            <span class="status-chip ${reg.cls}">${reg.label}</span>
+            <span class="more">Saber mais →</span>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  function renderHeroStats() {
+    const total = state.competitions.length;
+    const live = state.competitions.filter(isLive).length;
+    const open = state.competitions.filter(c => c.registrationEndAt && daysUntil(c.registrationEndAt) >= 0).length;
+    $('#statTotal').textContent = total;
+    $('#statLive').textContent = live;
+    $('#statOpen').textContent = open;
+  }
+
+  function renderSidebar() {
+    // side stats
+    const states = new Set(state.competitions.map(c => c.state).filter(Boolean));
+    const sports = state.competitions.reduce((acc, c) => {
+      const k = c.sportName || 'Outros';
+      acc[k] = (acc[k] || 0) + 1;
+      return acc;
+    }, {});
+    const openReg = state.competitions.filter(c => c.registrationEndAt && daysUntil(c.registrationEndAt) >= 0).length;
+    const next30 = state.competitions.filter(c => {
+      const d = daysUntil(c.startsAt);
+      return d >= 0 && d <= 30;
+    }).length;
+
+    $('#sStatesActive').textContent = states.size;
+    $('#sSportsActive').textContent = Object.keys(sports).length;
+    $('#sOpenReg').textContent = openReg;
+    $('#sNext30').textContent = next30;
+
+    // sport list
+    const sorted = Object.entries(sports).sort((a, b) => b[1] - a[1]).slice(0, 8);
+    const list = $('#sportList');
+    list.innerHTML = sorted.map(([sport, count]) => `
+      <li>
+        <button data-sport="${escapeHtml(sport)}" class="${state.filters.sport === sport ? 'active' : ''}">
+          <span>${escapeHtml(sport)}</span>
+          <span class="badge">${count}</span>
+        </button>
+      </li>
+    `).join('');
+    $$('#sportList button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const s = btn.dataset.sport;
+        state.filters.sport = state.filters.sport === s ? '' : s;
+        $('#sportSelect').value = state.filters.sport;
+        $$('#sportPills .pill').forEach(b => b.classList.toggle('active', (b.dataset.sport || '') === state.filters.sport));
+        render();
+        document.getElementById('explorar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
+
+  // -------------------------------------------------------------------------
+  // Interactions
+  // -------------------------------------------------------------------------
+  function resetFilters() {
+    state.filters = { search: '', sport: '', stateUF: '', tab: state.filters.tab };
+    $('#searchInput').value = '';
+    $('#sportSelect').value = '';
+    $('#stateSelect').value = '';
+    $$('#sportPills .pill').forEach(b => b.classList.toggle('active', !b.dataset.sport));
+    render();
+  }
+  window.resetFilters = resetFilters;
+
+  function openCompetition(c) {
+    window.location.href = `Competicao.html?id=${encodeURIComponent(c.id)}`;
+  }
+  window.applyFilters = applyFilters;
+
+  // Tabs
+  $$('.tabs-row button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      $$('.tabs-row button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.filters.tab = btn.dataset.tab;
+      render();
+    });
+  });
+
+  // Sport pills
+  $$('#sportPills .pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      $$('#sportPills .pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.filters.sport = btn.dataset.sport || '';
+      $('#sportSelect').value = state.filters.sport;
+      render();
+    });
+  });
+
+  // Search debounce
+  let searchTimer;
+  $('#searchInput').addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => applyFilters(), 350);
+  });
+  $('#sportSelect').addEventListener('change', applyFilters);
+  $('#stateSelect').addEventListener('change', applyFilters);
+
+  // Mobile nav
+  $('#menuBtn').addEventListener('click', () => $('#mainNav').classList.toggle('open'));
+
+  // Utility
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+  }
+
+  // Bootstrap — mock-data.js é deferred; este inline não.
+  if (window.COMPETI_MOCK) {
+    loadCompetitions();
+  } else {
+    window.addEventListener('DOMContentLoaded', loadCompetitions);
+  }
+</script>
+
+</body>
+</html>

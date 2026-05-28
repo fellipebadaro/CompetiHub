@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Criar organização — Competi</title>
+  <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+  <meta name="description" content="Crie sua organização na Competi para publicar competições, gerenciar inscrições e ranking." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/tokens.css" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+  <link rel="stylesheet" href="assets/css/auth.css" />
+</head>
+<body class="wiz-shell" data-screen-label="04 Criar Organização">
+
+<header class="wiz-top">
+  <div class="container wiz-top-inner">
+    <a href="EscolherPerfil.html" class="brand" aria-label="Competi">
+      <img src="assets/img/logo-competi-horizontal.png" alt="Competi" class="brand-logo" />
+    </a>
+    <a href="EscolherPerfil.html" class="exit">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      Sair do assistente
+    </a>
+  </div>
+</header>
+
+<main class="container wiz-body">
+
+  <!-- SIDEBAR -->
+  <aside class="wiz-aside org">
+    <span class="eyebrow">Organização</span>
+    <h3>Sua organização na Competi</h3>
+    <p>Em 3 passos sua organização fica pronta para publicar competições e receber inscrições.</p>
+
+    <ol class="wiz-steps org" id="steps">
+      <li class="active" data-step="1">
+        <span class="dot">1</span>
+        <span class="l">Dados básicos<small>Nome, CNPJ, contato</small></span>
+      </li>
+      <li data-step="2">
+        <span class="dot">2</span>
+        <span class="l">Modalidades e escopo<small>Esportes que você organiza</small></span>
+      </li>
+      <li data-step="3">
+        <span class="dot">3</span>
+        <span class="l">Plano e finalização<small>Escolha como vai cobrar inscrições</small></span>
+      </li>
+    </ol>
+  </aside>
+
+  <!-- MAIN -->
+  <section class="wiz-main">
+
+    <!-- PASSO 1 ----------------------------------------------------- -->
+    <div class="wiz-step shown" data-step-content="1">
+      <h2>Vamos abrir sua organização</h2>
+      <p class="sub">Esses dados aparecem nas páginas públicas das competições e nos recibos de inscrição.</p>
+
+      <div class="form-grid">
+        <div class="field" id="orgNameF">
+          <label for="orgName">Nome da organização</label>
+          <div class="ctrl"><input id="orgName" type="text" placeholder="Ex.: Liga Paulista de Natação" required /></div>
+          <span class="err">Informe o nome da organização.</span>
+        </div>
+
+        <div class="form-grid two">
+          <div class="field" id="cnpjF">
+            <label for="cnpj">CNPJ <span style="color: var(--muted); font-weight: 600;">(opcional)</span></label>
+            <div class="ctrl"><input id="cnpj" type="text" placeholder="00.000.000/0000-00" inputmode="numeric" /></div>
+            <span class="err">CNPJ inválido.</span>
+          </div>
+          <div class="field" id="slugF">
+            <label for="slug">URL pública</label>
+            <div class="ctrl">
+              <input id="slug" type="text" placeholder="liga-paulista" required style="padding-left: 96px;" />
+              <span style="position: absolute; left: 14px; color: var(--muted); font-size: 0.92rem; pointer-events: none;">competi.app/</span>
+            </div>
+            <span class="hint">Apenas letras, números e hífens.</span>
+            <span class="err">Use somente letras, números e hífens.</span>
+          </div>
+        </div>
+
+        <div class="form-grid two">
+          <div class="field" id="contactNameF">
+            <label for="contactName">Responsável</label>
+            <div class="ctrl"><input id="contactName" type="text" placeholder="Pessoa de contato" required /></div>
+            <span class="err">Informe o responsável.</span>
+          </div>
+          <div class="field" id="contactPhoneF">
+            <label for="contactPhone">Telefone</label>
+            <div class="ctrl"><input id="contactPhone" type="tel" placeholder="(11) 99999-9999" inputmode="tel" /></div>
+            <span class="err">Telefone inválido.</span>
+          </div>
+        </div>
+
+        <div class="field" id="aboutF">
+          <label for="about">Sobre a organização</label>
+          <div class="ctrl"><textarea id="about" placeholder="Conte em 2 linhas o que sua organização faz — vai aparecer no seu perfil público."></textarea></div>
+        </div>
+      </div>
+
+      <div class="wiz-foot org">
+        <button class="btn-back" type="button" disabled style="visibility: hidden;">Voltar</button>
+        <button class="btn-next" type="button" data-next="2">
+          Continuar
+          <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- PASSO 2 ----------------------------------------------------- -->
+    <div class="wiz-step" data-step-content="2">
+      <h2>Que tipo de competição você organiza?</h2>
+      <p class="sub">Selecione as modalidades que você costuma operar. Você pode ajustar isso depois.</p>
+
+      <div class="sport-pills" id="sportPills">
+        <label><input type="checkbox" value="Natação" /><span>Natação</span></label>
+        <label><input type="checkbox" value="Atletismo" /><span>Atletismo</span></label>
+        <label><input type="checkbox" value="Ciclismo" /><span>Ciclismo</span></label>
+        <label><input type="checkbox" value="Triathlon" /><span>Triathlon</span></label>
+        <label><input type="checkbox" value="Vôlei" /><span>Vôlei</span></label>
+        <label><input type="checkbox" value="Futebol" /><span>Futebol</span></label>
+        <label><input type="checkbox" value="Futsal" /><span>Futsal</span></label>
+        <label><input type="checkbox" value="Judô" /><span>Judô</span></label>
+        <label><input type="checkbox" value="Ginástica" /><span>Ginástica</span></label>
+        <label><input type="checkbox" value="BMX" /><span>BMX</span></label>
+        <label><input type="checkbox" value="Calistenia" /><span>Calistenia</span></label>
+        <label><input type="checkbox" value="Outros" /><span>Outras</span></label>
+      </div>
+
+      <h3 style="font-size: 1.05rem; margin: 12px 0 12px;">Escopo de operação</h3>
+      <div class="opt-list">
+        <label class="opt org">
+          <span class="ico" style="background: var(--persona-organizer-050); color: var(--persona-organizer);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </span>
+          <div>
+            <p class="title">Local / municipal</p>
+            <p class="sub-l">Eventos em uma única cidade ou região.</p>
+          </div>
+          <input type="radio" name="scope" value="local" hidden />
+          <span class="check-mark"></span>
+        </label>
+        <label class="opt org">
+          <span class="ico" style="background: var(--persona-organizer-050); color: var(--persona-organizer);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><circle cx="12" cy="12" r="10"/></svg>
+          </span>
+          <div>
+            <p class="title">Estadual / regional</p>
+            <p class="sub-l">Circuitos e ligas em todo um estado.</p>
+          </div>
+          <input type="radio" name="scope" value="estadual" hidden />
+          <span class="check-mark"></span>
+        </label>
+        <label class="opt org">
+          <span class="ico" style="background: var(--persona-organizer-050); color: var(--persona-organizer);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 0 20M2 12h20M12 2a15.3 15.3 0 0 0 0 20"/></svg>
+          </span>
+          <div>
+            <p class="title">Nacional / federativo</p>
+            <p class="sub-l">Federações, confederações e séries nacionais.</p>
+          </div>
+          <input type="radio" name="scope" value="nacional" hidden />
+          <span class="check-mark"></span>
+        </label>
+      </div>
+
+      <div class="wiz-foot org">
+        <button class="btn-back" type="button" data-prev="1">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <button class="btn-next" type="button" data-next="3">
+          Continuar
+          <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- PASSO 3 ----------------------------------------------------- -->
+    <div class="wiz-step" data-step-content="3">
+      <h2>Escolha seu plano</h2>
+      <p class="sub">Você pode começar grátis e migrar para um plano pago quando precisar de mais competições. Sem fidelidade, cancela quando quiser.</p>
+
+      <div class="plan-grid">
+        <label class="plan">
+          <input type="radio" name="plan" value="BASIC" hidden />
+          <p class="name">Basic</p>
+          <p class="price">Grátis</p>
+          <p class="fee">Taxa por inscrição: 4,9%</p>
+          <ul>
+            <li>5 competições / ano</li>
+            <li>Até 1.000 atletas</li>
+            <li>Ranking e página pública</li>
+          </ul>
+        </label>
+        <label class="plan selected">
+          <input type="radio" name="plan" value="PRO" hidden checked />
+          <span class="badge">Mais popular</span>
+          <p class="name">Pro</p>
+          <p class="price">R$ 149 <span class="per">/ mês</span></p>
+          <p class="fee">Taxa por inscrição: 3,9%</p>
+          <ul>
+            <li>20 competições / ano</li>
+            <li>Até 5.000 atletas</li>
+            <li>Ranking auditável + suporte prioritário</li>
+          </ul>
+        </label>
+        <label class="plan">
+          <input type="radio" name="plan" value="BUSINESS" hidden />
+          <p class="name">Business</p>
+          <p class="price">R$ 349 <span class="per">/ mês</span></p>
+          <p class="fee">Taxa por inscrição: 2,9%</p>
+          <ul>
+            <li>50 competições / ano</li>
+            <li>Até 20.000 atletas</li>
+            <li>API dedicada e relatórios</li>
+          </ul>
+        </label>
+        <label class="plan">
+          <input type="radio" name="plan" value="WHITE_LABEL" hidden />
+          <p class="name">White Label</p>
+          <p class="price" style="font-size: 1.2rem;">Sob consulta</p>
+          <p class="fee">Marca personalizada, SLA contratual</p>
+          <ul>
+            <li>App e domínio com sua marca</li>
+            <li>Gerente de conta dedicado</li>
+            <li>Integrações customizadas</li>
+          </ul>
+        </label>
+      </div>
+
+      <div class="summary" id="summary">
+        <dl>
+          <div><dt>Organização</dt><dd id="sumName">—</dd></div>
+          <div><dt>URL pública</dt><dd id="sumSlug">—</dd></div>
+          <div><dt>Modalidades</dt><dd id="sumSports">—</dd></div>
+          <div><dt>Escopo</dt><dd id="sumScope">—</dd></div>
+        </dl>
+      </div>
+
+      <label class="check">
+        <input type="checkbox" id="orgTerms" checked />
+        <span>Confirmo que sou autorizado(a) a criar esta organização e aceito os <a href="#" style="color: var(--brand-blue-600); font-weight: 700;">termos de organizador</a>.</span>
+      </label>
+
+      <div class="wiz-foot org">
+        <button class="btn-back" type="button" data-prev="2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <button class="btn-next" type="button" id="finishBtn">
+          Criar organização
+          <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<script>
+  const $ = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+
+  // máscaras simples
+  function maskCnpj(v) {
+    const d = v.replace(/\D/g, '').slice(0, 14);
+    if (d.length <= 2) return d;
+    if (d.length <= 5) return `${d.slice(0,2)}.${d.slice(2)}`;
+    if (d.length <= 8) return `${d.slice(0,2)}.${d.slice(2,5)}.${d.slice(5)}`;
+    if (d.length <= 12) return `${d.slice(0,2)}.${d.slice(2,5)}.${d.slice(5,8)}/${d.slice(8)}`;
+    return `${d.slice(0,2)}.${d.slice(2,5)}.${d.slice(5,8)}/${d.slice(8,12)}-${d.slice(12)}`;
+  }
+  function maskPhone(v) {
+    const d = v.replace(/\D/g, '').slice(0, 11);
+    if (d.length <= 2) return d.length ? `(${d}` : '';
+    if (d.length <= 7) return `(${d.slice(0,2)}) ${d.slice(2)}`;
+    return `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;
+  }
+  function slugify(v) {
+    return v.toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9-]+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+  $('#cnpj').addEventListener('input', e => e.target.value = maskCnpj(e.target.value));
+  $('#contactPhone').addEventListener('input', e => e.target.value = maskPhone(e.target.value));
+  $('#orgName').addEventListener('input', e => {
+    if (!$('#slug').dataset.touched) $('#slug').value = slugify(e.target.value);
+  });
+  $('#slug').addEventListener('input', e => {
+    e.target.dataset.touched = '1';
+    e.target.value = slugify(e.target.value);
+  });
+
+  // step navigation
+  let step = 1;
+  function setStep(n) {
+    step = n;
+    $$('.wiz-step').forEach(el => el.classList.toggle('shown', Number(el.dataset.stepContent) === n));
+    $$('#steps li').forEach(li => {
+      const s = Number(li.dataset.step);
+      li.classList.toggle('active', s === n);
+      li.classList.toggle('done', s < n);
+    });
+    if (n === 3) renderSummary();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function validateStep1() {
+    const checks = [
+      ['orgNameF', $('#orgName').value.trim().length >= 2],
+      ['slugF', /^[a-z0-9-]+$/.test($('#slug').value.trim()) && $('#slug').value.trim().length >= 2],
+      ['contactNameF', $('#contactName').value.trim().length >= 2],
+    ];
+    let ok = true;
+    checks.forEach(([id, t]) => { document.getElementById(id).classList.toggle('invalid', !t); if (!t) ok = false; });
+    return ok;
+  }
+
+  $$('[data-next]').forEach(b => b.addEventListener('click', () => {
+    const target = Number(b.dataset.next);
+    if (target === 2 && !validateStep1()) return;
+    setStep(target);
+  }));
+  $$('[data-prev]').forEach(b => b.addEventListener('click', () => setStep(Number(b.dataset.prev))));
+
+  // option cards (escopo)
+  $$('.opt input[type=radio]').forEach(input => {
+    input.addEventListener('change', () => {
+      const name = input.name;
+      $$(`.opt input[type=radio][name=${name}]`).forEach(i => {
+        i.closest('.opt').classList.toggle('selected', i.checked);
+      });
+    });
+  });
+
+  // plans
+  $$('.plan input').forEach(input => {
+    input.addEventListener('change', () => {
+      $$('.plan').forEach(p => p.classList.toggle('selected', p.querySelector('input').checked));
+    });
+  });
+
+  function renderSummary() {
+    $('#sumName').textContent = $('#orgName').value.trim() || '—';
+    $('#sumSlug').textContent = $('#slug').value.trim() ? `competi.app/${$('#slug').value.trim()}` : '—';
+    const sports = $$('#sportPills input:checked').map(i => i.value);
+    $('#sumSports').textContent = sports.length ? sports.join(', ') : 'Nenhuma selecionada';
+    const scope = $('input[name=scope]:checked');
+    $('#sumScope').textContent = scope ? scope.closest('.opt').querySelector('.title').textContent : '—';
+  }
+
+  $('#finishBtn').addEventListener('click', () => {
+    // sucesso simulado — volta ao seletor de papel, agora ativo como organizador
+    alert('Sua organização foi criada! Você já pode publicar competições.');
+    window.location.href = 'EscolherPerfil.html';
+  });
+</script>
+</body>
+</html>

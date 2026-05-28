@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Competi — Sistema de identidade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --blue: #0A59CD;
+    --blue-700: #1B57B7;
+    --blue-050: #EAF2FD;
+    --orange: #F97005;
+    --orange-400: #F99A08;
+    --orange-050: #FFF1E4;
+    --ink: #0F1B2D;
+    --graphite: #243B53;
+    --text: #334155;
+    --muted: #64748B;
+    --hairline: #E6ECF4;
+    --border: #DCE6F3;
+    --cool: #F6F9FE;
+    --warm: #FBFBF8;
+    --paper: #FFFFFF;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* ---------- Section frame ---------- */
+  section { padding: 96px 0; border-top: 1px solid var(--hairline); }
+  section:first-of-type { border-top: 0; }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 16px;
+  }
+  h1, h2, h3, h4 { color: var(--ink); margin: 0; font-weight: 800; letter-spacing: -0.02em; }
+  h1 { font-size: 72px; line-height: 1.02; letter-spacing: -0.035em; font-weight: 900; }
+  h2 { font-size: 44px; line-height: 1.1; letter-spacing: -0.025em; }
+  h3 { font-size: 22px; line-height: 1.25; }
+  h4 { font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  p { margin: 0 0 14px; max-width: 64ch; }
+  p.lead { font-size: 19px; color: var(--graphite); max-width: 60ch; }
+  .muted { color: var(--muted); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    padding: 80px 0 80px;
+    background:
+      radial-gradient(1200px 600px at 85% -20%, rgba(249, 112, 5, 0.08), transparent 60%),
+      radial-gradient(900px 500px at 10% 110%, rgba(10, 89, 205, 0.08), transparent 60%),
+      var(--paper);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    padding: 8px 14px; border-radius: 999px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--graphite);
+    margin-bottom: 28px;
+  }
+  .hero-tag .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 4px rgba(249,112,5,0.18); }
+  .hero h1 .accent { color: var(--orange); }
+  .hero p { font-size: 18px; }
+
+  .hero-stage {
+    background: var(--cool);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    aspect-ratio: 1 / 1;
+    display: grid; place-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-stage::before {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(10,89,205,0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(10,89,205,0.05) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: -1px -1px;
+  }
+  .hero-stage svg { position: relative; width: 64%; height: auto; }
+
+  /* ---------- Brief recap ---------- */
+  .brief { background: var(--cool); }
+  .brief-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    margin-top: 40px;
+  }
+  .brief-card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 24px;
+  }
+  .brief-card h4 { color: var(--orange); font-size: 11px; margin-bottom: 8px; }
+  .brief-card .val { font-size: 18px; font-weight: 700; color: var(--ink); }
+
+  /* ---------- Directions grid ---------- */
+  .dir-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px;
+    margin-top: 48px;
+  }
+  .dir-card {
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    overflow: hidden;
+    background: var(--paper);
+    display: flex; flex-direction: column;
+    position: relative;
+  }
+  .dir-card.is-pick { border-color: var(--orange); box-shadow: 0 18px 40px rgba(249,112,5,0.10); }
+  .dir-stage {
+    aspect-ratio: 5 / 4;
+    background: var(--warm);
+    border-bottom: 1px solid var(--hairline);
+    display: grid; place-items: center;
+    position: relative;
+  }
+  .dir-stage svg { width: 55%; height: auto; }
+  .dir-card.is-pick .dir-stage { background: linear-gradient(180deg, #FFF8F1 0%, #FFFFFF 100%); }
+  .recommended {
+    position: absolute; top: 16px; left: 16px;
+    background: var(--orange); color: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    padding: 6px 10px; border-radius: 999px;
+    font-weight: 600;
+  }
+  .dir-meta { padding: 24px 26px 28px; }
+  .dir-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted); letter-spacing: 0.16em;
+    margin-bottom: 8px;
+  }
+  .dir-card h3 { margin-bottom: 10px; }
+  .dir-meta p { font-size: 14px; color: var(--text); margin-bottom: 16px; }
+  .dir-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .dir-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    background: var(--cool); color: var(--graphite);
+    padding: 5px 9px; border-radius: 6px;
+    border: 1px solid var(--hairline);
+  }
+  .dir-tag.pos { background: var(--blue-050); color: var(--blue); border-color: transparent; }
+  .dir-tag.neg { background: #FEF1F1; color: #B42318; border-color: transparent; }
+
+  /* ---------- System (recommended) ---------- */
+  .system { background: var(--ink); color: #C6D2E3; }
+  .system h2, .system h3, .system h4 { color: white; }
+  .system .muted { color: #7B8FA8; }
+  .system-grid {
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; margin-top: 48px;
+  }
+  .lockup-primary {
+    background: #0B1A2E;
+    border: 1px solid #1B2C46;
+    border-radius: 24px;
+    padding: 64px;
+    display: grid; place-items: center;
+    min-height: 360px;
+  }
+  .lockup-primary svg { width: 78%; height: auto; }
+  .system-side { display: grid; grid-template-rows: 1fr 1fr; gap: 28px; }
+  .system-cell {
+    background: #0B1A2E;
+    border: 1px solid #1B2C46;
+    border-radius: 24px;
+    padding: 32px;
+    display: grid; place-items: center;
+    position: relative;
+  }
+  .system-cell .label {
+    position: absolute; top: 16px; left: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: #7B8FA8;
+  }
+  .system-cell svg { max-width: 70%; max-height: 70%; }
+
+  /* ---------- Color grid ---------- */
+  .color-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+    margin-top: 40px;
+  }
+  .swatch {
+    aspect-ratio: 1 / 1;
+    border-radius: 22px;
+    display: grid; place-items: center;
+    position: relative;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .swatch svg { width: 64%; height: auto; }
+  .swatch .tag {
+    position: absolute; bottom: 14px; left: 18px; right: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    display: flex; justify-content: space-between;
+    color: var(--muted);
+  }
+  .swatch.s-primary { background: var(--paper); }
+  .swatch.s-blue { background: var(--blue); border-color: var(--blue); }
+  .swatch.s-blue .tag { color: rgba(255,255,255,0.7); }
+  .swatch.s-orange { background: var(--orange); border-color: var(--orange); }
+  .swatch.s-orange .tag { color: rgba(255,255,255,0.78); }
+  .swatch.s-black { background: var(--ink); border-color: var(--ink); }
+  .swatch.s-black .tag { color: rgba(255,255,255,0.6); }
+  .swatch.s-cream { background: #F4EFE6; }
+  .swatch.s-mono { background: var(--paper); }
+  .swatch.s-blueknockout { background: var(--blue); border-color: var(--blue); }
+  .swatch.s-blueknockout .tag { color: rgba(255,255,255,0.7); }
+
+  /* ---------- App icon ---------- */
+  .icon-row {
+    display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 24px; align-items: end;
+    margin-top: 40px;
+  }
+  .ai-tile {
+    background: linear-gradient(160deg, var(--orange) 0%, #FF8A1F 100%);
+    border-radius: 22%;
+    aspect-ratio: 1 / 1;
+    display: grid; place-items: center;
+    box-shadow: 0 24px 60px rgba(249,112,5,0.28);
+    position: relative;
+    overflow: hidden;
+  }
+  .ai-tile svg { width: 58%; }
+  .ai-caption { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 12px; letter-spacing: 0.1em; }
+  .ai-tile.t-512 { border-radius: 22%; }
+  .ai-tile.t-180 { border-radius: 22%; }
+  .ai-tile.t-blue { background: linear-gradient(160deg, var(--blue) 0%, #1E6CE6 100%); box-shadow: 0 24px 60px rgba(10,89,205,0.28); }
+  .ai-tile.t-dark { background: linear-gradient(160deg, #15263F 0%, #0A1525 100%); box-shadow: 0 24px 60px rgba(15,27,45,0.4); }
+
+  .favicon-row {
+    display: flex; gap: 36px; align-items: flex-end;
+    margin-top: 28px;
+    padding: 28px;
+    background: var(--cool);
+    border-radius: 18px;
+    border: 1px solid var(--border);
+  }
+  .fav { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .fav svg { background: var(--paper); border: 1px solid var(--border); border-radius: 4px; }
+  .fav .lab { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.12em; }
+
+  /* ---------- Wordmark study ---------- */
+  .word-study {
+    background: var(--cool);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 48px;
+    margin-top: 40px;
+  }
+  .word-large { width: 100%; height: auto; max-height: 200px; display: block; margin: 0 auto; }
+  .word-notes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 36px; }
+  .word-note { padding: 20px; background: var(--paper); border: 1px solid var(--border); border-radius: 16px; }
+  .word-note h4 { color: var(--orange); margin-bottom: 6px; }
+  .word-note p { font-size: 14px; margin: 0; }
+
+  /* ---------- Usage / contexts ---------- */
+  .ctx-grid {
+    display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px;
+    margin-top: 40px;
+  }
+  .ctx-card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    overflow: hidden;
+  }
+  .ctx-card.dark { background: var(--ink); border-color: #1B2C46; }
+  .ctx-header { padding: 18px 24px; border-bottom: 1px solid var(--hairline); display: flex; justify-content: space-between; align-items: center; }
+  .ctx-card.dark .ctx-header { border-color: #1B2C46; }
+  .ctx-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+  .ctx-body { padding: 32px; }
+
+  /* Browser mock */
+  .browser {
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(15,27,45,0.06);
+  }
+  .browser-bar { background: var(--cool); padding: 10px 14px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--hairline); }
+  .browser-bar .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--hairline); }
+  .browser-bar .url { flex: 1; background: var(--paper); border-radius: 6px; padding: 5px 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); margin-left: 8px; }
+  .site-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px; border-bottom: 1px solid var(--hairline); }
+  .site-header svg { height: 28px; width: auto; }
+  .site-nav { display: flex; gap: 18px; font-size: 13px; color: var(--text); }
+  .site-cta { background: var(--blue); color: white; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; }
+  .site-body { padding: 32px 22px; }
+  .site-body h5 { margin: 0 0 8px; font-size: 22px; color: var(--ink); font-weight: 800; letter-spacing: -0.02em; }
+  .site-body p { font-size: 13px; color: var(--muted); }
+
+  /* Document mock */
+  .doc {
+    background: white;
+    aspect-ratio: 1 / 1.25;
+    padding: 28px;
+    box-shadow: 0 8px 24px rgba(15,27,45,0.08);
+    display: flex; flex-direction: column;
+    font-size: 10px;
+  }
+  .doc-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid var(--ink); }
+  .doc-head svg { height: 22px; }
+  .doc-head .ref { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--muted); letter-spacing: 0.1em; }
+  .doc-title { font-size: 13px; font-weight: 800; color: var(--ink); margin: 18px 0 4px; }
+  .doc-sub { color: var(--muted); margin-bottom: 14px; font-size: 9px; }
+  .doc-line { height: 4px; background: var(--cool); border-radius: 2px; margin-bottom: 6px; }
+  .doc-line.short { width: 60%; }
+  .doc-foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid var(--hairline); color: var(--muted); font-size: 8px; }
+
+  /* Splash mock */
+  .splash {
+    background: linear-gradient(160deg, var(--blue) 0%, #082F7A 100%);
+    aspect-ratio: 9 / 16;
+    border-radius: 28px;
+    display: grid; place-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .splash svg { width: 50%; height: auto; }
+  .splash::after {
+    content: ""; position: absolute; bottom: 28px; left: 50%;
+    transform: translateX(-50%);
+    width: 28px; height: 3px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 2px;
+  }
+
+  /* Embroidery mock */
+  .embroidery {
+    background: var(--ink);
+    aspect-ratio: 4 / 3;
+    border-radius: 20px;
+    display: grid; place-items: center;
+    position: relative;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0 2px, transparent 2px 4px);
+  }
+  .embroidery svg { width: 36%; filter: drop-shadow(0 1px 0 rgba(0,0,0,0.4)); }
+  .embroidery .pin {
+    position: absolute; bottom: 18px; right: 22px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    color: rgba(255,255,255,0.4); letter-spacing: 0.12em;
+  }
+
+  /* ---------- Construction ---------- */
+  .construct {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
+    margin-top: 40px;
+  }
+  .construct-card { background: var(--paper); border: 1px solid var(--border); border-radius: 20px; padding: 36px; }
+  .construct-stage {
+    background: var(--cool);
+    border-radius: 12px;
+    aspect-ratio: 1 / 1;
+    position: relative;
+    display: grid; place-items: center;
+    overflow: hidden;
+  }
+  .construct-stage svg { width: 65%; height: auto; position: relative; z-index: 2; }
+  .construct-stage::before {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(10,89,205,0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(10,89,205,0.07) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .construct-notes ul { padding: 0; margin: 16px 0 0; list-style: none; }
+  .construct-notes li {
+    display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px dashed var(--hairline);
+    font-size: 14px;
+  }
+  .construct-notes li:last-child { border-bottom: 0; }
+  .construct-notes li b { color: var(--ink); font-weight: 700; min-width: 90px; }
+  .construct-notes .mono { color: var(--orange); font-size: 12px; }
+
+  /* ---------- Footer / next steps ---------- */
+  .nextsteps {
+    background: var(--orange);
+    color: white;
+  }
+  .nextsteps h2 { color: white; }
+  .nextsteps p { color: rgba(255,255,255,0.88); }
+  .ns-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 40px; }
+  .ns-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 18px; padding: 24px; backdrop-filter: blur(8px); }
+  .ns-card h4 { color: rgba(255,255,255,0.7); margin-bottom: 10px; }
+  .ns-card p { font-size: 14px; margin: 0; color: rgba(255,255,255,0.92); }
+
+  /* utility */
+  .row { display: flex; gap: 12px; align-items: center; }
+  .pillrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background: var(--blue-050);
+    color: var(--blue);
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="hero-tag"><span class="pulse"></span>Sistema de identidade · v1 · exploração</div>
+      <h1>Uma marca <span class="accent">definitiva</span> para o Competi.</h1>
+      <p class="lead">Quatro direções modernizando a taça atual, mantendo azul + laranja, com letras desenhadas sob medida. Funciona em favicon 16px, bordado de 1 cor e header do site — sem retoque.</p>
+      <div class="pillrow">
+        <span class="pill">04 direções</span>
+        <span class="pill">Wordmark custom</span>
+        <span class="pill">Mono · Knockout · Cor</span>
+        <span class="pill">App icon · Favicon</span>
+      </div>
+    </div>
+    <div class="hero-stage" aria-label="Direção recomendada">
+      <!-- Big preview of recommended lockup -->
+      <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="cupG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0A59CD"/>
+            <stop offset="1" stop-color="#0846A3"/>
+          </linearGradient>
+        </defs>
+        <!-- Symbol: Arc Cup -->
+        <g transform="translate(170,90)">
+          <!-- Left handle -->
+          <path d="M 36 24 C 8 24 8 64 36 64" fill="none" stroke="url(#cupG)" stroke-width="14" stroke-linecap="round"/>
+          <!-- Right handle -->
+          <path d="M 124 24 C 152 24 152 64 124 64" fill="none" stroke="url(#cupG)" stroke-width="14" stroke-linecap="round"/>
+          <!-- Cup body (closed bowl) -->
+          <path d="M 30 18 L 130 18 L 130 56 C 130 80 110 92 80 92 C 50 92 30 80 30 56 Z" fill="url(#cupG)"/>
+          <!-- Stem -->
+          <rect x="72" y="92" width="16" height="22" fill="url(#cupG)"/>
+          <!-- Base -->
+          <rect x="46" y="114" width="68" height="14" rx="3" fill="#F97005"/>
+          <!-- Inner accent -->
+          <path d="M 64 36 L 76 50 L 96 30" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ====== BRIEF RECAP ====== -->
+<section class="brief">
+  <div class="wrap">
+    <div class="eyebrow">Brief consolidado</div>
+    <h2>O que orientou as decisões.</h2>
+    <p class="lead" style="margin-top:16px">Resumo direto das respostas da etapa anterior — usado como filtro para cada direção.</p>
+
+    <div class="brief-grid">
+      <div class="brief-card">
+        <h4>Conceito</h4>
+        <div class="val">Taça modernizada</div>
+        <p class="muted" style="font-size:13px;margin-top:8px">Conquista, vitória, pódio.</p>
+      </div>
+      <div class="brief-card">
+        <h4>Personalidade</h4>
+        <div class="val">Moderno + premium</div>
+        <p class="muted" style="font-size:13px;margin-top:8px">Confiável (B2B), energético, inclusivo.</p>
+      </div>
+      <div class="brief-card">
+        <h4>Cores</h4>
+        <div class="val">Azul + Laranja</div>
+        <p class="muted" style="font-size:13px;margin-top:8px">#0A59CD &nbsp;·&nbsp; #F97005</p>
+      </div>
+      <div class="brief-card">
+        <h4>Tipografia</h4>
+        <div class="val">Letras custom</div>
+        <p class="muted" style="font-size:13px;margin-top:8px">Wordmark desenhado, não Inter.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== 04 DIREÇÕES ====== -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Exploração · símbolo</div>
+    <h2>Quatro formas de levar a taça à frente.</h2>
+    <p class="lead" style="margin-top:16px">Todas mantêm a leitura de troféu, todas funcionam em monocromia e em escala pequena. Marquei a recomendação no card 03 — explico o porquê depois.</p>
+
+    <div class="dir-grid">
+
+      <!-- DIRECTION 01 — Monoline Cup -->
+      <div class="dir-card">
+        <div class="dir-stage">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Monoline trophy: pure strokes -->
+            <g fill="none" stroke="#0A59CD" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Cup outline -->
+              <path d="M 64 50 L 64 100 C 64 122 80 132 100 132 C 120 132 136 122 136 100 L 136 50 Z"/>
+              <!-- Left handle -->
+              <path d="M 64 62 C 40 62 40 92 64 92"/>
+              <!-- Right handle -->
+              <path d="M 136 62 C 160 62 160 92 136 92"/>
+              <!-- Stem -->
+              <line x1="100" y1="132" x2="100" y2="152"/>
+            </g>
+            <!-- Base in orange -->
+            <rect x="74" y="156" width="52" height="10" rx="3" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="dir-meta">
+          <div class="dir-num">01 · MONOLINE CUP</div>
+          <h3>Taça em linha única.</h3>
+          <p>Tudo o que está na taça é um único traço grosso. Base laranja como o "pódio" — único detalhe sólido. Lê como ícone de produto, não como troféu de plástico.</p>
+          <div class="dir-tags">
+            <span class="dir-tag pos">FAVICON 16px ✓</span>
+            <span class="dir-tag pos">BORDADO 1-COR ✓</span>
+            <span class="dir-tag">Minimal · Tech</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIRECTION 02 — Trophy + Podium -->
+      <div class="dir-card">
+        <div class="dir-stage">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Cup solid -->
+            <path d="M 70 44 L 130 44 L 130 92 C 130 114 116 124 100 124 C 84 124 70 114 70 92 Z" fill="#0A59CD"/>
+            <!-- Handles -->
+            <path d="M 70 56 C 50 56 50 82 70 82" fill="none" stroke="#0A59CD" stroke-width="10" stroke-linecap="round"/>
+            <path d="M 130 56 C 150 56 150 82 130 82" fill="none" stroke="#0A59CD" stroke-width="10" stroke-linecap="round"/>
+            <!-- Star/check inside -->
+            <path d="M 88 78 L 96 88 L 114 70" fill="none" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Stem -->
+            <rect x="93" y="124" width="14" height="14" fill="#0A59CD"/>
+            <!-- Podium (3 steps) -->
+            <rect x="58"  y="158" width="28" height="14" rx="2" fill="#0A59CD" opacity="0.35"/>
+            <rect x="86"  y="146" width="28" height="26" rx="2" fill="#F97005"/>
+            <rect x="114" y="152" width="28" height="20" rx="2" fill="#0A59CD" opacity="0.55"/>
+          </svg>
+        </div>
+        <div class="dir-meta">
+          <div class="dir-num">02 · TROPHY + PÓDIO</div>
+          <h3>A jornada inteira no símbolo.</h3>
+          <p>Taça no topo, pódio (2-1-3) na base. Conta a história "da inscrição ao pódio" sem precisar do tagline. Mais narrativo, mais memorável.</p>
+          <div class="dir-tags">
+            <span class="dir-tag pos">NARRATIVO ✓</span>
+            <span class="dir-tag pos">APP ICON ✓</span>
+            <span class="dir-tag neg">FAVICON 16px difícil</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIRECTION 03 — C-Cup (recommended) -->
+      <div class="dir-card is-pick">
+        <div class="recommended">★ Recomendada</div>
+        <div class="dir-stage">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="d3g" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#0A59CD"/>
+                <stop offset="1" stop-color="#0846A3"/>
+              </linearGradient>
+            </defs>
+            <!-- C-cup: a cup whose mouth also reads as letter C -->
+            <!-- Outer cup body -->
+            <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="url(#d3g)"/>
+            <!-- Inner "C" cutout — opens to right -->
+            <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Handles -->
+            <path d="M 56 56 C 32 56 32 88 56 88" fill="none" stroke="url(#d3g)" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 144 56 C 168 56 168 88 144 88" fill="none" stroke="url(#d3g)" stroke-width="12" stroke-linecap="round"/>
+            <!-- Stem -->
+            <rect x="92" y="138" width="16" height="20" fill="url(#d3g)"/>
+            <!-- Base orange -->
+            <rect x="68" y="158" width="64" height="12" rx="3" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="dir-meta">
+          <div class="dir-num">03 · C-CUP MONOGRAMA</div>
+          <h3>A taça que também é um C.</h3>
+          <p>Um "C" branco vazado no centro da taça. Funciona como ícone monograma (Competi) e como troféu — a leitura muda com a distância. Inteligente, distintivo, e o C carrega o nome.</p>
+          <div class="dir-tags">
+            <span class="dir-tag pos">DISTINTIVO ✓</span>
+            <span class="dir-tag pos">SÓ SÍMBOLO ✓</span>
+            <span class="dir-tag pos">REGISTRÁVEL ✓</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIRECTION 04 — Faceted gem -->
+      <div class="dir-card">
+        <div class="dir-stage">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Faceted cup: hexagonal/polygonal -->
+            <!-- Top edge -->
+            <polygon points="60,42 140,42 152,62 124,90 76,90 48,62" fill="#0A59CD"/>
+            <!-- Bottom bowl -->
+            <polygon points="48,62 152,62 130,118 100,138 70,118" fill="#0A59CD" opacity="0.85"/>
+            <!-- Highlight facet -->
+            <polygon points="76,90 100,138 70,118" fill="#0A59CD" opacity="0.6"/>
+            <polygon points="124,90 130,118 100,138" fill="#1B57B7"/>
+            <!-- Handles as straight bars -->
+            <path d="M 48 62 L 28 76 L 28 92 L 48 80" fill="#0A59CD" opacity="0.85"/>
+            <path d="M 152 62 L 172 76 L 172 92 L 152 80" fill="#0A59CD" opacity="0.85"/>
+            <!-- Stem -->
+            <polygon points="92,138 108,138 110,158 90,158" fill="#0A59CD"/>
+            <!-- Base -->
+            <rect x="68" y="158" width="64" height="12" rx="2" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="dir-meta">
+          <div class="dir-num">04 · FACETED GEM</div>
+          <h3>Taça como gema geométrica.</h3>
+          <p>Construída só de polígonos. Facetas dão volume sem precisar de gradient. Mais "tech / premium" do que esportivo — opção mais arrojada e diferente do que clubes/federações usam.</p>
+          <div class="dir-tags">
+            <span class="dir-tag pos">PREMIUM ✓</span>
+            <span class="dir-tag pos">GEOMÉTRICO ✓</span>
+            <span class="dir-tag neg">Menos esportivo</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ====== SISTEMA COMPLETO (recomendada) ====== -->
+<section class="system">
+  <div class="wrap">
+    <div class="eyebrow" style="color:#FFB57A">Sistema · direção 03 (recomendada)</div>
+    <h2 style="max-width:18ch">Como a 03 vira sistema completo.</h2>
+    <p class="lead" style="color:#9FB1CC;margin-top:16px;max-width:60ch">Mesmo símbolo, três contextos. O lockup horizontal é o uso primário; o stacked entra quando só sobra espaço quadrado; o monograma sozinho é o ícone de app, favicon e qualquer assinatura social.</p>
+
+    <div class="system-grid">
+
+      <!-- Primary lockup -->
+      <div class="lockup-primary">
+        <svg viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg" aria-label="Lockup primário">
+          <!-- Symbol -->
+          <g transform="translate(40,40)">
+            <path d="M 24 8 L 152 8 L 152 86 C 152 122 124 144 88 144 C 52 144 24 122 24 86 Z" fill="#FFFFFF"/>
+            <path d="M 132 38 L 88 38 C 70 38 58 56 58 78 C 58 100 70 110 88 110 L 132 110" fill="none" stroke="#0F1B2D" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 24 28 C -8 28 -8 74 24 74" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round"/>
+            <path d="M 152 28 C 184 28 184 74 152 74" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round"/>
+            <rect x="78" y="144" width="20" height="22" fill="#FFFFFF"/>
+            <rect x="44" y="166" width="88" height="14" rx="4" fill="#F97005"/>
+          </g>
+          <!-- Wordmark custom (drawn as paths) -->
+          <g transform="translate(240,80)" fill="#FFFFFF">
+            <!-- C -->
+            <path d="M 64 0 C 28 0 0 26 0 60 C 0 94 28 120 64 120 C 86 120 104 110 116 92 L 92 78 C 86 88 76 94 64 94 C 46 94 32 80 32 60 C 32 40 46 26 64 26 C 76 26 86 32 92 42 L 116 28 C 104 10 86 0 64 0 Z"/>
+            <!-- o -->
+            <path d="M 170 28 C 144 28 124 48 124 76 C 124 104 144 124 170 124 C 196 124 216 104 216 76 C 216 48 196 28 170 28 Z M 170 52 C 184 52 192 62 192 76 C 192 90 184 100 170 100 C 156 100 148 90 148 76 C 148 62 156 52 170 52 Z"/>
+            <!-- m -->
+            <path d="M 232 32 L 232 120 L 258 120 L 258 70 C 258 60 264 52 274 52 C 282 52 286 58 286 68 L 286 120 L 312 120 L 312 70 C 312 60 318 52 328 52 C 336 52 340 58 340 68 L 340 120 L 366 120 L 366 64 C 366 42 354 28 334 28 C 320 28 308 36 302 48 C 296 36 286 28 272 28 C 260 28 252 34 246 42 L 246 32 Z"/>
+            <!-- p -->
+            <path d="M 380 32 L 380 168 L 406 168 L 406 110 C 412 118 422 124 436 124 C 460 124 478 104 478 76 C 478 48 460 28 436 28 C 422 28 412 34 406 42 L 406 32 Z M 430 52 C 444 52 454 62 454 76 C 454 90 444 100 430 100 C 416 100 406 90 406 76 C 406 62 416 52 430 52 Z"/>
+            <!-- e -->
+            <path d="M 534 28 C 508 28 490 48 490 76 C 490 104 508 124 538 124 C 558 124 574 116 584 100 L 562 90 C 558 96 550 100 538 100 C 524 100 516 94 514 82 L 588 82 C 590 78 590 74 590 70 C 590 46 574 28 534 28 Z M 534 50 C 546 50 554 56 558 66 L 514 66 C 518 56 524 50 534 50 Z"/>
+            <!-- t (with orange flag accent) -->
+            <path d="M 614 6 L 614 32 L 600 32 L 600 54 L 614 54 L 614 96 C 614 116 622 124 642 124 C 650 124 656 122 660 120 L 660 100 C 658 102 654 102 650 102 C 642 102 640 98 640 90 L 640 54 L 660 54 L 660 32 L 640 32 L 640 6 Z"/>
+            <!-- i with orange dot -->
+            <rect x="680" y="32" width="26" height="88" rx="2"/>
+            <circle cx="693" cy="12" r="11" fill="#F97005"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Side variants -->
+      <div class="system-side">
+        <!-- Stacked -->
+        <div class="system-cell">
+          <span class="label">Stacked</span>
+          <svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg" aria-label="Lockup empilhado">
+            <g transform="translate(60,30)">
+              <path d="M 24 8 L 152 8 L 152 86 C 152 122 124 144 88 144 C 52 144 24 122 24 86 Z" fill="#FFFFFF" transform="scale(0.75)"/>
+              <path d="M 132 38 L 88 38 C 70 38 58 56 58 78 C 58 100 70 110 88 110 L 132 110" fill="none" stroke="#0F1B2D" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" transform="scale(0.75)"/>
+              <path d="M 24 28 C -8 28 -8 74 24 74" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" transform="scale(0.75)"/>
+              <path d="M 152 28 C 184 28 184 74 152 74" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" transform="scale(0.75)"/>
+              <rect x="78" y="144" width="20" height="22" fill="#FFFFFF" transform="scale(0.75)"/>
+              <rect x="44" y="166" width="88" height="14" rx="4" fill="#F97005" transform="scale(0.75)"/>
+            </g>
+            <!-- "Competi" wordmark below, simplified for small render -->
+            <text x="120" y="240" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-weight="900" font-size="40" letter-spacing="-1">Compet<tspan fill="#F97005">i</tspan></text>
+          </svg>
+        </div>
+        <!-- Symbol only -->
+        <div class="system-cell">
+          <span class="label">Símbolo</span>
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Só símbolo">
+            <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#FFFFFF"/>
+            <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#0F1B2D" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 56 56 C 32 56 32 88 56 88" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 144 56 C 168 56 168 88 144 88" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+            <rect x="92" y="138" width="16" height="20" fill="#FFFFFF"/>
+            <rect x="68" y="158" width="64" height="12" rx="3" fill="#F97005"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== WORDMARK STUDY ====== -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Wordmark · letras desenhadas</div>
+    <h2>"Competi" não é Inter — é desenhado.</h2>
+    <p class="lead" style="margin-top:16px">Três detalhes intencionais nas letras: o <b>C aberto</b> (rima com o símbolo), o <b>m com duas pontes</b> (densidade clássica, leitura premium) e o <b>i com pingo laranja</b> (o único acento, sempre laranja).</p>
+
+    <div class="word-study">
+      <svg viewBox="0 0 800 180" xmlns="http://www.w3.org/2000/svg" class="word-large" preserveAspectRatio="xMidYMid meet">
+        <g transform="translate(40,30)" fill="#0F1B2D">
+          <!-- C (open) -->
+          <path d="M 64 0 C 28 0 0 26 0 60 C 0 94 28 120 64 120 C 86 120 104 110 116 92 L 92 78 C 86 88 76 94 64 94 C 46 94 32 80 32 60 C 32 40 46 26 64 26 C 76 26 86 32 92 42 L 116 28 C 104 10 86 0 64 0 Z"/>
+          <!-- o -->
+          <path d="M 170 28 C 144 28 124 48 124 76 C 124 104 144 124 170 124 C 196 124 216 104 216 76 C 216 48 196 28 170 28 Z M 170 52 C 184 52 192 62 192 76 C 192 90 184 100 170 100 C 156 100 148 90 148 76 C 148 62 156 52 170 52 Z"/>
+          <!-- m (double bridge) -->
+          <path d="M 232 32 L 232 120 L 258 120 L 258 70 C 258 60 264 52 274 52 C 282 52 286 58 286 68 L 286 120 L 312 120 L 312 70 C 312 60 318 52 328 52 C 336 52 340 58 340 68 L 340 120 L 366 120 L 366 64 C 366 42 354 28 334 28 C 320 28 308 36 302 48 C 296 36 286 28 272 28 C 260 28 252 34 246 42 L 246 32 Z"/>
+          <!-- p (descender) -->
+          <path d="M 380 32 L 380 168 L 406 168 L 406 110 C 412 118 422 124 436 124 C 460 124 478 104 478 76 C 478 48 460 28 436 28 C 422 28 412 34 406 42 L 406 32 Z M 430 52 C 444 52 454 62 454 76 C 454 90 444 100 430 100 C 416 100 406 90 406 76 C 406 62 416 52 430 52 Z"/>
+          <!-- e -->
+          <path d="M 534 28 C 508 28 490 48 490 76 C 490 104 508 124 538 124 C 558 124 574 116 584 100 L 562 90 C 558 96 550 100 538 100 C 524 100 516 94 514 82 L 588 82 C 590 78 590 74 590 70 C 590 46 574 28 534 28 Z M 534 50 C 546 50 554 56 558 66 L 514 66 C 518 56 524 50 534 50 Z"/>
+          <!-- t -->
+          <path d="M 614 6 L 614 32 L 600 32 L 600 54 L 614 54 L 614 96 C 614 116 622 124 642 124 C 650 124 656 122 660 120 L 660 100 C 658 102 654 102 650 102 C 642 102 640 98 640 90 L 640 54 L 660 54 L 660 32 L 640 32 L 640 6 Z"/>
+          <!-- i -->
+          <rect x="680" y="32" width="26" height="88" rx="2"/>
+          <circle cx="693" cy="12" r="11" fill="#F97005"/>
+        </g>
+
+        <!-- Construction overlay annotations (subtle) -->
+        <g stroke="#F97005" stroke-width="1" stroke-dasharray="2 3" fill="none" opacity="0.0"></g>
+      </svg>
+
+      <div class="word-notes">
+        <div class="word-note">
+          <h4>01 · "C" aberto</h4>
+          <p>Abertura larga (105° na boca) ecoa o símbolo. Faz a marca virar uma frase: o símbolo é um C, o nome começa com C — quem vê uma vez, fixa.</p>
+        </div>
+        <div class="word-note">
+          <h4>02 · "m" duas pontes</h4>
+          <p>Construção clássica em vez de modular. Peso 800, mas com terminais retos — sensação tipográfica, não geek.</p>
+        </div>
+        <div class="word-note">
+          <h4>03 · "i" laranja</h4>
+          <p>O único elemento laranja do wordmark. Vira pontuação da marca — pode ser usado isolado em assinaturas, "i." de "Innovation/Inscrição".</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== COR ====== -->
+<section style="background:var(--cool)">
+  <div class="wrap">
+    <div class="eyebrow">Tratamento de cor</div>
+    <h2>Oito tratamentos. Um sistema.</h2>
+    <p class="lead" style="margin-top:16px">Para cada fundo possível existe uma versão definida. Nada de "deixe o branco transparente" ou "inverta no Photoshop". A marca já vem decidida.</p>
+
+    <div class="color-grid">
+      <!-- 01 primária -->
+      <div class="swatch s-primary">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#0A59CD"/>
+          <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M 56 56 C 32 56 32 88 56 88" fill="none" stroke="#0A59CD" stroke-width="12" stroke-linecap="round"/>
+          <path d="M 144 56 C 168 56 168 88 144 88" fill="none" stroke="#0A59CD" stroke-width="12" stroke-linecap="round"/>
+          <rect x="92" y="138" width="16" height="20" fill="#0A59CD"/>
+          <rect x="68" y="158" width="64" height="12" rx="3" fill="#F97005"/>
+        </svg>
+        <div class="tag"><span>01</span><span>PRIMÁRIA</span></div>
+      </div>
+
+      <!-- 02 knockout branco (em azul) -->
+      <div class="swatch s-blue">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#FFFFFF"/>
+          <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#0A59CD" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M 56 56 C 32 56 32 88 56 88" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+          <path d="M 144 56 C 168 56 168 88 144 88" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+          <rect x="92" y="138" width="16" height="20" fill="#FFFFFF"/>
+          <rect x="68" y="158" width="64" height="12" rx="3" fill="#F97005"/>
+        </svg>
+        <div class="tag"><span>02</span><span>KNOCKOUT · AZUL</span></div>
+      </div>
+
+      <!-- 03 knockout branco (em laranja) -->
+      <div class="swatch s-orange">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#FFFFFF"/>
+          <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#F97005" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M 56 56 C 32 56 32 88 56 88" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+          <path d="M 144 56 C 168 56 168 88 144 88" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+          <rect x="92" y="138" width="16" height="20" fill="#FFFFFF"/>
+          <rect x="68" y="158" width="64" height="12" rx="3" fill="#0A59CD"/>
+        </svg>
+        <div class="tag"><span>03</span><span>KNOCKOUT · LARANJA</span></div>
+      </div>
+
+      <!-- 04 dark -->
+      <div class="swatch s-black">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#FFFFFF"/>
+          <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#0F1B2D" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M 56 56 C 32 56 32 88 56 88" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+          <path d="M 144 56 C 168 56 168 88 144 88" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+          <rect x="92" y="138" width="16" height="20" fill="#FFFFFF"/>
+          <rect x="68" y="158" width="64" height="12" rx="3" fill="#F97005"/>
+        </svg>
+        <div class="tag"><span>04</span><span>FUNDO ESCURO</span></div>
+      </div>
+
+      <!-- 05 mono azul -->
+      <div class="swatch s-mono">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#0A59CD"/>
+          <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M 56 56 C 32 56 32 88 56 88" fill="none" stroke="#0A59CD" stroke-width="12" stroke-linecap="round"/>
+          <path d="M 144 56 C 168 56 168 88 144 88" fill="none" stroke="#0A59CD" stroke-width="12" stroke-linecap="round"/>
+          <rect x="92" y="138" width="16" height="20" fill="#0A59CD"/>
+          <rect x="68" y="158" width="64" height="12" rx="3" fill="#0A59CD"/>
+        </svg>
+        <div class="tag" style="color:var(--muted)"><span>05</span><span>MONO · AZUL</span></div>
+      </div>
+
+      <!-- 06 mono laranja -->
+      <div class="swatch s-mono">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#F97005"/>
+          <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M 56 56 C 32 56 32 88 56 88" fill="none" stroke="#F97005" stroke-width="12" stroke-linecap="round"/>
+          <path d="M 144 56 C 168 56 168 88 144 88" fill="none" stroke="#F97005" stroke-width="12" stroke-linecap="round"/>
+          <rect x="92" y="138" width="16" height="20" fill="#F97005"/>
+          <rect x="68" y="158" width="64" height="12" rx="3" fill="#F97005"/>
+        </svg>
+        <div class="tag" style="color:var(--muted)"><span>06</span><span>MONO · LARANJA</span></div>
+      </div>
+
+      <!-- 07 mono preto (bordado / fax) -->
+      <div class="swatch s-mono">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#0F1B2D"/>
+          <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M 56 56 C 32 56 32 88 56 88" fill="none" stroke="#0F1B2D" stroke-width="12" stroke-linecap="round"/>
+          <path d="M 144 56 C 168 56 168 88 144 88" fill="none" stroke="#0F1B2D" stroke-width="12" stroke-linecap="round"/>
+          <rect x="92" y="138" width="16" height="20" fill="#0F1B2D"/>
+          <rect x="68" y="158" width="64" height="12" rx="3" fill="#0F1B2D"/>
+        </svg>
+        <div class="tag" style="color:var(--muted)"><span>07</span><span>MONO · PRETO</span></div>
+      </div>
+
+      <!-- 08 sobre creme -->
+      <div class="swatch s-cream">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#0A59CD"/>
+          <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#F4EFE6" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M 56 56 C 32 56 32 88 56 88" fill="none" stroke="#0A59CD" stroke-width="12" stroke-linecap="round"/>
+          <path d="M 144 56 C 168 56 168 88 144 88" fill="none" stroke="#0A59CD" stroke-width="12" stroke-linecap="round"/>
+          <rect x="92" y="138" width="16" height="20" fill="#0A59CD"/>
+          <rect x="68" y="158" width="64" height="12" rx="3" fill="#F97005"/>
+        </svg>
+        <div class="tag"><span>08</span><span>SOBRE CREME / PAPEL</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== APP ICON / FAVICON ====== -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Aplicação · digital</div>
+    <h2>De ícone de app a favicon 16px.</h2>
+    <p class="lead" style="margin-top:16px">O monograma resiste à redução porque é um shape único com vazado. Em 16px, o vazado do C ainda lê.</p>
+
+    <div class="icon-row">
+
+      <!-- 512 -->
+      <div>
+        <div class="ai-tile t-512">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#FFFFFF"/>
+            <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#F97005" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 56 56 C 32 56 32 88 56 88" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 144 56 C 168 56 168 88 144 88" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+            <rect x="92" y="138" width="16" height="20" fill="#FFFFFF"/>
+            <rect x="68" y="158" width="64" height="12" rx="3" fill="#FFFFFF"/>
+          </svg>
+        </div>
+        <div class="ai-caption">APP ICON · 512 · LARANJA</div>
+      </div>
+
+      <!-- 180 azul -->
+      <div>
+        <div class="ai-tile t-180 t-blue">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#FFFFFF"/>
+            <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#0A59CD" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 56 56 C 32 56 32 88 56 88" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 144 56 C 168 56 168 88 144 88" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+            <rect x="92" y="138" width="16" height="20" fill="#FFFFFF"/>
+            <rect x="68" y="158" width="64" height="12" rx="3" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="ai-caption">iOS · 180 · AZUL</div>
+      </div>
+
+      <!-- 180 dark -->
+      <div>
+        <div class="ai-tile t-180 t-dark">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#FFFFFF"/>
+            <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#0F1B2D" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 56 56 C 32 56 32 88 56 88" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 144 56 C 168 56 168 88 144 88" fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+            <rect x="92" y="138" width="16" height="20" fill="#FFFFFF"/>
+            <rect x="68" y="158" width="64" height="12" rx="3" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="ai-caption">DARK MODE</div>
+      </div>
+
+      <!-- Favicon zoom -->
+      <div>
+        <div class="favicon-row" style="padding:18px;flex-direction:column;align-items:flex-start;gap:14px">
+          <div style="display:flex;gap:18px;align-items:flex-end">
+            <div class="fav">
+              <svg width="64" height="64" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="border-radius:14px;background:#F97005;border:none">
+                <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#FFFFFF"/>
+                <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#F97005" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="lab">64</span>
+            </div>
+            <div class="fav">
+              <svg width="32" height="32" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="border-radius:6px;background:#F97005;border:none">
+                <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#FFFFFF"/>
+                <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#F97005" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="lab">32</span>
+            </div>
+            <div class="fav">
+              <svg width="16" height="16" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="border-radius:3px;background:#F97005;border:none">
+                <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#FFFFFF"/>
+                <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#F97005" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="lab">16</span>
+            </div>
+          </div>
+        </div>
+        <div class="ai-caption">FAVICON · 64 / 32 / 16 px</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CONTEXTS / USAGE ====== -->
+<section style="background:var(--cool)">
+  <div class="wrap">
+    <div class="eyebrow">Aplicação · contextos reais</div>
+    <h2>Onde a marca precisa funcionar.</h2>
+    <p class="lead" style="margin-top:16px">Cada um dos usos que você listou, testado.</p>
+
+    <div class="ctx-grid">
+
+      <!-- Header do site -->
+      <div class="ctx-card" style="grid-column:1 / 3">
+        <div class="ctx-header">
+          <span class="ctx-label">01 · Header do site (competi.app)</span>
+          <span class="ctx-label">@1x</span>
+        </div>
+        <div class="ctx-body">
+          <div class="browser">
+            <div class="browser-bar">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <span class="url">https://competi.app</span>
+            </div>
+            <div class="site-header">
+              <!-- Lockup horizontal -->
+              <svg viewBox="0 0 740 180" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(0,28)">
+                  <path d="M 24 8 L 152 8 L 152 86 C 152 122 124 144 88 144 C 52 144 24 122 24 86 Z" fill="#0A59CD"/>
+                  <path d="M 132 38 L 88 38 C 70 38 58 56 58 78 C 58 100 70 110 88 110 L 132 110" fill="none" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M 24 28 C -8 28 -8 74 24 74" fill="none" stroke="#0A59CD" stroke-width="16" stroke-linecap="round"/>
+                  <path d="M 152 28 C 184 28 184 74 152 74" fill="none" stroke="#0A59CD" stroke-width="16" stroke-linecap="round"/>
+                  <rect x="78" y="144" width="20" height="22" fill="#0A59CD"/>
+                  <rect x="44" y="166" width="88" height="14" rx="4" fill="#F97005"/>
+                </g>
+                <g transform="translate(220,68)" fill="#0F1B2D">
+                  <path d="M 64 0 C 28 0 0 26 0 60 C 0 94 28 120 64 120 C 86 120 104 110 116 92 L 92 78 C 86 88 76 94 64 94 C 46 94 32 80 32 60 C 32 40 46 26 64 26 C 76 26 86 32 92 42 L 116 28 C 104 10 86 0 64 0 Z"/>
+                  <path d="M 170 28 C 144 28 124 48 124 76 C 124 104 144 124 170 124 C 196 124 216 104 216 76 C 216 48 196 28 170 28 Z M 170 52 C 184 52 192 62 192 76 C 192 90 184 100 170 100 C 156 100 148 90 148 76 C 148 62 156 52 170 52 Z"/>
+                  <path d="M 232 32 L 232 120 L 258 120 L 258 70 C 258 60 264 52 274 52 C 282 52 286 58 286 68 L 286 120 L 312 120 L 312 70 C 312 60 318 52 328 52 C 336 52 340 58 340 68 L 340 120 L 366 120 L 366 64 C 366 42 354 28 334 28 C 320 28 308 36 302 48 C 296 36 286 28 272 28 C 260 28 252 34 246 42 L 246 32 Z"/>
+                  <path d="M 380 32 L 380 168 L 406 168 L 406 110 C 412 118 422 124 436 124 C 460 124 478 104 478 76 C 478 48 460 28 436 28 C 422 28 412 34 406 42 L 406 32 Z M 430 52 C 444 52 454 62 454 76 C 454 90 444 100 430 100 C 416 100 406 90 406 76 C 406 62 416 52 430 52 Z"/>
+                  <path d="M 534 28 C 508 28 490 48 490 76 C 490 104 508 124 538 124 C 558 124 574 116 584 100 L 562 90 C 558 96 550 100 538 100 C 524 100 516 94 514 82 L 588 82 C 590 78 590 74 590 70 C 590 46 574 28 534 28 Z M 534 50 C 546 50 554 56 558 66 L 514 66 C 518 56 524 50 534 50 Z"/>
+                  <path d="M 614 6 L 614 32 L 600 32 L 600 54 L 614 54 L 614 96 C 614 116 622 124 642 124 C 650 124 656 122 660 120 L 660 100 C 658 102 654 102 650 102 C 642 102 640 98 640 90 L 640 54 L 660 54 L 660 32 L 640 32 L 640 6 Z"/>
+                  <rect x="680" y="32" width="26" height="88" rx="2"/>
+                  <circle cx="693" cy="12" r="11" fill="#F97005"/>
+                </g>
+              </svg>
+
+              <div class="site-nav">
+                <span>A plataforma</span><span>Esportes</span><span>Planos</span><span>FAQ</span>
+                <span class="site-cta">Entrar</span>
+              </div>
+            </div>
+            <div class="site-body">
+              <h5>Onde o jogo acontece.</h5>
+              <p>Organizador, atleta, equipe, oficial e torcida — no mesmo lugar.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Documento oficial -->
+      <div class="ctx-card">
+        <div class="ctx-header">
+          <span class="ctx-label">02 · Documento oficial · A4</span>
+          <span class="ctx-label">MONO PRETO</span>
+        </div>
+        <div class="ctx-body">
+          <div class="doc">
+            <div class="doc-head">
+              <svg viewBox="0 0 320 60" xmlns="http://www.w3.org/2000/svg">
+                <!-- Mini lockup mono -->
+                <g transform="translate(0,5)">
+                  <path d="M 8 2 L 50 2 L 50 28 C 50 40 40 47 28 47 C 16 47 8 40 8 28 Z" fill="#0F1B2D"/>
+                  <path d="M 44 12 L 28 12 C 22 12 18 18 18 26 C 18 34 22 38 28 38 L 44 38" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M 8 8 C -2 8 -2 22 8 22" fill="none" stroke="#0F1B2D" stroke-width="5" stroke-linecap="round"/>
+                  <path d="M 50 8 C 60 8 60 22 50 22" fill="none" stroke="#0F1B2D" stroke-width="5" stroke-linecap="round"/>
+                  <rect x="25" y="47" width="6" height="7" fill="#0F1B2D"/>
+                  <rect x="14" y="54" width="30" height="5" rx="1" fill="#0F1B2D"/>
+                </g>
+                <text x="78" y="36" font-family="Inter" font-weight="900" font-size="32" fill="#0F1B2D" letter-spacing="-1">Compet<tspan fill="#F97005">i</tspan></text>
+              </svg>
+              <div class="ref">CNT-2026-0142</div>
+            </div>
+            <div class="doc-title">Contrato de prestação de serviços</div>
+            <div class="doc-sub">Anexo I · Termo de adesão · Edição 2026</div>
+            <div class="doc-line"></div>
+            <div class="doc-line"></div>
+            <div class="doc-line short"></div>
+            <div class="doc-line"></div>
+            <div class="doc-line short"></div>
+            <div class="doc-line"></div>
+            <div class="doc-foot">
+              <span>competi.app · contato@competi.app</span>
+              <span>página 1 de 7</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Splash app -->
+      <div class="ctx-card dark" style="grid-row: span 2">
+        <div class="ctx-header">
+          <span class="ctx-label" style="color:#7B8FA8">03 · Splash · App</span>
+          <span class="ctx-label" style="color:#7B8FA8">@2x</span>
+        </div>
+        <div class="ctx-body" style="padding:20px">
+          <div class="splash">
+            <svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg">
+              <!-- Symbol -->
+              <g transform="translate(20,60)">
+                <path d="M 24 8 L 176 8 L 176 100 C 176 132 142 156 100 156 C 58 156 24 132 24 100 Z" fill="#FFFFFF"/>
+                <path d="M 156 38 L 100 38 C 80 38 64 58 64 90 C 64 122 80 130 100 130 L 156 130" fill="none" stroke="#0A59CD" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M 24 28 C -10 28 -10 86 24 86" fill="none" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round"/>
+                <path d="M 176 28 C 210 28 210 86 176 86" fill="none" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round"/>
+                <rect x="90" y="156" width="20" height="24" fill="#FFFFFF"/>
+                <rect x="60" y="180" width="80" height="14" rx="4" fill="#F97005"/>
+              </g>
+              <!-- Wordmark -->
+              <text x="120" y="290" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-weight="900" font-size="34" letter-spacing="-1">Compet<tspan fill="#F97005">i</tspan></text>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Camisa bordado -->
+      <div class="ctx-card">
+        <div class="ctx-header">
+          <span class="ctx-label">04 · Camisa / brinde · 1 cor</span>
+          <span class="ctx-label">BORDADO</span>
+        </div>
+        <div class="ctx-body" style="padding:20px">
+          <div class="embroidery">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+              <!-- Mono white for embroidery test -->
+              <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#F4EFE6"/>
+              <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#0F1B2D" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 56 56 C 32 56 32 88 56 88" fill="none" stroke="#F4EFE6" stroke-width="12" stroke-linecap="round"/>
+              <path d="M 144 56 C 168 56 168 88 144 88" fill="none" stroke="#F4EFE6" stroke-width="12" stroke-linecap="round"/>
+              <rect x="92" y="138" width="16" height="20" fill="#F4EFE6"/>
+              <rect x="68" y="158" width="64" height="12" rx="3" fill="#F4EFE6"/>
+            </svg>
+            <span class="pin">∅ 4,5 CM · 1 LINHA</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ====== CONSTRUÇÃO ====== -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Construção · regras</div>
+    <h2>Como sair da apresentação e virar arquivo.</h2>
+    <p class="lead" style="margin-top:16px">Grid de 24px define toda a geometria do símbolo. Clearance mínima é a altura do "C" da palavra — não menos.</p>
+
+    <div class="construct">
+
+      <div class="construct-card">
+        <h3 style="margin-bottom:14px">Grid construtivo · símbolo</h3>
+        <div class="construct-stage">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#0A59CD" opacity="0.85"/>
+            <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 56 56 C 32 56 32 88 56 88" fill="none" stroke="#0A59CD" stroke-width="12" stroke-linecap="round" opacity="0.85"/>
+            <path d="M 144 56 C 168 56 168 88 144 88" fill="none" stroke="#0A59CD" stroke-width="12" stroke-linecap="round" opacity="0.85"/>
+            <rect x="92" y="138" width="16" height="20" fill="#0A59CD" opacity="0.85"/>
+            <rect x="68" y="158" width="64" height="12" rx="3" fill="#F97005"/>
+            <!-- Construction guides -->
+            <g stroke="#F97005" stroke-width="0.8" fill="none" opacity="0.6" stroke-dasharray="3 3">
+              <line x1="56" y1="0" x2="56" y2="200"/>
+              <line x1="100" y1="0" x2="100" y2="200"/>
+              <line x1="144" y1="0" x2="144" y2="200"/>
+              <line x1="0" y1="42" x2="200" y2="42"/>
+              <line x1="0" y1="138" x2="200" y2="138"/>
+              <line x1="0" y1="170" x2="200" y2="170"/>
+            </g>
+          </svg>
+        </div>
+        <div class="construct-notes">
+          <ul>
+            <li><b>Cup · largura</b> <span>88 unidades · razão 4:3 com altura</span></li>
+            <li><b>Stem</b> <span>1/5 da largura do cup, alinhado ao centro</span></li>
+            <li><b>Base</b> <span>3/4 da largura do cup · sempre laranja</span></li>
+            <li><b>Stroke</b> <span class="mono">14u / 12u / 12u</span></li>
+            <li><b>Raio mín.</b> <span>14u · sem ângulos vivos</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="construct-card">
+        <h3 style="margin-bottom:14px">Clearance & tamanhos mínimos</h3>
+        <div class="construct-stage" style="aspect-ratio: 5/4">
+          <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+            <!-- Clearance box dashed -->
+            <rect x="40" y="40" width="320" height="240" fill="none" stroke="#F97005" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.7"/>
+            <!-- Inner area -->
+            <rect x="100" y="100" width="200" height="120" fill="none" stroke="#0A59CD" stroke-width="1" stroke-dasharray="2 3" opacity="0.5"/>
+            <!-- Logo inside -->
+            <g transform="translate(120,120)">
+              <path d="M 24 8 L 96 8 L 96 50 C 96 70 80 82 60 82 C 40 82 24 70 24 50 Z" fill="#0A59CD"/>
+              <path d="M 84 22 L 60 22 C 52 22 46 32 46 44 C 46 56 52 60 60 60 L 84 60" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M 24 18 C 8 18 8 42 24 42" fill="none" stroke="#0A59CD" stroke-width="7" stroke-linecap="round"/>
+              <path d="M 96 18 C 112 18 112 42 96 42" fill="none" stroke="#0A59CD" stroke-width="7" stroke-linecap="round"/>
+              <rect x="56" y="82" width="8" height="10" fill="#0A59CD"/>
+              <rect x="38" y="92" width="44" height="7" rx="2" fill="#F97005"/>
+            </g>
+            <!-- "X" labels for clearance -->
+            <text x="200" y="32" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#F97005" letter-spacing="2">X</text>
+            <text x="200" y="298" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#F97005" letter-spacing="2">X</text>
+            <text x="30" y="164" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#F97005">X</text>
+            <text x="370" y="164" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#F97005">X</text>
+          </svg>
+        </div>
+        <div class="construct-notes">
+          <ul>
+            <li><b>Clearance</b> <span>Mínima de <span class="mono">X</span> = altura da base laranja em volta</span></li>
+            <li><b>Lockup horizontal</b> <span>Mín. 96px de largura (display) · 24mm (impressão)</span></li>
+            <li><b>Só símbolo</b> <span>Mín. 16px (display) · 6mm (impressão)</span></li>
+            <li><b>Bordado</b> <span>Mín. 35mm de altura · 1 só cor</span></li>
+            <li><b>Não fazer</b> <span>Sombra, gradiente externo, contorno, rotação</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ====== NEXT STEPS ====== -->
+<section class="nextsteps">
+  <div class="wrap">
+    <div class="eyebrow" style="color:rgba(255,255,255,0.7)">Próximos passos</div>
+    <h2>Onde quer ir daqui.</h2>
+    <p class="lead" style="max-width:60ch">Escolha um caminho. Posso aprofundar a direção 03 (vetorizar limpo, gerar SVG/PNG em todos os tamanhos, atualizar o site) ou explorar mais variações antes.</p>
+
+    <div class="ns-grid">
+      <div class="ns-card">
+        <h4>OPÇÃO A · APROFUNDAR</h4>
+        <p><b>Fechar a 03.</b> Vetorizar a versão final em SVG limpo, gerar PNG 16/32/64/180/512, substituir <span class="mono">favicon.png</span> e <span class="mono">logo-competi-horizontal.png</span> no site.</p>
+      </div>
+      <div class="ns-card">
+        <h4>OPÇÃO B · MISTURAR</h4>
+        <p><b>Combinar duas direções.</b> Ex.: o C-vazado da 03 com o pódio da 02. Posso desenhar 2 ou 3 híbridos.</p>
+      </div>
+      <div class="ns-card">
+        <h4>OPÇÃO C · EXPLORAR MAIS</h4>
+        <p><b>4 direções extras.</b> Se nenhuma das quatro emplacou, troco a base — ex.: medalha, cronômetro, monograma puro.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Criar equipe — Competi</title>
+  <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+  <meta name="description" content="Crie sua equipe na Competi para inscrever seus atletas em lote e gerenciar a delegação." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/tokens.css" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+  <link rel="stylesheet" href="assets/css/auth.css" />
+</head>
+<body class="wiz-shell" data-screen-label="05 Criar Equipe">
+
+<header class="wiz-top">
+  <div class="container wiz-top-inner">
+    <a href="EscolherPerfil.html" class="brand" aria-label="Competi">
+      <img src="assets/img/logo-competi-horizontal.png" alt="Competi" class="brand-logo" />
+    </a>
+    <a href="EscolherPerfil.html" class="exit">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      Sair do assistente
+    </a>
+  </div>
+</header>
+
+<main class="container wiz-body">
+
+  <aside class="wiz-aside">
+    <span class="eyebrow">Equipe</span>
+    <h3>Crie sua equipe</h3>
+    <p>Em 3 passos rápidos sua equipe está pronta para inscrever atletas em competições.</p>
+
+    <ol class="wiz-steps" id="steps">
+      <li class="active" data-step="1">
+        <span class="dot">1</span>
+        <span class="l">Identidade da equipe<small>Nome, modalidade e cidade</small></span>
+      </li>
+      <li data-step="2">
+        <span class="dot">2</span>
+        <span class="l">Detalhes opcionais<small>Sigla, técnico responsável</small></span>
+      </li>
+      <li data-step="3">
+        <span class="dot">3</span>
+        <span class="l">Revisão e criação<small>Confirme e crie</small></span>
+      </li>
+    </ol>
+  </aside>
+
+  <section class="wiz-main">
+
+    <!-- PASSO 1 ----------------------------------------------------- -->
+    <div class="wiz-step shown" data-step-content="1">
+      <h2>Vamos identificar sua equipe</h2>
+      <p class="sub">Esses dados aparecem nas inscrições da sua delegação e nos rankings por equipe.</p>
+
+      <div class="form-grid">
+        <div class="field" id="teamNameF">
+          <label for="teamName">Nome da equipe</label>
+          <div class="ctrl"><input id="teamName" type="text" placeholder="Ex.: Equipe Aqua Master" required /></div>
+          <span class="err">Informe o nome da equipe.</span>
+        </div>
+
+        <div class="form-grid two">
+          <div class="field">
+            <label for="city">Cidade</label>
+            <div class="ctrl"><input id="city" type="text" placeholder="Ex.: São Paulo" /></div>
+          </div>
+          <div class="field">
+            <label for="state">Estado</label>
+            <div class="ctrl">
+              <select id="state">
+                <option value="">Selecione</option>
+                <option>SP</option><option>RJ</option><option>MG</option><option>RS</option>
+                <option>PR</option><option>SC</option><option>BA</option><option>GO</option>
+                <option>DF</option><option>PE</option><option>CE</option><option>ES</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label style="font-size: 0.74rem; font-weight: 700; color: var(--graphite-700); letter-spacing: 0.08em; text-transform: uppercase; display: block; margin-bottom: 8px;">Modalidade principal</label>
+          <div class="sport-pills" id="sportPills">
+            <label><input type="radio" name="sport" value="natacao" checked /><span>Natação</span></label>
+            <label><input type="radio" name="sport" value="atletismo" /><span>Atletismo</span></label>
+            <label><input type="radio" name="sport" value="ciclismo" /><span>Ciclismo</span></label>
+            <label><input type="radio" name="sport" value="triathlon" /><span>Triathlon</span></label>
+            <label><input type="radio" name="sport" value="futebol" /><span>Futebol</span></label>
+            <label><input type="radio" name="sport" value="volei" /><span>Vôlei</span></label>
+            <label><input type="radio" name="sport" value="basquete" /><span>Basquete</span></label>
+            <label><input type="radio" name="sport" value="judo" /><span>Judô</span></label>
+            <label><input type="radio" name="sport" value="outras" /><span>Outras</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="wiz-foot">
+        <button class="btn-back" type="button" disabled style="visibility: hidden;">Voltar</button>
+        <button class="btn-next" type="button" data-next="2">
+          Continuar
+          <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- PASSO 2 ----------------------------------------------------- -->
+    <div class="wiz-step" data-step-content="2">
+      <h2>Detalhes opcionais</h2>
+      <p class="sub">Você pode preencher isto depois — só ajuda outros atletas e organizadores a reconhecerem sua equipe.</p>
+
+      <div class="form-grid">
+        <div class="form-grid two">
+          <div class="field">
+            <label for="shortName">Sigla / abreviação</label>
+            <div class="ctrl"><input id="shortName" type="text" placeholder="Ex.: AQUA" maxlength="6" /></div>
+            <span class="hint">Até 6 caracteres, aparece nas tabelas e listas.</span>
+          </div>
+          <div class="field">
+            <label for="founded">Fundada em</label>
+            <div class="ctrl"><input id="founded" type="text" placeholder="AAAA" inputmode="numeric" maxlength="4" /></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="coach">Técnico responsável</label>
+          <div class="ctrl"><input id="coach" type="text" placeholder="Nome do(a) técnico(a)" /></div>
+        </div>
+
+        <div class="field">
+          <label for="bio">Descrição da equipe</label>
+          <div class="ctrl"><textarea id="bio" placeholder="Conte resumidamente sobre a equipe (opcional)."></textarea></div>
+        </div>
+
+        <div style="margin-top: 4px;">
+          <label class="check" style="background: var(--cool-surface); padding: 14px 16px; border-radius: 12px; border: 1px solid var(--hairline); width: 100%; align-items: flex-start;">
+            <input type="checkbox" id="competeOwn" />
+            <span style="flex: 1;">
+              <strong style="color: var(--graphite); display: block; margin-bottom: 2px;">Também sou atleta da equipe</strong>
+              <span style="font-size: 0.88rem; color: var(--graphite-700);">Você aparecerá como atleta ativo desta equipe em provas individuais.</span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div class="wiz-foot">
+        <button class="btn-back" type="button" data-prev="1">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <button class="btn-next" type="button" data-next="3">
+          Continuar
+          <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- PASSO 3 ----------------------------------------------------- -->
+    <div class="wiz-step" data-step-content="3">
+      <h2>Revise e confirme</h2>
+      <p class="sub">Confira os dados da equipe. Você poderá editar tudo depois nas configurações.</p>
+
+      <div class="summary">
+        <dl>
+          <div><dt>Nome da equipe</dt><dd id="sumName">—</dd></div>
+          <div><dt>Sigla</dt><dd id="sumShort">—</dd></div>
+          <div><dt>Modalidade</dt><dd id="sumSport">—</dd></div>
+          <div><dt>Cidade / Estado</dt><dd id="sumLoc">—</dd></div>
+          <div><dt>Técnico</dt><dd id="sumCoach">—</dd></div>
+          <div><dt>Fundada em</dt><dd id="sumFounded">—</dd></div>
+        </dl>
+      </div>
+
+      <div style="background: var(--persona-tm-050); border: 1px solid rgba(124,58,237,0.22); border-radius: 14px; padding: 16px 18px; display: flex; gap: 12px; margin-bottom: 22px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex: 0 0 22px; margin-top: 1px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <div style="color: var(--graphite-700); font-size: 0.94rem;">
+          Depois de criar, você entra na <strong style="color: var(--graphite);">visão Team Manager</strong>, onde pode adicionar atletas, ver inscrições da delegação e acompanhar provas.
+        </div>
+      </div>
+
+      <div class="wiz-foot">
+        <button class="btn-back" type="button" data-prev="2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Voltar
+        </button>
+        <button class="btn-next" type="button" id="finishBtn">
+          Criar equipe
+          <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<script>
+  const $ = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+
+  let step = 1;
+  function setStep(n) {
+    step = n;
+    $$('.wiz-step').forEach(el => el.classList.toggle('shown', Number(el.dataset.stepContent) === n));
+    $$('#steps li').forEach(li => {
+      const s = Number(li.dataset.step);
+      li.classList.toggle('active', s === n);
+      li.classList.toggle('done', s < n);
+    });
+    if (n === 3) renderSummary();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function validateStep1() {
+    const ok = $('#teamName').value.trim().length >= 2;
+    $('#teamNameF').classList.toggle('invalid', !ok);
+    return ok;
+  }
+
+  $$('[data-next]').forEach(b => b.addEventListener('click', () => {
+    const t = Number(b.dataset.next);
+    if (t === 2 && !validateStep1()) return;
+    setStep(t);
+  }));
+  $$('[data-prev]').forEach(b => b.addEventListener('click', () => setStep(Number(b.dataset.prev))));
+
+  function renderSummary() {
+    $('#sumName').textContent = $('#teamName').value.trim() || '—';
+    $('#sumShort').textContent = $('#shortName').value.trim() || '—';
+    const s = $('input[name=sport]:checked');
+    $('#sumSport').textContent = s ? s.closest('label').querySelector('span').textContent : '—';
+    const city = $('#city').value.trim(), st = $('#state').value;
+    $('#sumLoc').textContent = [city, st].filter(Boolean).join(' / ') || '—';
+    $('#sumCoach').textContent = $('#coach').value.trim() || '—';
+    $('#sumFounded').textContent = $('#founded').value.trim() || '—';
+  }
+
+  $('#finishBtn').addEventListener('click', () => {
+    alert('Equipe criada! Bem-vindo(a) à visão Team Manager.');
+    window.location.href = 'EscolherPerfil.html';
+  });
+</script>
+</body>
+</html>

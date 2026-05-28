@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Competi — Híbrido Medalha + Cronômetro + C</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --blue: #0A59CD; --blue-700: #1B57B7; --blue-050: #EAF2FD;
+    --orange: #F97005; --orange-400: #F99A08; --orange-700: #D85C00;
+    --ink: #0F1B2D; --graphite: #243B53; --text: #334155; --muted: #64748B;
+    --hairline: #E6ECF4; --border: #DCE6F3; --cool: #F6F9FE; --warm: #FBFBF8; --paper: #FFFFFF;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; color: var(--text); background: var(--paper); -webkit-font-smoothing: antialiased; line-height: 1.55; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  section { padding: 88px 0; border-top: 1px solid var(--hairline); }
+  section:first-of-type { border-top: 0; }
+  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+  h1, h2, h3, h4 { color: var(--ink); margin: 0; font-weight: 800; letter-spacing: -0.02em; }
+  h1 { font-size: 64px; line-height: 1.02; letter-spacing: -0.035em; font-weight: 900; }
+  h2 { font-size: 40px; line-height: 1.1; letter-spacing: -0.025em; }
+  h3 { font-size: 22px; line-height: 1.25; }
+  h4 { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  p { margin: 0 0 14px; max-width: 64ch; }
+  p.lead { font-size: 18px; color: var(--graphite); max-width: 60ch; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .accent { color: var(--orange); }
+
+  /* ---------- HERO ---------- */
+  .hero { padding: 80px 0; background: radial-gradient(900px 500px at 90% 0%, rgba(249,112,5,0.10), transparent 60%), radial-gradient(700px 400px at 0% 100%, rgba(10,89,205,0.08), transparent 60%); }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; }
+  .hero-tag { display:inline-flex; align-items:center; gap:10px; background:var(--paper); border:1px solid var(--border); padding:8px 14px; border-radius:999px; font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--graphite); margin-bottom:24px; }
+  .hero-tag .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 4px rgba(249,112,5,0.18); }
+  .hero-stage { background: var(--cool); border: 1px solid var(--border); border-radius: 28px; aspect-ratio: 1 / 1; display: grid; place-items: center; position: relative; overflow: hidden; }
+  .hero-stage::before { content:""; position:absolute; inset:0; background-image: linear-gradient(to right, rgba(10,89,205,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(10,89,205,0.05) 1px, transparent 1px); background-size: 32px 32px; }
+  .hero-stage svg { position: relative; width: 68%; height: auto; }
+  .pillrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .pill { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; background: var(--blue-050); color: var(--blue); padding: 6px 10px; border-radius: 6px; }
+
+  /* ---------- SOURCE ELEMENTS ---------- */
+  .sources { background: var(--cool); }
+  .src-grid { display: grid; grid-template-columns: repeat(3, 1fr) auto repeat(3, 1fr); gap: 0; margin-top: 40px; align-items: center; }
+  .src-card { background: var(--paper); border: 1px solid var(--border); padding: 28px 18px; text-align: center; }
+  .src-card:nth-child(1) { border-radius: 18px 0 0 18px; border-right: none; }
+  .src-card:nth-child(3) { border-radius: 0 18px 18px 0; border-left: none; }
+  .src-card svg { width: 90px; height: 90px; }
+  .src-card .num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.14em; margin-top: 12px; }
+  .src-card .name { font-size: 14px; font-weight: 700; color: var(--ink); margin-top: 4px; }
+  .src-card .what { font-size: 11px; color: var(--orange); margin-top: 6px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; }
+  .src-op { font-size: 28px; font-weight: 800; color: var(--orange); padding: 0 20px; }
+  .src-eq { font-size: 28px; font-weight: 800; color: var(--orange); padding: 0 20px; }
+  .src-result { background: var(--ink); color: white; padding: 28px 18px; text-align: center; border-radius: 18px; }
+  .src-result svg { width: 100px; height: 100px; }
+  .src-result .num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 0.14em; margin-top: 12px; }
+  .src-result .name { font-size: 14px; font-weight: 700; color: white; margin-top: 4px; }
+  .src-result .what { font-size: 11px; color: var(--orange); margin-top: 6px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* ---------- VARIATIONS ---------- */
+  .vars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+  .var-card { border: 1px solid var(--border); border-radius: 24px; overflow: hidden; background: var(--paper); position: relative; }
+  .var-card.is-pick { border-color: var(--orange); box-shadow: 0 18px 40px rgba(249,112,5,0.10); }
+  .recommended { position: absolute; top: 16px; right: 16px; background: var(--orange); color: white; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; padding: 6px 10px; border-radius: 999px; font-weight: 600; z-index: 2; }
+  .var-stage { aspect-ratio: 1 / 1; background: var(--warm); border-bottom: 1px solid var(--hairline); display: grid; place-items: center; }
+  .var-card.is-pick .var-stage { background: linear-gradient(180deg, #FFF8F1 0%, #FFFFFF 100%); }
+  .var-stage svg { width: 72%; height: auto; }
+  .var-meta { padding: 22px 24px 26px; }
+  .var-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.16em; margin-bottom: 6px; }
+  .var-card h3 { margin-bottom: 8px; font-size: 19px; }
+  .var-meta p { font-size: 13px; color: var(--text); margin-bottom: 12px; }
+  .var-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .var-tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; background: var(--cool); color: var(--graphite); padding: 4px 8px; border-radius: 4px; border: 1px solid var(--hairline); }
+
+  /* ---------- SYSTEM (recommended) ---------- */
+  .system { background: var(--ink); color: #C6D2E3; }
+  .system h2, .system h3, .system h4 { color: white; }
+  .system .lead, .system p { color: #9FB1CC; }
+  .system-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; margin-top: 48px; }
+  .lockup-primary { background: #0B1A2E; border: 1px solid #1B2C46; border-radius: 24px; padding: 56px; display: grid; place-items: center; min-height: 380px; }
+  .lockup-primary svg { width: 86%; height: auto; }
+  .system-side { display: grid; grid-template-rows: 1fr 1fr; gap: 24px; }
+  .system-cell { background: #0B1A2E; border: 1px solid #1B2C46; border-radius: 24px; padding: 32px; display: grid; place-items: center; position: relative; }
+  .system-cell .label { position: absolute; top: 16px; left: 20px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #7B8FA8; }
+  .system-cell svg { max-width: 68%; max-height: 68%; }
+
+  /* ---------- COLOR TREATMENTS ---------- */
+  .colors-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 40px; }
+  .swatch { aspect-ratio: 1 / 1; border-radius: 22px; display: grid; place-items: center; position: relative; border: 1px solid var(--border); overflow: hidden; }
+  .swatch svg { width: 64%; height: auto; }
+  .swatch .tag { position: absolute; bottom: 14px; left: 18px; right: 18px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; display: flex; justify-content: space-between; color: var(--muted); }
+  .swatch.s-primary { background: var(--paper); }
+  .swatch.s-blue { background: var(--blue); border-color: var(--blue); }
+  .swatch.s-blue .tag { color: rgba(255,255,255,0.7); }
+  .swatch.s-orange { background: var(--orange); border-color: var(--orange); }
+  .swatch.s-orange .tag { color: rgba(255,255,255,0.78); }
+  .swatch.s-dark { background: var(--ink); border-color: var(--ink); }
+  .swatch.s-dark .tag { color: rgba(255,255,255,0.6); }
+
+  /* ---------- APP ICON + FAVICON ---------- */
+  .icon-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 24px; align-items: end; margin-top: 40px; }
+  .ai-tile { background: linear-gradient(160deg, var(--orange) 0%, #FF8A1F 100%); border-radius: 22%; aspect-ratio: 1 / 1; display: grid; place-items: center; box-shadow: 0 24px 60px rgba(249,112,5,0.28); position: relative; overflow: hidden; }
+  .ai-tile.t-blue { background: linear-gradient(160deg, var(--blue) 0%, #1E6CE6 100%); box-shadow: 0 24px 60px rgba(10,89,205,0.28); }
+  .ai-tile.t-dark { background: linear-gradient(160deg, #15263F 0%, #0A1525 100%); box-shadow: 0 24px 60px rgba(15,27,45,0.4); }
+  .ai-tile svg { width: 64%; }
+  .ai-caption { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); margin-top: 12px; letter-spacing: 0.1em; }
+  .favicon-row { display: flex; gap: 24px; align-items: flex-end; padding: 28px; background: var(--cool); border-radius: 22%; aspect-ratio: 1 / 1; border-radius: 22%; }
+  .favicon-wrap { background: var(--cool); padding: 24px; border-radius: 22%; aspect-ratio: 1/1; display: flex; flex-direction: column; gap: 14px; align-items: center; justify-content: center; border: 1px solid var(--border); }
+  .favicon-grid { display: flex; gap: 14px; align-items: flex-end; }
+  .fav { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .fav svg { border-radius: 4px; }
+  .fav .lab { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.12em; }
+
+  /* ---------- LOCKUPS ---------- */
+  .lockups { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-top: 40px; }
+  .lockup-row-big { background: var(--paper); border: 1px solid var(--border); border-radius: 24px; padding: 48px; display: grid; place-items: center; min-height: 220px; }
+  .lockup-row-big svg { width: 80%; height: auto; }
+  .lockup-stack { background: var(--paper); border: 1px solid var(--border); border-radius: 24px; padding: 32px; display: grid; place-items: center; }
+  .lockup-stack svg { width: 70%; height: auto; }
+
+  /* ---------- CONTEXTS ---------- */
+  .ctx-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; margin-top: 40px; }
+  .ctx-card { background: var(--paper); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; }
+  .ctx-card.dark { background: var(--ink); border-color: #1B2C46; }
+  .ctx-header { padding: 16px 24px; border-bottom: 1px solid var(--hairline); display: flex; justify-content: space-between; align-items: center; }
+  .ctx-card.dark .ctx-header { border-color: #1B2C46; }
+  .ctx-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+  .ctx-body { padding: 28px; }
+  .browser { background: var(--paper); border: 1px solid var(--hairline); border-radius: 14px; overflow: hidden; box-shadow: 0 8px 24px rgba(15,27,45,0.06); }
+  .browser-bar { background: var(--cool); padding: 10px 14px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--hairline); }
+  .browser-bar .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--hairline); }
+  .browser-bar .url { flex: 1; background: var(--paper); border-radius: 6px; padding: 5px 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); margin-left: 8px; }
+  .site-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px; border-bottom: 1px solid var(--hairline); }
+  .site-header svg { height: 36px; width: auto; }
+  .site-nav { display: flex; gap: 18px; font-size: 13px; color: var(--text); align-items: center; }
+  .site-cta { background: var(--blue); color: white; padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; }
+  .splash { background: linear-gradient(160deg, var(--blue) 0%, #082F7A 100%); aspect-ratio: 9 / 16; border-radius: 28px; display: grid; place-items: center; position: relative; overflow: hidden; max-height: 480px; margin: 0 auto; }
+  .splash svg { width: 55%; height: auto; }
+
+  /* ---------- DECIDE ---------- */
+  .decide { background: var(--orange); color: white; }
+  .decide h2 { color: white; max-width: 22ch; }
+  .decide p { color: rgba(255,255,255,0.92); }
+  .decide-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 32px; }
+  .decide-card { background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.18); border-radius: 18px; padding: 22px; backdrop-filter: blur(8px); }
+  .decide-card h4 { color: rgba(255,255,255,0.7); margin-bottom: 8px; }
+  .decide-card p { font-size: 14px; margin: 0; }
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="hero-tag"><span class="pulse"></span>Híbrido · 05 + 06 + 07</div>
+      <h1>A medalha que <span class="accent">conta o tempo</span>.</h1>
+      <p class="lead" style="margin-top:18px;font-size:19px">Medalha como recipiente (conquista + oficialidade), cronômetro como mecânica interna (precisão + tempo correndo) e o "C" geométrico no centro (a marca, sempre). Três conceitos em uma marca só — e ainda assim lê limpo a 16px.</p>
+      <div class="pillrow">
+        <span class="pill">3 versões</span>
+        <span class="pill">Sistema completo da escolhida</span>
+        <span class="pill">App icon · Favicon · Bordado</span>
+      </div>
+    </div>
+    <div class="hero-stage">
+      <!-- BIG RECOMMENDED HYBRID — Variation B (balanced) -->
+      <svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+        <!-- Ribbon -->
+        <polygon points="84,8 120,90 120,60" fill="#F97005"/>
+        <polygon points="156,8 120,90 120,60" fill="#D85C00"/>
+        <polygon points="84,8 120,8 120,32" fill="#F99A08"/>
+        <polygon points="156,8 120,8 120,32" fill="#F97005"/>
+        <!-- Disc -->
+        <circle cx="120" cy="170" r="92" fill="#0A59CD"/>
+        <!-- Inner ring (subtle stopwatch dial) -->
+        <circle cx="120" cy="170" r="76" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0.18"/>
+        <!-- Tick marks at 12 / 3 / 6 / 9 -->
+        <g fill="#FFFFFF" opacity="0.32">
+          <rect x="116" y="84"  width="8" height="10" rx="2"/>
+          <rect x="196" y="166" width="10" height="8" rx="2"/>
+          <rect x="116" y="246" width="8" height="10" rx="2"/>
+          <rect x="34" y="166" width="10" height="8" rx="2"/>
+        </g>
+        <!-- Geometric C, opening to right, like a 270° clock arc -->
+        <path d="M 120 110 C 87 110 60 137 60 170 C 60 203 87 230 120 230 C 144 230 165 215 174 195 L 147 184 C 142 195 132 202 120 202 C 103 202 88 187 88 170 C 88 153 103 138 120 138 C 132 138 142 145 147 156 L 174 145 C 165 125 144 110 120 110 Z" fill="#FFFFFF"/>
+        <!-- Orange dot inside C opening (also reads as "3 o'clock" / current moment) -->
+        <circle cx="174" cy="170" r="11" fill="#F97005"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOURCE EQUATION ============ -->
+<section class="sources">
+  <div class="wrap">
+    <div class="eyebrow">A equação</div>
+    <h2>Três peças, um símbolo.</h2>
+    <p class="lead" style="margin-top:16px">Cada elemento foi escolhido pelo que carrega de significado — e descartado o que se torna ruído quando os três se sobrepõem.</p>
+
+    <div class="src-grid">
+      <!-- 05 Medalha -->
+      <div class="src-card">
+        <svg viewBox="0 0 200 220">
+          <polygon points="62,8 100,82 100,52" fill="#F97005"/>
+          <polygon points="138,8 100,82 100,52" fill="#D85C00"/>
+          <polygon points="62,8 100,8 100,28" fill="#F99A08"/>
+          <polygon points="138,8 100,8 100,28" fill="#F97005"/>
+          <circle cx="100" cy="140" r="62" fill="#0A59CD"/>
+        </svg>
+        <div class="num">05</div>
+        <div class="name">Medalha</div>
+        <div class="what">CONQUISTA · OFICIAL</div>
+      </div>
+
+      <div class="src-op">+</div>
+
+      <!-- 06 Cronômetro -->
+      <div class="src-card">
+        <svg viewBox="0 0 220 240">
+          <rect x="100" y="6" width="20" height="14" rx="2" fill="#0A59CD"/>
+          <rect x="94" y="18" width="32" height="14" rx="3" fill="#0A59CD"/>
+          <circle cx="110" cy="140" r="86" fill="#0A59CD"/>
+          <circle cx="110" cy="140" r="68" fill="#FFFFFF"/>
+          <g fill="#0A59CD">
+            <rect x="106" y="78" width="8" height="14" rx="2"/>
+            <rect x="170" y="136" width="14" height="8" rx="2"/>
+            <rect x="106" y="188" width="8" height="14" rx="2"/>
+            <rect x="36" y="136" width="14" height="8" rx="2"/>
+          </g>
+          <circle cx="110" cy="140" r="6" fill="#F97005"/>
+        </svg>
+        <div class="num">06</div>
+        <div class="name">Cronômetro</div>
+        <div class="what">PRECISÃO · TEMPO</div>
+      </div>
+
+      <div class="src-op">+</div>
+
+      <!-- 07 Monograma -->
+      <div class="src-card">
+        <svg viewBox="0 0 200 200">
+          <path d="M 100 22 C 56 22 22 56 22 100 C 22 144 56 178 100 178 C 132 178 160 158 172 130 L 136 116 C 130 130 116 140 100 140 C 78 140 60 122 60 100 C 60 78 78 60 100 60 C 116 60 130 70 136 84 L 172 70 C 160 42 132 22 100 22 Z" fill="#0A59CD"/>
+          <circle cx="148" cy="100" r="13" fill="#F97005"/>
+        </svg>
+        <div class="num">07</div>
+        <div class="name">Monograma C</div>
+        <div class="what">NOME · ATEMPORAL</div>
+      </div>
+
+      <div class="src-eq">=</div>
+
+      <!-- Result -->
+      <div class="src-result" style="grid-column: span 3">
+        <svg viewBox="0 0 240 280">
+          <polygon points="84,8 120,90 120,60" fill="#F97005"/>
+          <polygon points="156,8 120,90 120,60" fill="#D85C00"/>
+          <polygon points="84,8 120,8 120,32" fill="#F99A08"/>
+          <polygon points="156,8 120,8 120,32" fill="#F97005"/>
+          <circle cx="120" cy="170" r="92" fill="#FFFFFF"/>
+          <g fill="#0A59CD" opacity="0.18">
+            <rect x="116" y="84"  width="8" height="10" rx="2"/>
+            <rect x="196" y="166" width="10" height="8" rx="2"/>
+            <rect x="116" y="246" width="8" height="10" rx="2"/>
+            <rect x="34" y="166" width="10" height="8" rx="2"/>
+          </g>
+          <path d="M 120 110 C 87 110 60 137 60 170 C 60 203 87 230 120 230 C 144 230 165 215 174 195 L 147 184 C 142 195 132 202 120 202 C 103 202 88 187 88 170 C 88 153 103 138 120 138 C 132 138 142 145 147 156 L 174 145 C 165 125 144 110 120 110 Z" fill="#0A59CD"/>
+          <circle cx="174" cy="170" r="11" fill="#F97005"/>
+        </svg>
+        <div class="num">HÍBRIDO</div>
+        <div class="name">Medalha-Cronômetro-C</div>
+        <div class="what">Os 3 ao mesmo tempo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THREE VARIATIONS ============ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">3 níveis de intensidade</div>
+    <h2>Onde colocar o peso?</h2>
+    <p class="lead" style="margin-top:16px">Mesma equação, três balanços. A diferença está em <i>qual</i> dos três conceitos manda na leitura — cronômetro, medalha ou o C.</p>
+
+    <div class="vars-grid">
+
+      <!-- VARIATION A — Stopwatch-leaning -->
+      <div class="var-card">
+        <div class="var-stage">
+          <svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+            <!-- Crown (sem ribbon): só botão de cronômetro no topo -->
+            <rect x="110" y="6" width="20" height="14" rx="2" fill="#0A59CD"/>
+            <rect x="100" y="20" width="40" height="16" rx="3" fill="#0A59CD"/>
+            <!-- Side button -->
+            <rect x="186" y="64" width="20" height="10" rx="2" fill="#0A59CD" transform="rotate(45 196 69)"/>
+            <!-- Disc -->
+            <circle cx="120" cy="160" r="100" fill="#0A59CD"/>
+            <!-- Ticks (12 marks) -->
+            <g fill="#FFFFFF" opacity="0.25">
+              <rect x="116" y="66" width="8" height="14" rx="2"/>
+              <rect x="206" y="156" width="14" height="8" rx="2"/>
+              <rect x="116" y="240" width="8" height="14" rx="2"/>
+              <rect x="20" y="156" width="14" height="8" rx="2"/>
+            </g>
+            <g fill="#FFFFFF" opacity="0.18">
+              <rect x="160" y="80" width="6" height="8" rx="1" transform="rotate(30 163 84)"/>
+              <rect x="192" y="110" width="6" height="8" rx="1" transform="rotate(60 195 114)"/>
+              <rect x="192" y="200" width="6" height="8" rx="1" transform="rotate(120 195 204)"/>
+              <rect x="160" y="230" width="6" height="8" rx="1" transform="rotate(150 163 234)"/>
+              <rect x="74" y="230" width="6" height="8" rx="1" transform="rotate(210 77 234)"/>
+              <rect x="42" y="200" width="6" height="8" rx="1" transform="rotate(240 45 204)"/>
+              <rect x="42" y="110" width="6" height="8" rx="1" transform="rotate(300 45 114)"/>
+              <rect x="74" y="80" width="6" height="8" rx="1" transform="rotate(330 77 84)"/>
+            </g>
+            <!-- C -->
+            <path d="M 120 96 C 84 96 56 124 56 160 C 56 196 84 224 120 224 C 146 224 168 208 178 186 L 150 174 C 144 186 133 194 120 194 C 102 194 86 178 86 160 C 86 142 102 126 120 126 C 133 126 144 134 150 146 L 178 134 C 168 112 146 96 120 96 Z" fill="#FFFFFF"/>
+            <!-- Orange dot -->
+            <circle cx="178" cy="160" r="12" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="var-meta">
+          <div class="var-num">VARIAÇÃO A</div>
+          <h3>Mecânica.</h3>
+          <p>Sem fita. Coroa de cronômetro no topo + 12 marcações na borda. Lê primeiro como instrumento de precisão, depois como medalha.</p>
+          <div class="var-tags">
+            <span class="var-tag">TECH</span>
+            <span class="var-tag">INSTRUMENTAL</span>
+            <span class="var-tag">PRECISÃO</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIATION B — Balanced (RECOMMENDED) -->
+      <div class="var-card is-pick">
+        <div class="recommended">★ Recomendada</div>
+        <div class="var-stage">
+          <svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+            <!-- Ribbon -->
+            <polygon points="84,8 120,90 120,60" fill="#F97005"/>
+            <polygon points="156,8 120,90 120,60" fill="#D85C00"/>
+            <polygon points="84,8 120,8 120,32" fill="#F99A08"/>
+            <polygon points="156,8 120,8 120,32" fill="#F97005"/>
+            <!-- Disc -->
+            <circle cx="120" cy="170" r="92" fill="#0A59CD"/>
+            <!-- Inner subtle dial ring -->
+            <circle cx="120" cy="170" r="76" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0.18"/>
+            <!-- Tick marks at 12/3/6/9 -->
+            <g fill="#FFFFFF" opacity="0.32">
+              <rect x="116" y="84"  width="8" height="10" rx="2"/>
+              <rect x="196" y="166" width="10" height="8" rx="2"/>
+              <rect x="116" y="246" width="8" height="10" rx="2"/>
+              <rect x="34" y="166" width="10" height="8" rx="2"/>
+            </g>
+            <!-- C -->
+            <path d="M 120 110 C 87 110 60 137 60 170 C 60 203 87 230 120 230 C 144 230 165 215 174 195 L 147 184 C 142 195 132 202 120 202 C 103 202 88 187 88 170 C 88 153 103 138 120 138 C 132 138 142 145 147 156 L 174 145 C 165 125 144 110 120 110 Z" fill="#FFFFFF"/>
+            <circle cx="174" cy="170" r="11" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="var-meta">
+          <div class="var-num">VARIAÇÃO B</div>
+          <h3>Equilibrada.</h3>
+          <p>Fita laranja + disco azul + 4 ticks discretos (12/3/6/9) + C central. Cada elemento ganha o espaço justo — nada compete.</p>
+          <div class="var-tags">
+            <span class="var-tag">MEDALHA ✓</span>
+            <span class="var-tag">CRONO ✓</span>
+            <span class="var-tag">C ✓</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIATION C — Insígnia / medalha-leaning -->
+      <div class="var-card">
+        <div class="var-stage">
+          <svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+            <!-- Ribbon mais larga -->
+            <polygon points="64,8 120,98 120,60" fill="#F97005"/>
+            <polygon points="176,8 120,98 120,60" fill="#D85C00"/>
+            <polygon points="64,8 120,8 120,34" fill="#F99A08"/>
+            <polygon points="176,8 120,8 120,34" fill="#F97005"/>
+            <!-- Outer ring -->
+            <circle cx="120" cy="170" r="96" fill="#0A59CD"/>
+            <circle cx="120" cy="170" r="88" fill="none" stroke="#F97005" stroke-width="3" opacity="0.9"/>
+            <circle cx="120" cy="170" r="80" fill="#0A59CD"/>
+            <!-- C grande e dominante (sem ticks) -->
+            <path d="M 120 102 C 81 102 50 133 50 170 C 50 207 81 238 120 238 C 148 238 173 221 184 197 L 154 184 C 148 197 135 206 120 206 C 100 206 84 190 84 170 C 84 150 100 134 120 134 C 135 134 148 143 154 156 L 184 143 C 173 119 148 102 120 102 Z" fill="#FFFFFF"/>
+            <circle cx="184" cy="170" r="13" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="var-meta">
+          <div class="var-num">VARIAÇÃO C</div>
+          <h3>Insígnia.</h3>
+          <p>Fita maior, anel laranja sutil entre dois azuis, C dominante. Sem ticks. Mais cerimonial, menos "instrumento".</p>
+          <div class="var-tags">
+            <span class="var-tag">CERIMONIAL</span>
+            <span class="var-tag">PREMIUM</span>
+            <span class="var-tag">CLÁSSICO</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ COLOR TREATMENTS (recommended B) ============ -->
+<section style="background:var(--cool)">
+  <div class="wrap">
+    <div class="eyebrow">Variação B · tratamentos de cor</div>
+    <h2>A mesma marca, em qualquer fundo.</h2>
+    <p class="lead" style="margin-top:16px">Cinco situações decididas. Sem improviso.</p>
+
+    <div class="colors-grid">
+      <!-- Primária -->
+      <div class="swatch s-primary">
+        <svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="84,8 120,90 120,60" fill="#F97005"/>
+          <polygon points="156,8 120,90 120,60" fill="#D85C00"/>
+          <polygon points="84,8 120,8 120,32" fill="#F99A08"/>
+          <polygon points="156,8 120,8 120,32" fill="#F97005"/>
+          <circle cx="120" cy="170" r="92" fill="#0A59CD"/>
+          <circle cx="120" cy="170" r="76" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0.18"/>
+          <g fill="#FFFFFF" opacity="0.32">
+            <rect x="116" y="84"  width="8" height="10" rx="2"/>
+            <rect x="196" y="166" width="10" height="8" rx="2"/>
+            <rect x="116" y="246" width="8" height="10" rx="2"/>
+            <rect x="34" y="166" width="10" height="8" rx="2"/>
+          </g>
+          <path d="M 120 110 C 87 110 60 137 60 170 C 60 203 87 230 120 230 C 144 230 165 215 174 195 L 147 184 C 142 195 132 202 120 202 C 103 202 88 187 88 170 C 88 153 103 138 120 138 C 132 138 142 145 147 156 L 174 145 C 165 125 144 110 120 110 Z" fill="#FFFFFF"/>
+          <circle cx="174" cy="170" r="11" fill="#F97005"/>
+        </svg>
+        <div class="tag"><span>01</span><span>PRIMÁRIA</span></div>
+      </div>
+
+      <!-- Knockout azul -->
+      <div class="swatch s-blue">
+        <svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="84,8 120,90 120,60" fill="#FFFFFF"/>
+          <polygon points="156,8 120,90 120,60" fill="#FFFFFF" opacity="0.7"/>
+          <polygon points="84,8 120,8 120,32" fill="#FFFFFF" opacity="0.85"/>
+          <polygon points="156,8 120,8 120,32" fill="#FFFFFF"/>
+          <circle cx="120" cy="170" r="92" fill="#FFFFFF"/>
+          <circle cx="120" cy="170" r="76" fill="none" stroke="#0A59CD" stroke-width="2" opacity="0.18"/>
+          <g fill="#0A59CD" opacity="0.32">
+            <rect x="116" y="84"  width="8" height="10" rx="2"/>
+            <rect x="196" y="166" width="10" height="8" rx="2"/>
+            <rect x="116" y="246" width="8" height="10" rx="2"/>
+            <rect x="34" y="166" width="10" height="8" rx="2"/>
+          </g>
+          <path d="M 120 110 C 87 110 60 137 60 170 C 60 203 87 230 120 230 C 144 230 165 215 174 195 L 147 184 C 142 195 132 202 120 202 C 103 202 88 187 88 170 C 88 153 103 138 120 138 C 132 138 142 145 147 156 L 174 145 C 165 125 144 110 120 110 Z" fill="#0A59CD"/>
+          <circle cx="174" cy="170" r="11" fill="#F97005"/>
+        </svg>
+        <div class="tag"><span>02</span><span>KNOCKOUT · AZUL</span></div>
+      </div>
+
+      <!-- Knockout laranja -->
+      <div class="swatch s-orange">
+        <svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="84,8 120,90 120,60" fill="#FFFFFF"/>
+          <polygon points="156,8 120,90 120,60" fill="#FFFFFF" opacity="0.65"/>
+          <polygon points="84,8 120,8 120,32" fill="#FFFFFF" opacity="0.85"/>
+          <polygon points="156,8 120,8 120,32" fill="#FFFFFF"/>
+          <circle cx="120" cy="170" r="92" fill="#FFFFFF"/>
+          <g fill="#F97005" opacity="0.18">
+            <rect x="116" y="84"  width="8" height="10" rx="2"/>
+            <rect x="196" y="166" width="10" height="8" rx="2"/>
+            <rect x="116" y="246" width="8" height="10" rx="2"/>
+            <rect x="34" y="166" width="10" height="8" rx="2"/>
+          </g>
+          <path d="M 120 110 C 87 110 60 137 60 170 C 60 203 87 230 120 230 C 144 230 165 215 174 195 L 147 184 C 142 195 132 202 120 202 C 103 202 88 187 88 170 C 88 153 103 138 120 138 C 132 138 142 145 147 156 L 174 145 C 165 125 144 110 120 110 Z" fill="#F97005"/>
+          <circle cx="174" cy="170" r="11" fill="#0A59CD"/>
+        </svg>
+        <div class="tag"><span>03</span><span>KNOCKOUT · LARANJA</span></div>
+      </div>
+
+      <!-- Fundo escuro -->
+      <div class="swatch s-dark">
+        <svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="84,8 120,90 120,60" fill="#F97005"/>
+          <polygon points="156,8 120,90 120,60" fill="#D85C00"/>
+          <polygon points="84,8 120,8 120,32" fill="#F99A08"/>
+          <polygon points="156,8 120,8 120,32" fill="#F97005"/>
+          <circle cx="120" cy="170" r="92" fill="#FFFFFF"/>
+          <g fill="#0A59CD" opacity="0.18">
+            <rect x="116" y="84"  width="8" height="10" rx="2"/>
+            <rect x="196" y="166" width="10" height="8" rx="2"/>
+            <rect x="116" y="246" width="8" height="10" rx="2"/>
+            <rect x="34" y="166" width="10" height="8" rx="2"/>
+          </g>
+          <path d="M 120 110 C 87 110 60 137 60 170 C 60 203 87 230 120 230 C 144 230 165 215 174 195 L 147 184 C 142 195 132 202 120 202 C 103 202 88 187 88 170 C 88 153 103 138 120 138 C 132 138 142 145 147 156 L 174 145 C 165 125 144 110 120 110 Z" fill="#0A59CD"/>
+          <circle cx="174" cy="170" r="11" fill="#F97005"/>
+        </svg>
+        <div class="tag"><span>04</span><span>FUNDO ESCURO</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APP ICON + FAVICON ============ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Aplicação · digital</div>
+    <h2>De app icon a favicon 16px.</h2>
+    <p class="lead" style="margin-top:16px">A 16px, a fita some por simplificação automática — sobra o disco azul com o C branco e o ponto laranja. O DNA continua reconhecível.</p>
+
+    <div class="icon-row">
+
+      <div>
+        <div class="ai-tile">
+          <svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="84,8 120,90 120,60" fill="#FFFFFF"/>
+            <polygon points="156,8 120,90 120,60" fill="#FFFFFF" opacity="0.7"/>
+            <polygon points="84,8 120,8 120,32" fill="#FFFFFF" opacity="0.85"/>
+            <polygon points="156,8 120,8 120,32" fill="#FFFFFF"/>
+            <circle cx="120" cy="170" r="92" fill="#FFFFFF"/>
+            <path d="M 120 110 C 87 110 60 137 60 170 C 60 203 87 230 120 230 C 144 230 165 215 174 195 L 147 184 C 142 195 132 202 120 202 C 103 202 88 187 88 170 C 88 153 103 138 120 138 C 132 138 142 145 147 156 L 174 145 C 165 125 144 110 120 110 Z" fill="#F97005"/>
+            <circle cx="174" cy="170" r="11" fill="#0A59CD"/>
+          </svg>
+        </div>
+        <div class="ai-caption">APP ICON · 512 · LARANJA</div>
+      </div>
+
+      <div>
+        <div class="ai-tile t-blue">
+          <svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="84,8 120,90 120,60" fill="#F97005"/>
+            <polygon points="156,8 120,90 120,60" fill="#D85C00"/>
+            <polygon points="84,8 120,8 120,32" fill="#F99A08"/>
+            <polygon points="156,8 120,8 120,32" fill="#F97005"/>
+            <circle cx="120" cy="170" r="92" fill="#FFFFFF"/>
+            <path d="M 120 110 C 87 110 60 137 60 170 C 60 203 87 230 120 230 C 144 230 165 215 174 195 L 147 184 C 142 195 132 202 120 202 C 103 202 88 187 88 170 C 88 153 103 138 120 138 C 132 138 142 145 147 156 L 174 145 C 165 125 144 110 120 110 Z" fill="#0A59CD"/>
+            <circle cx="174" cy="170" r="11" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="ai-caption">iOS · 180 · AZUL</div>
+      </div>
+
+      <div>
+        <div class="ai-tile t-dark">
+          <svg viewBox="0 0 240 280" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="84,8 120,90 120,60" fill="#F97005"/>
+            <polygon points="156,8 120,90 120,60" fill="#D85C00"/>
+            <polygon points="84,8 120,8 120,32" fill="#F99A08"/>
+            <polygon points="156,8 120,8 120,32" fill="#F97005"/>
+            <circle cx="120" cy="170" r="92" fill="#FFFFFF"/>
+            <path d="M 120 110 C 87 110 60 137 60 170 C 60 203 87 230 120 230 C 144 230 165 215 174 195 L 147 184 C 142 195 132 202 120 202 C 103 202 88 187 88 170 C 88 153 103 138 120 138 C 132 138 142 145 147 156 L 174 145 C 165 125 144 110 120 110 Z" fill="#0A59CD"/>
+            <circle cx="174" cy="170" r="11" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="ai-caption">DARK MODE</div>
+      </div>
+
+      <div>
+        <div class="favicon-wrap">
+          <div class="favicon-grid">
+            <div class="fav">
+              <svg width="64" height="64" viewBox="0 0 240 280" style="background:#0A59CD;border-radius:14px">
+                <polygon points="84,8 120,90 120,60" fill="#F97005"/>
+                <polygon points="156,8 120,90 120,60" fill="#D85C00"/>
+                <polygon points="84,8 120,8 120,32" fill="#F99A08"/>
+                <polygon points="156,8 120,8 120,32" fill="#F97005"/>
+                <circle cx="120" cy="170" r="92" fill="#FFFFFF"/>
+                <path d="M 120 110 C 87 110 60 137 60 170 C 60 203 87 230 120 230 C 144 230 165 215 174 195 L 147 184 C 142 195 132 202 120 202 C 103 202 88 187 88 170 C 88 153 103 138 120 138 C 132 138 142 145 147 156 L 174 145 C 165 125 144 110 120 110 Z" fill="#0A59CD"/>
+                <circle cx="174" cy="170" r="11" fill="#F97005"/>
+              </svg>
+              <span class="lab">64</span>
+            </div>
+            <div class="fav">
+              <svg width="32" height="32" viewBox="0 0 200 200" style="background:#0A59CD;border-radius:6px">
+                <!-- Simplified: just disc with C, no ribbon -->
+                <circle cx="100" cy="100" r="84" fill="#FFFFFF"/>
+                <path d="M 100 40 C 66 40 38 68 38 100 C 38 132 66 160 100 160 C 124 160 144 146 154 124 L 128 114 C 122 124 112 132 100 132 C 84 132 70 118 70 100 C 70 82 84 68 100 68 C 112 68 122 76 128 86 L 154 76 C 144 54 124 40 100 40 Z" fill="#0A59CD"/>
+                <circle cx="154" cy="100" r="12" fill="#F97005"/>
+              </svg>
+              <span class="lab">32</span>
+            </div>
+            <div class="fav">
+              <svg width="16" height="16" viewBox="0 0 200 200" style="background:#0A59CD;border-radius:3px">
+                <circle cx="100" cy="100" r="86" fill="#FFFFFF"/>
+                <path d="M 100 36 C 64 36 34 66 34 100 C 34 134 64 164 100 164 C 124 164 146 150 156 124 L 128 112 C 122 124 112 132 100 132 C 82 132 66 116 66 100 C 66 84 82 68 100 68 C 112 68 122 76 128 88 L 156 76 C 146 50 124 36 100 36 Z" fill="#0A59CD"/>
+              </svg>
+              <span class="lab">16</span>
+            </div>
+          </div>
+        </div>
+        <div class="ai-caption">FAVICON · 64 / 32 / 16 px</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LOCKUPS ============ -->
+<section style="background:var(--cool)">
+  <div class="wrap">
+    <div class="eyebrow">Lockups · símbolo + wordmark</div>
+    <h2>Horizontal e stacked.</h2>
+    <p class="lead" style="margin-top:16px">Wordmark "Competi" desenhado sob medida (mesmo da Round 1) — C aberto, m com dupla ponte, i com pingo laranja.</p>
+
+    <div class="lockups">
+      <!-- Horizontal -->
+      <div class="lockup-row-big">
+        <svg viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
+          <!-- Símbolo -->
+          <g transform="translate(20,18)">
+            <polygon points="58,8 84,68 84,46" fill="#F97005"/>
+            <polygon points="110,8 84,68 84,46" fill="#D85C00"/>
+            <polygon points="58,8 84,8 84,22" fill="#F99A08"/>
+            <polygon points="110,8 84,8 84,22" fill="#F97005"/>
+            <circle cx="84" cy="124" r="66" fill="#0A59CD"/>
+            <g fill="#FFFFFF" opacity="0.25">
+              <rect x="80" y="64" width="8" height="8" rx="2"/>
+              <rect x="142" y="120" width="8" height="8" rx="2"/>
+              <rect x="80" y="184" width="8" height="8" rx="2"/>
+              <rect x="22" y="120" width="8" height="8" rx="2"/>
+            </g>
+            <path d="M 84 78 C 60 78 40 98 40 124 C 40 150 60 170 84 170 C 102 170 117 159 124 144 L 104 136 C 100 144 94 150 84 150 C 70 150 58 138 58 124 C 58 110 70 98 84 98 C 94 98 100 104 104 112 L 124 104 C 117 89 102 78 84 78 Z" fill="#FFFFFF"/>
+            <circle cx="124" cy="124" r="8" fill="#F97005"/>
+          </g>
+          <!-- Wordmark custom -->
+          <g transform="translate(220,80)" fill="#0F1B2D">
+            <path d="M 64 0 C 28 0 0 26 0 60 C 0 94 28 120 64 120 C 86 120 104 110 116 92 L 92 78 C 86 88 76 94 64 94 C 46 94 32 80 32 60 C 32 40 46 26 64 26 C 76 26 86 32 92 42 L 116 28 C 104 10 86 0 64 0 Z"/>
+            <path d="M 170 28 C 144 28 124 48 124 76 C 124 104 144 124 170 124 C 196 124 216 104 216 76 C 216 48 196 28 170 28 Z M 170 52 C 184 52 192 62 192 76 C 192 90 184 100 170 100 C 156 100 148 90 148 76 C 148 62 156 52 170 52 Z"/>
+            <path d="M 232 32 L 232 120 L 258 120 L 258 70 C 258 60 264 52 274 52 C 282 52 286 58 286 68 L 286 120 L 312 120 L 312 70 C 312 60 318 52 328 52 C 336 52 340 58 340 68 L 340 120 L 366 120 L 366 64 C 366 42 354 28 334 28 C 320 28 308 36 302 48 C 296 36 286 28 272 28 C 260 28 252 34 246 42 L 246 32 Z"/>
+            <path d="M 380 32 L 380 168 L 406 168 L 406 110 C 412 118 422 124 436 124 C 460 124 478 104 478 76 C 478 48 460 28 436 28 C 422 28 412 34 406 42 L 406 32 Z M 430 52 C 444 52 454 62 454 76 C 454 90 444 100 430 100 C 416 100 406 90 406 76 C 406 62 416 52 430 52 Z"/>
+            <path d="M 534 28 C 508 28 490 48 490 76 C 490 104 508 124 538 124 C 558 124 574 116 584 100 L 562 90 C 558 96 550 100 538 100 C 524 100 516 94 514 82 L 588 82 C 590 78 590 74 590 70 C 590 46 574 28 534 28 Z M 534 50 C 546 50 554 56 558 66 L 514 66 C 518 56 524 50 534 50 Z"/>
+            <path d="M 614 6 L 614 32 L 600 32 L 600 54 L 614 54 L 614 96 C 614 116 622 124 642 124 C 650 124 656 122 660 120 L 660 100 C 658 102 654 102 650 102 C 642 102 640 98 640 90 L 640 54 L 660 54 L 660 32 L 640 32 L 640 6 Z"/>
+            <rect x="680" y="32" width="26" height="88" rx="2"/>
+            <circle cx="693" cy="12" r="11" fill="#F97005"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Stacked -->
+      <div class="lockup-stack">
+        <svg viewBox="0 0 240 320" xmlns="http://www.w3.org/2000/svg">
+          <!-- Símbolo on top -->
+          <g transform="translate(60,0)">
+            <polygon points="48,8 72,64 72,40" fill="#F97005"/>
+            <polygon points="96,8 72,64 72,40" fill="#D85C00"/>
+            <polygon points="48,8 72,8 72,20" fill="#F99A08"/>
+            <polygon points="96,8 72,8 72,20" fill="#F97005"/>
+            <circle cx="72" cy="116" r="60" fill="#0A59CD"/>
+            <path d="M 72 74 C 50 74 32 92 32 116 C 32 140 50 158 72 158 C 88 158 102 148 108 134 L 90 126 C 86 134 80 140 72 140 C 60 140 48 130 48 116 C 48 102 60 92 72 92 C 80 92 86 96 90 104 L 108 96 C 102 84 88 74 72 74 Z" fill="#FFFFFF"/>
+            <circle cx="108" cy="116" r="8" fill="#F97005"/>
+          </g>
+          <!-- Wordmark below -->
+          <text x="120" y="240" text-anchor="middle" font-family="Inter" font-weight="900" font-size="44" fill="#0F1B2D" letter-spacing="-1.5">Compet<tspan fill="#F97005">i</tspan></text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTEXT — site header + splash ============ -->
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Em uso</div>
+    <h2>Como ela aparece, de verdade.</h2>
+    <p class="lead" style="margin-top:16px">Header do site, splash do app — e o teste mais difícil: imagine a marca chegando num post oficial, num email, num crachá de competição.</p>
+
+    <div class="ctx-grid">
+      <div class="ctx-card">
+        <div class="ctx-header">
+          <span class="ctx-label">01 · Header · competi.app</span>
+          <span class="ctx-label">@1x</span>
+        </div>
+        <div class="ctx-body">
+          <div class="browser">
+            <div class="browser-bar">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <span class="url">https://competi.app</span>
+            </div>
+            <div class="site-header">
+              <svg viewBox="0 0 740 200" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(0,18)">
+                  <polygon points="58,8 84,68 84,46" fill="#F97005"/>
+                  <polygon points="110,8 84,68 84,46" fill="#D85C00"/>
+                  <polygon points="58,8 84,8 84,22" fill="#F99A08"/>
+                  <polygon points="110,8 84,8 84,22" fill="#F97005"/>
+                  <circle cx="84" cy="124" r="60" fill="#0A59CD"/>
+                  <path d="M 84 82 C 62 82 44 100 44 124 C 44 148 62 166 84 166 C 100 166 114 156 120 142 L 102 134 C 98 142 92 148 84 148 C 72 148 60 138 60 124 C 60 110 72 100 84 100 C 92 100 98 104 102 112 L 120 104 C 114 92 100 82 84 82 Z" fill="#FFFFFF"/>
+                  <circle cx="120" cy="124" r="8" fill="#F97005"/>
+                </g>
+                <g transform="translate(200,76)" fill="#0F1B2D">
+                  <path d="M 64 0 C 28 0 0 26 0 60 C 0 94 28 120 64 120 C 86 120 104 110 116 92 L 92 78 C 86 88 76 94 64 94 C 46 94 32 80 32 60 C 32 40 46 26 64 26 C 76 26 86 32 92 42 L 116 28 C 104 10 86 0 64 0 Z"/>
+                  <path d="M 170 28 C 144 28 124 48 124 76 C 124 104 144 124 170 124 C 196 124 216 104 216 76 C 216 48 196 28 170 28 Z M 170 52 C 184 52 192 62 192 76 C 192 90 184 100 170 100 C 156 100 148 90 148 76 C 148 62 156 52 170 52 Z"/>
+                  <path d="M 232 32 L 232 120 L 258 120 L 258 70 C 258 60 264 52 274 52 C 282 52 286 58 286 68 L 286 120 L 312 120 L 312 70 C 312 60 318 52 328 52 C 336 52 340 58 340 68 L 340 120 L 366 120 L 366 64 C 366 42 354 28 334 28 C 320 28 308 36 302 48 C 296 36 286 28 272 28 C 260 28 252 34 246 42 L 246 32 Z"/>
+                  <path d="M 380 32 L 380 168 L 406 168 L 406 110 C 412 118 422 124 436 124 C 460 124 478 104 478 76 C 478 48 460 28 436 28 C 422 28 412 34 406 42 L 406 32 Z M 430 52 C 444 52 454 62 454 76 C 454 90 444 100 430 100 C 416 100 406 90 406 76 C 406 62 416 52 430 52 Z"/>
+                  <path d="M 534 28 C 508 28 490 48 490 76 C 490 104 508 124 538 124 C 558 124 574 116 584 100 L 562 90 C 558 96 550 100 538 100 C 524 100 516 94 514 82 L 588 82 C 590 78 590 74 590 70 C 590 46 574 28 534 28 Z M 534 50 C 546 50 554 56 558 66 L 514 66 C 518 56 524 50 534 50 Z"/>
+                  <path d="M 614 6 L 614 32 L 600 32 L 600 54 L 614 54 L 614 96 C 614 116 622 124 642 124 C 650 124 656 122 660 120 L 660 100 C 658 102 654 102 650 102 C 642 102 640 98 640 90 L 640 54 L 660 54 L 660 32 L 640 32 L 640 6 Z"/>
+                  <rect x="680" y="32" width="26" height="88" rx="2"/>
+                  <circle cx="693" cy="12" r="11" fill="#F97005"/>
+                </g>
+              </svg>
+              <div class="site-nav">
+                <span>A plataforma</span><span>Esportes</span><span>Planos</span><span>FAQ</span>
+                <span class="site-cta">Entrar</span>
+              </div>
+            </div>
+            <div style="padding: 32px 22px;">
+              <h3 style="font-size:24px;margin-bottom:8px">Onde o jogo acontece.</h3>
+              <p style="font-size:13px;color:var(--muted);margin:0">Organizador, atleta, equipe, oficial e torcida — no mesmo lugar.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ctx-card dark">
+        <div class="ctx-header">
+          <span class="ctx-label" style="color:#7B8FA8">02 · Splash · App</span>
+          <span class="ctx-label" style="color:#7B8FA8">@2x</span>
+        </div>
+        <div class="ctx-body" style="padding:24px">
+          <div class="splash">
+            <svg viewBox="0 0 240 360" xmlns="http://www.w3.org/2000/svg">
+              <g transform="translate(0,40)">
+                <polygon points="84,8 120,90 120,60" fill="#F97005"/>
+                <polygon points="156,8 120,90 120,60" fill="#D85C00"/>
+                <polygon points="84,8 120,8 120,32" fill="#F99A08"/>
+                <polygon points="156,8 120,8 120,32" fill="#F97005"/>
+                <circle cx="120" cy="170" r="92" fill="#FFFFFF"/>
+                <path d="M 120 110 C 87 110 60 137 60 170 C 60 203 87 230 120 230 C 144 230 165 215 174 195 L 147 184 C 142 195 132 202 120 202 C 103 202 88 187 88 170 C 88 153 103 138 120 138 C 132 138 142 145 147 156 L 174 145 C 165 125 144 110 120 110 Z" fill="#0A59CD"/>
+                <circle cx="174" cy="170" r="11" fill="#F97005"/>
+              </g>
+              <text x="120" y="340" text-anchor="middle" fill="#FFFFFF" font-family="Inter" font-weight="900" font-size="32" letter-spacing="-1">Compet<tspan fill="#F97005">i</tspan></text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DECIDE CTA ============ -->
+<section class="decide">
+  <div class="wrap">
+    <div class="eyebrow" style="color:rgba(255,255,255,0.75)">Próximo passo</div>
+    <h2>Fechamos a B ou ainda balanceamos?</h2>
+    <p class="lead" style="max-width:60ch">Recomendo a Variação B — ela carrega os três conceitos sem que nenhum domine, e o sistema todo já está em pé. Mas pode pedir ajustes finos antes de fechar.</p>
+
+    <div class="decide-grid">
+      <div class="decide-card">
+        <h4>A · FECHAR A B</h4>
+        <p>Vetorizar limpa, exportar SVG/PNG nos tamanhos certos, substituir favicon + logo do site.</p>
+      </div>
+      <div class="decide-card">
+        <h4>B · AJUSTAR</h4>
+        <p>Mudanças finas — ex.: tirar os ticks, aumentar o C, mudar formato da fita, posição do pingo. Diga o quê.</p>
+      </div>
+      <div class="decide-card">
+        <h4>C · TROCAR DE VARIAÇÃO</h4>
+        <p>Prefere a A (mecânica) ou C (insígnia)? Posso aprofundar essa em vez da B.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

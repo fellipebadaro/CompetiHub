@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Competi — Logo Round 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --blue: #0A59CD; --blue-700: #1B57B7; --blue-050: #EAF2FD;
+    --orange: #F97005; --orange-400: #F99A08; --orange-050: #FFF1E4;
+    --ink: #0F1B2D; --graphite: #243B53; --text: #334155; --muted: #64748B;
+    --hairline: #E6ECF4; --border: #DCE6F3; --cool: #F6F9FE; --warm: #FBFBF8; --paper: #FFFFFF;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; color: var(--text); background: var(--paper); -webkit-font-smoothing: antialiased; line-height: 1.55; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  section { padding: 88px 0; border-top: 1px solid var(--hairline); }
+  section:first-of-type { border-top: 0; }
+  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+  h1, h2, h3, h4 { color: var(--ink); margin: 0; font-weight: 800; letter-spacing: -0.02em; }
+  h1 { font-size: 68px; line-height: 1.02; letter-spacing: -0.035em; font-weight: 900; }
+  h2 { font-size: 40px; line-height: 1.1; letter-spacing: -0.025em; }
+  h3 { font-size: 22px; line-height: 1.25; }
+  h4 { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  p { margin: 0 0 14px; max-width: 64ch; }
+  p.lead { font-size: 18px; color: var(--graphite); max-width: 60ch; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* Hero */
+  .hero { padding: 80px 0; background: radial-gradient(900px 500px at 90% 0%, rgba(249,112,5,0.08), transparent 60%), radial-gradient(700px 400px at 0% 100%, rgba(10,89,205,0.08), transparent 60%); }
+  .hero-tag { display:inline-flex; align-items:center; gap:10px; background:var(--paper); border:1px solid var(--border); padding:8px 14px; border-radius:999px; font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--graphite); margin-bottom:24px; }
+  .hero-tag .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 4px rgba(249,112,5,0.18); }
+  .hero h1 .accent { color: var(--orange); }
+  .pillrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+  .pill { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; background: var(--blue-050); color: var(--blue); padding: 6px 10px; border-radius: 6px; }
+
+  /* Past directions strip */
+  .past { background: var(--cool); padding: 48px 0; }
+  .past-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 24px; }
+  .past-card { background: var(--paper); border: 1px solid var(--border); border-radius: 16px; padding: 20px; text-align: center; opacity: 0.65; }
+  .past-card svg { width: 80px; height: 80px; }
+  .past-card .num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.14em; margin-top: 8px; }
+  .past-card .name { font-size: 13px; font-weight: 700; color: var(--graphite); margin-top: 4px; }
+
+  /* Direction big card */
+  .dir { padding: 96px 0; border-top: 1px solid var(--hairline); }
+  .dir-head { display: grid; grid-template-columns: 1fr 1.4fr; gap: 48px; align-items: start; margin-bottom: 48px; }
+  .dir-num-big { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--orange); letter-spacing: 0.2em; margin-bottom: 12px; }
+  .dir h2 { margin-bottom: 16px; }
+  .dir-desc p { font-size: 15px; color: var(--text); }
+  .dir-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+  .dir-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; background: var(--cool); color: var(--graphite); padding: 5px 9px; border-radius: 6px; border: 1px solid var(--hairline); }
+  .dir-tag.pos { background: var(--blue-050); color: var(--blue); border-color: transparent; }
+  .dir-tag.neg { background: #FEF1F1; color: #B42318; border-color: transparent; }
+
+  /* Showcase grid: hero + variants */
+  .showcase { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; }
+  .showcase-main {
+    background: var(--cool);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    min-height: 420px;
+    display: grid; place-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .showcase-main::before {
+    content: ""; position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgba(10,89,205,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(10,89,205,0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .showcase-main svg { position: relative; width: 58%; height: auto; max-height: 70%; }
+  .showcase-side { display: grid; grid-template-rows: 1fr 1fr; gap: 20px; }
+  .showcase-cell {
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    display: grid; place-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .showcase-cell .label {
+    position: absolute; top: 14px; left: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .showcase-cell svg { max-width: 65%; max-height: 60%; }
+  .cell-blue { background: var(--blue); border-color: var(--blue); }
+  .cell-blue .label { color: rgba(255,255,255,0.6); }
+  .cell-orange { background: var(--orange); border-color: var(--orange); }
+  .cell-orange .label { color: rgba(255,255,255,0.7); }
+  .cell-dark { background: var(--ink); border-color: var(--ink); }
+  .cell-dark .label { color: rgba(255,255,255,0.55); }
+  .cell-paper { background: var(--paper); }
+
+  /* Lockup row below */
+  .lockup-row {
+    margin-top: 24px;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 36px 48px;
+    display: grid; grid-template-columns: 1fr auto auto; gap: 36px;
+    align-items: center;
+  }
+  .lockup-row svg { height: 56px; width: auto; }
+  .lockup-row .lab {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+    text-align: right;
+  }
+  .lockup-row .lab b { color: var(--ink); display: block; font-size: 12px; margin-bottom: 4px; }
+  .favs { display: flex; gap: 10px; align-items: flex-end; }
+  .favs svg { background: var(--orange); border-radius: 4px; }
+
+  /* Voting section */
+  .vote { background: var(--ink); color: #C6D2E3; }
+  .vote h2, .vote h3 { color: white; }
+  .vote .lead { color: #9FB1CC; }
+  .vote-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 40px; }
+  .vote-card {
+    background: #0B1A2E;
+    border: 1px solid #1B2C46;
+    border-radius: 22px;
+    padding: 28px 22px;
+    text-align: center;
+  }
+  .vote-card .stage {
+    aspect-ratio: 1 / 1;
+    background: #07111F;
+    border-radius: 16px;
+    display: grid; place-items: center;
+    margin-bottom: 16px;
+  }
+  .vote-card .stage svg { width: 70%; }
+  .vote-card .num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--orange); letter-spacing: 0.2em; }
+  .vote-card .name { font-size: 16px; font-weight: 800; color: white; margin: 6px 0; letter-spacing: -0.01em; }
+  .vote-card .note { font-size: 12px; color: #7B8FA8; line-height: 1.5; }
+
+  /* Decide CTA */
+  .decide { background: var(--orange); color: white; }
+  .decide h2 { color: white; max-width: 18ch; }
+  .decide p { color: rgba(255,255,255,0.92); }
+  .decide-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 32px; }
+  .decide-card { background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.18); border-radius: 18px; padding: 22px; backdrop-filter: blur(8px); }
+  .decide-card h4 { color: rgba(255,255,255,0.7); margin-bottom: 8px; }
+  .decide-card p { font-size: 14px; margin: 0; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-tag"><span class="pulse"></span>Round 2 · 4 bases novas · sem taça</div>
+    <h1 style="max-width:18ch">Trocando a <span class="accent">base</span> conceitual.</h1>
+    <p class="lead" style="margin-top:18px">Saindo do troféu, quatro fundações novas para o símbolo. Cada uma resolve a marca de um jeito — competição, precisão, monograma, jornada. Mesma paleta, mesma rigidez técnica, propostas mais distintas que o universo "logo de federação".</p>
+    <div class="pillrow">
+      <span class="pill">05 · Medalha</span>
+      <span class="pill">06 · Cronômetro</span>
+      <span class="pill">07 · Monograma C</span>
+      <span class="pill">08 · Pódio</span>
+    </div>
+  </div>
+</section>
+
+<!-- PAST DIRECTIONS RECAP -->
+<section class="past" style="padding:48px 0;border-top:0">
+  <div class="wrap">
+    <div class="eyebrow" style="color:var(--muted);margin-bottom:6px">Round 1 · arquivado (taça)</div>
+    <p style="font-size:14px;color:var(--muted);margin:0">Para referência — não eliminadas, só passamos a explorar bases diferentes em paralelo.</p>
+    <div class="past-grid">
+      <div class="past-card">
+        <svg viewBox="0 0 200 200">
+          <g fill="none" stroke="#0A59CD" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M 64 50 L 64 100 C 64 122 80 132 100 132 C 120 132 136 122 136 100 L 136 50 Z"/>
+            <path d="M 64 62 C 40 62 40 92 64 92"/>
+            <path d="M 136 62 C 160 62 160 92 136 92"/>
+            <line x1="100" y1="132" x2="100" y2="152"/>
+          </g>
+          <rect x="74" y="156" width="52" height="10" rx="3" fill="#F97005"/>
+        </svg>
+        <div class="num">01</div>
+        <div class="name">Monoline Cup</div>
+      </div>
+      <div class="past-card">
+        <svg viewBox="0 0 200 200">
+          <path d="M 70 44 L 130 44 L 130 92 C 130 114 116 124 100 124 C 84 124 70 114 70 92 Z" fill="#0A59CD"/>
+          <path d="M 70 56 C 50 56 50 82 70 82" fill="none" stroke="#0A59CD" stroke-width="10" stroke-linecap="round"/>
+          <path d="M 130 56 C 150 56 150 82 130 82" fill="none" stroke="#0A59CD" stroke-width="10" stroke-linecap="round"/>
+          <rect x="93" y="124" width="14" height="14" fill="#0A59CD"/>
+          <rect x="58"  y="158" width="28" height="14" rx="2" fill="#0A59CD" opacity="0.35"/>
+          <rect x="86"  y="146" width="28" height="26" rx="2" fill="#F97005"/>
+          <rect x="114" y="152" width="28" height="20" rx="2" fill="#0A59CD" opacity="0.55"/>
+        </svg>
+        <div class="num">02</div>
+        <div class="name">Trophy + Pódio</div>
+      </div>
+      <div class="past-card">
+        <svg viewBox="0 0 200 200">
+          <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#0A59CD"/>
+          <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M 56 56 C 32 56 32 88 56 88" fill="none" stroke="#0A59CD" stroke-width="12" stroke-linecap="round"/>
+          <path d="M 144 56 C 168 56 168 88 144 88" fill="none" stroke="#0A59CD" stroke-width="12" stroke-linecap="round"/>
+          <rect x="92" y="138" width="16" height="20" fill="#0A59CD"/>
+          <rect x="68" y="158" width="64" height="12" rx="3" fill="#F97005"/>
+        </svg>
+        <div class="num">03</div>
+        <div class="name">C-Cup Monograma</div>
+      </div>
+      <div class="past-card">
+        <svg viewBox="0 0 200 200">
+          <polygon points="60,42 140,42 152,62 124,90 76,90 48,62" fill="#0A59CD"/>
+          <polygon points="48,62 152,62 130,118 100,138 70,118" fill="#0A59CD" opacity="0.85"/>
+          <polygon points="124,90 130,118 100,138" fill="#1B57B7"/>
+          <path d="M 48 62 L 28 76 L 28 92 L 48 80" fill="#0A59CD" opacity="0.85"/>
+          <path d="M 152 62 L 172 76 L 172 92 L 152 80" fill="#0A59CD" opacity="0.85"/>
+          <polygon points="92,138 108,138 110,158 90,158" fill="#0A59CD"/>
+          <rect x="68" y="158" width="64" height="12" rx="2" fill="#F97005"/>
+        </svg>
+        <div class="num">04</div>
+        <div class="name">Faceted Gem</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     05 · MEDALHA
+     ============================================ -->
+<section class="dir">
+  <div class="wrap">
+    <div class="dir-head">
+      <div>
+        <div class="dir-num-big">05 · BASE NOVA</div>
+        <h2>Medalha.</h2>
+      </div>
+      <div class="dir-desc">
+        <p>Disco circular com fita superior. Disco em azul, fita em laranja — a marca herda imediatamente o vocabulário de pódio, federação, conquista oficial. O "C" gravado no centro vira monograma quando a medalha aparece pequena.</p>
+        <div class="dir-tags">
+          <span class="dir-tag pos">OFICIAL ✓</span>
+          <span class="dir-tag pos">CONQUISTA ✓</span>
+          <span class="dir-tag pos">FAVICON 16px ✓</span>
+          <span class="dir-tag neg">Pode lembrar federação tradicional</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="showcase">
+      <!-- Main -->
+      <div class="showcase-main">
+        <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+          <!-- Ribbon left -->
+          <polygon points="62,8 100,82 100,52" fill="#F97005"/>
+          <!-- Ribbon right -->
+          <polygon points="138,8 100,82 100,52" fill="#D85C00"/>
+          <!-- Ribbon outer triangles -->
+          <polygon points="62,8 100,8 100,28" fill="#F99A08"/>
+          <polygon points="138,8 100,8 100,28" fill="#F97005"/>
+          <!-- Medal disc -->
+          <circle cx="100" cy="140" r="62" fill="#0A59CD"/>
+          <circle cx="100" cy="140" r="50" fill="none" stroke="#FFFFFF" stroke-width="2" opacity="0.35"/>
+          <!-- C engraved -->
+          <path d="M 124 118 L 100 118 C 86 118 76 128 76 140 C 76 152 86 162 100 162 L 124 162" fill="none" stroke="#FFFFFF" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <!-- Side variants -->
+      <div class="showcase-side">
+        <div class="showcase-cell cell-blue">
+          <span class="label">Knockout · azul</span>
+          <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="62,8 100,82 100,52" fill="#FFFFFF"/>
+            <polygon points="138,8 100,82 100,52" fill="#FFFFFF" opacity="0.7"/>
+            <polygon points="62,8 100,8 100,28" fill="#FFFFFF" opacity="0.85"/>
+            <polygon points="138,8 100,8 100,28" fill="#FFFFFF"/>
+            <circle cx="100" cy="140" r="62" fill="#FFFFFF"/>
+            <path d="M 124 118 L 100 118 C 86 118 76 128 76 140 C 76 152 86 162 100 162 L 124 162" fill="none" stroke="#0A59CD" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="showcase-cell cell-dark">
+          <span class="label">Fundo escuro</span>
+          <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="62,8 100,82 100,52" fill="#F97005"/>
+            <polygon points="138,8 100,82 100,52" fill="#D85C00"/>
+            <polygon points="62,8 100,8 100,28" fill="#F99A08"/>
+            <polygon points="138,8 100,8 100,28" fill="#F97005"/>
+            <circle cx="100" cy="140" r="62" fill="#FFFFFF"/>
+            <path d="M 124 118 L 100 118 C 86 118 76 128 76 140 C 76 152 86 162 100 162 L 124 162" fill="none" stroke="#0F1B2D" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lockup row -->
+    <div class="lockup-row">
+      <svg viewBox="0 0 580 110" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(0,4)">
+          <polygon points="40,6 64,52 64,33" fill="#F97005"/>
+          <polygon points="88,6 64,52 64,33" fill="#D85C00"/>
+          <polygon points="40,6 64,6 64,18" fill="#F99A08"/>
+          <polygon points="88,6 64,6 64,18" fill="#F97005"/>
+          <circle cx="64" cy="76" r="38" fill="#0A59CD"/>
+          <path d="M 78 62 L 64 62 C 56 62 50 68 50 76 C 50 84 56 90 64 90 L 78 90" fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <text x="130" y="80" font-family="Inter" font-weight="900" font-size="60" fill="#0F1B2D" letter-spacing="-2">Compet<tspan fill="#F97005">i</tspan></text>
+      </svg>
+      <div class="favs">
+        <svg width="48" height="48" viewBox="0 0 200 220">
+          <circle cx="100" cy="110" r="92" fill="#0A59CD"/>
+          <path d="M 130 84 L 100 84 C 80 84 66 96 66 110 C 66 124 80 136 100 136 L 130 136" fill="none" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round"/>
+        </svg>
+        <svg width="32" height="32" viewBox="0 0 200 220">
+          <circle cx="100" cy="110" r="92" fill="#0A59CD"/>
+          <path d="M 130 84 L 100 84 C 80 84 66 96 66 110 C 66 124 80 136 100 136 L 130 136" fill="none" stroke="#FFFFFF" stroke-width="22" stroke-linecap="round"/>
+        </svg>
+        <svg width="16" height="16" viewBox="0 0 200 220">
+          <circle cx="100" cy="110" r="92" fill="#0A59CD"/>
+          <path d="M 130 84 L 100 84 C 80 84 66 96 66 110 C 66 124 80 136 100 136 L 130 136" fill="none" stroke="#FFFFFF" stroke-width="26" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="lab"><b>FAVICON</b>48 · 32 · 16 px<br>simplifica fita</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     06 · CRONÔMETRO
+     ============================================ -->
+<section class="dir">
+  <div class="wrap">
+    <div class="dir-head">
+      <div>
+        <div class="dir-num-big">06 · BASE NOVA</div>
+        <h2>Cronômetro.</h2>
+      </div>
+      <div class="dir-desc">
+        <p>Precisão, tempo, oficialidade. O ponteiro descreve um arco que vira um "C" — duplo significado: <i>Competi</i> e o gesto de "tempo correndo". É o ícone mais ligado ao <i>core</i> da plataforma (resultados, baterias, apuração) e o mais distinto dos concorrentes.</p>
+        <div class="dir-tags">
+          <span class="dir-tag pos">PRECISÃO ✓</span>
+          <span class="dir-tag pos">TECH ✓</span>
+          <span class="dir-tag pos">ÚNICO ✓</span>
+          <span class="dir-tag neg">Menos "esportivo" óbvio</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="showcase">
+      <div class="showcase-main">
+        <svg viewBox="0 0 220 240" xmlns="http://www.w3.org/2000/svg">
+          <!-- Crown stem -->
+          <rect x="100" y="6" width="20" height="14" rx="2" fill="#0A59CD"/>
+          <!-- Top button (side) -->
+          <rect x="148" y="32" width="22" height="10" rx="2" fill="#0A59CD" transform="rotate(45 159 37)"/>
+          <!-- Top tab -->
+          <rect x="94" y="18" width="32" height="14" rx="3" fill="#0A59CD"/>
+          <!-- Watch body -->
+          <circle cx="110" cy="140" r="86" fill="#0A59CD"/>
+          <circle cx="110" cy="140" r="68" fill="#FFFFFF"/>
+          <!-- Tick marks 12/3/6/9 -->
+          <g fill="#0A59CD">
+            <rect x="106" y="78" width="8" height="14" rx="2"/>
+            <rect x="170" y="136" width="14" height="8" rx="2"/>
+            <rect x="106" y="188" width="8" height="14" rx="2"/>
+            <rect x="36" y="136" width="14" height="8" rx="2"/>
+          </g>
+          <!-- C arc hand sweep -->
+          <path d="M 152 102 A 50 50 0 1 0 152 178" fill="none" stroke="#F97005" stroke-width="14" stroke-linecap="round"/>
+          <!-- Center pin -->
+          <circle cx="110" cy="140" r="9" fill="#0F1B2D"/>
+          <circle cx="110" cy="140" r="4" fill="#F97005"/>
+        </svg>
+      </div>
+      <div class="showcase-side">
+        <div class="showcase-cell cell-blue">
+          <span class="label">Knockout · azul</span>
+          <svg viewBox="0 0 220 240" xmlns="http://www.w3.org/2000/svg">
+            <rect x="100" y="6" width="20" height="14" rx="2" fill="#FFFFFF"/>
+            <rect x="148" y="32" width="22" height="10" rx="2" fill="#FFFFFF" transform="rotate(45 159 37)"/>
+            <rect x="94" y="18" width="32" height="14" rx="3" fill="#FFFFFF"/>
+            <circle cx="110" cy="140" r="86" fill="#FFFFFF"/>
+            <circle cx="110" cy="140" r="68" fill="#0A59CD"/>
+            <g fill="#FFFFFF">
+              <rect x="106" y="78" width="8" height="14" rx="2"/>
+              <rect x="170" y="136" width="14" height="8" rx="2"/>
+              <rect x="106" y="188" width="8" height="14" rx="2"/>
+              <rect x="36" y="136" width="14" height="8" rx="2"/>
+            </g>
+            <path d="M 152 102 A 50 50 0 1 0 152 178" fill="none" stroke="#F97005" stroke-width="14" stroke-linecap="round"/>
+            <circle cx="110" cy="140" r="9" fill="#FFFFFF"/>
+            <circle cx="110" cy="140" r="4" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="showcase-cell cell-dark">
+          <span class="label">Fundo escuro</span>
+          <svg viewBox="0 0 220 240" xmlns="http://www.w3.org/2000/svg">
+            <rect x="100" y="6" width="20" height="14" rx="2" fill="#FFFFFF"/>
+            <rect x="148" y="32" width="22" height="10" rx="2" fill="#FFFFFF" transform="rotate(45 159 37)"/>
+            <rect x="94" y="18" width="32" height="14" rx="3" fill="#FFFFFF"/>
+            <circle cx="110" cy="140" r="86" fill="#FFFFFF"/>
+            <circle cx="110" cy="140" r="68" fill="#0F1B2D"/>
+            <g fill="#FFFFFF">
+              <rect x="106" y="78" width="8" height="14" rx="2"/>
+              <rect x="170" y="136" width="14" height="8" rx="2"/>
+              <rect x="106" y="188" width="8" height="14" rx="2"/>
+              <rect x="36" y="136" width="14" height="8" rx="2"/>
+            </g>
+            <path d="M 152 102 A 50 50 0 1 0 152 178" fill="none" stroke="#F97005" stroke-width="14" stroke-linecap="round"/>
+            <circle cx="110" cy="140" r="9" fill="#FFFFFF"/>
+            <circle cx="110" cy="140" r="4" fill="#F97005"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="lockup-row">
+      <svg viewBox="0 0 580 110" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(0,0)">
+          <rect x="52" y="4" width="14" height="10" rx="2" fill="#0A59CD"/>
+          <rect x="48" y="14" width="22" height="9" rx="2" fill="#0A59CD"/>
+          <circle cx="59" cy="63" r="45" fill="#0A59CD"/>
+          <circle cx="59" cy="63" r="35" fill="#FFFFFF"/>
+          <path d="M 81 42 A 26 26 0 1 0 81 84" fill="none" stroke="#F97005" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="59" cy="63" r="5" fill="#0F1B2D"/>
+        </g>
+        <text x="130" y="80" font-family="Inter" font-weight="900" font-size="60" fill="#0F1B2D" letter-spacing="-2">Compet<tspan fill="#F97005">i</tspan></text>
+      </svg>
+      <div class="favs">
+        <svg width="48" height="48" viewBox="0 0 200 200">
+          <circle cx="100" cy="110" r="90" fill="#0A59CD"/>
+          <circle cx="100" cy="110" r="68" fill="#FFFFFF"/>
+          <path d="M 144 76 A 52 52 0 1 0 144 144" fill="none" stroke="#F97005" stroke-width="16" stroke-linecap="round"/>
+        </svg>
+        <svg width="32" height="32" viewBox="0 0 200 200">
+          <circle cx="100" cy="110" r="90" fill="#0A59CD"/>
+          <circle cx="100" cy="110" r="68" fill="#FFFFFF"/>
+          <path d="M 144 76 A 52 52 0 1 0 144 144" fill="none" stroke="#F97005" stroke-width="20" stroke-linecap="round"/>
+        </svg>
+        <svg width="16" height="16" viewBox="0 0 200 200">
+          <circle cx="100" cy="110" r="90" fill="#0A59CD"/>
+          <circle cx="100" cy="110" r="62" fill="#FFFFFF"/>
+          <path d="M 144 76 A 50 50 0 1 0 144 144" fill="none" stroke="#F97005" stroke-width="28" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="lab"><b>FAVICON</b>48 · 32 · 16 px<br>tira ponteiros</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     07 · MONOGRAMA C PURO
+     ============================================ -->
+<section class="dir">
+  <div class="wrap">
+    <div class="dir-head">
+      <div>
+        <div class="dir-num-big">07 · BASE NOVA</div>
+        <h2>Monograma "C".</h2>
+      </div>
+      <div class="dir-desc">
+        <p>Nenhuma metáfora — só uma letra "C" rigorosamente desenhada. Boca aberta, terminais retos, um pingo laranja no vão. É o caminho mais limpo, atemporal e abstrato — funciona pra <i>qualquer</i> coisa que a Competi cresça pra fazer no futuro (escola, betting, treinamento, mídia).</p>
+        <div class="dir-tags">
+          <span class="dir-tag pos">ATEMPORAL ✓</span>
+          <span class="dir-tag pos">EXTENSÍVEL ✓</span>
+          <span class="dir-tag pos">FAVICON 16px ✓</span>
+          <span class="dir-tag neg">Menos "esporte" óbvio</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="showcase">
+      <div class="showcase-main">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <!-- Heavy geometric C -->
+          <path d="M 100 22 C 56 22 22 56 22 100 C 22 144 56 178 100 178 C 132 178 160 158 172 130 L 136 116 C 130 130 116 140 100 140 C 78 140 60 122 60 100 C 60 78 78 60 100 60 C 116 60 130 70 136 84 L 172 70 C 160 42 132 22 100 22 Z" fill="#0A59CD"/>
+          <!-- Orange dot inside opening -->
+          <circle cx="148" cy="100" r="13" fill="#F97005"/>
+        </svg>
+      </div>
+      <div class="showcase-side">
+        <div class="showcase-cell cell-orange">
+          <span class="label">Knockout · laranja</span>
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 100 22 C 56 22 22 56 22 100 C 22 144 56 178 100 178 C 132 178 160 158 172 130 L 136 116 C 130 130 116 140 100 140 C 78 140 60 122 60 100 C 60 78 78 60 100 60 C 116 60 130 70 136 84 L 172 70 C 160 42 132 22 100 22 Z" fill="#FFFFFF"/>
+            <circle cx="148" cy="100" r="13" fill="#0A59CD"/>
+          </svg>
+        </div>
+        <div class="showcase-cell cell-dark">
+          <span class="label">Fundo escuro</span>
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 100 22 C 56 22 22 56 22 100 C 22 144 56 178 100 178 C 132 178 160 158 172 130 L 136 116 C 130 130 116 140 100 140 C 78 140 60 122 60 100 C 60 78 78 60 100 60 C 116 60 130 70 136 84 L 172 70 C 160 42 132 22 100 22 Z" fill="#FFFFFF"/>
+            <circle cx="148" cy="100" r="13" fill="#F97005"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="lockup-row">
+      <svg viewBox="0 0 580 110" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(0,10)">
+          <path d="M 50 12 C 28 12 10 30 10 52 C 10 74 28 92 50 92 C 66 92 80 82 86 68 L 68 60 C 64 67 58 72 50 72 C 39 72 30 63 30 52 C 30 41 39 32 50 32 C 58 32 64 37 68 44 L 86 36 C 80 22 66 12 50 12 Z" fill="#0A59CD"/>
+          <circle cx="76" cy="52" r="7" fill="#F97005"/>
+        </g>
+        <text x="120" y="80" font-family="Inter" font-weight="900" font-size="60" fill="#0F1B2D" letter-spacing="-2">Compet<tspan fill="#F97005">i</tspan></text>
+      </svg>
+      <div class="favs">
+        <svg width="48" height="48" viewBox="0 0 200 200">
+          <path d="M 100 22 C 56 22 22 56 22 100 C 22 144 56 178 100 178 C 132 178 160 158 172 130 L 136 116 C 130 130 116 140 100 140 C 78 140 60 122 60 100 C 60 78 78 60 100 60 C 116 60 130 70 136 84 L 172 70 C 160 42 132 22 100 22 Z" fill="#FFFFFF"/>
+          <circle cx="148" cy="100" r="14" fill="#FFFFFF"/>
+        </svg>
+        <svg width="32" height="32" viewBox="0 0 200 200">
+          <path d="M 100 22 C 56 22 22 56 22 100 C 22 144 56 178 100 178 C 132 178 160 158 172 130 L 136 116 C 130 130 116 140 100 140 C 78 140 60 122 60 100 C 60 78 78 60 100 60 C 116 60 130 70 136 84 L 172 70 C 160 42 132 22 100 22 Z" fill="#FFFFFF"/>
+          <circle cx="148" cy="100" r="14" fill="#FFFFFF"/>
+        </svg>
+        <svg width="16" height="16" viewBox="0 0 200 200">
+          <path d="M 100 22 C 56 22 22 56 22 100 C 22 144 56 178 100 178 C 132 178 160 158 172 130 L 136 116 C 130 130 116 140 100 140 C 78 140 60 122 60 100 C 60 78 78 60 100 60 C 116 60 130 70 136 84 L 172 70 C 160 42 132 22 100 22 Z" fill="#FFFFFF"/>
+        </svg>
+      </div>
+      <div class="lab"><b>FAVICON</b>48 · 32 · 16 px<br>resiste integralmente</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     08 · PÓDIO PURO
+     ============================================ -->
+<section class="dir">
+  <div class="wrap">
+    <div class="dir-head">
+      <div>
+        <div class="dir-num-big">08 · BASE NOVA</div>
+        <h2>Pódio.</h2>
+      </div>
+      <div class="dir-desc">
+        <p>Três barras, sem taça em cima — diferente da Direção 02. Coração ganha o destaque laranja e altura maior. Lê como gráfico de barras (analytics, dados, resultados) E pódio (vencedor). Dupla leitura combina com plataforma de competição.</p>
+        <div class="dir-tags">
+          <span class="dir-tag pos">CLARO ✓</span>
+          <span class="dir-tag pos">DADOS + ESPORTE ✓</span>
+          <span class="dir-tag pos">FAVICON 16px ✓</span>
+          <span class="dir-tag neg">Comum no setor</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="showcase">
+      <div class="showcase-main">
+        <svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+          <!-- 3 podium bars, ordered 2-1-3 -->
+          <rect x="28"  y="86"  width="50" height="92"  rx="8" fill="#0A59CD" opacity="0.45"/>
+          <rect x="86"  y="48"  width="50" height="130" rx="8" fill="#F97005"/>
+          <rect x="144" y="72"  width="50" height="106" rx="8" fill="#0A59CD"/>
+          <!-- Winner ornament: circle on top of orange bar -->
+          <circle cx="111" cy="30" r="14" fill="#F97005"/>
+        </svg>
+      </div>
+      <div class="showcase-side">
+        <div class="showcase-cell cell-blue">
+          <span class="label">Knockout · azul</span>
+          <svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+            <rect x="28"  y="86"  width="50" height="92"  rx="8" fill="#FFFFFF" opacity="0.55"/>
+            <rect x="86"  y="48"  width="50" height="130" rx="8" fill="#FFFFFF"/>
+            <rect x="144" y="72"  width="50" height="106" rx="8" fill="#FFFFFF" opacity="0.8"/>
+            <circle cx="111" cy="30" r="14" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="showcase-cell cell-dark">
+          <span class="label">Fundo escuro</span>
+          <svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg">
+            <rect x="28"  y="86"  width="50" height="92"  rx="8" fill="#FFFFFF" opacity="0.45"/>
+            <rect x="86"  y="48"  width="50" height="130" rx="8" fill="#F97005"/>
+            <rect x="144" y="72"  width="50" height="106" rx="8" fill="#FFFFFF" opacity="0.85"/>
+            <circle cx="111" cy="30" r="14" fill="#F97005"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="lockup-row">
+      <svg viewBox="0 0 580 110" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(0,6)">
+          <rect x="0"  y="50" width="26" height="48" rx="4" fill="#0A59CD" opacity="0.45"/>
+          <rect x="30" y="28" width="26" height="70" rx="4" fill="#F97005"/>
+          <rect x="60" y="40" width="26" height="58" rx="4" fill="#0A59CD"/>
+          <circle cx="43" cy="14" r="8" fill="#F97005"/>
+        </g>
+        <text x="110" y="80" font-family="Inter" font-weight="900" font-size="60" fill="#0F1B2D" letter-spacing="-2">Compet<tspan fill="#F97005">i</tspan></text>
+      </svg>
+      <div class="favs">
+        <svg width="48" height="48" viewBox="0 0 220 220">
+          <rect x="20"  y="90"  width="50" height="100" rx="8" fill="#0A59CD" opacity="0.45"/>
+          <rect x="86"  y="50"  width="50" height="140" rx="8" fill="#F97005"/>
+          <rect x="152" y="70"  width="50" height="120" rx="8" fill="#0A59CD"/>
+          <circle cx="111" cy="28" r="16" fill="#F97005"/>
+        </svg>
+        <svg width="32" height="32" viewBox="0 0 220 220">
+          <rect x="20"  y="90"  width="50" height="100" rx="10" fill="#0A59CD" opacity="0.45"/>
+          <rect x="86"  y="50"  width="50" height="140" rx="10" fill="#F97005"/>
+          <rect x="152" y="70"  width="50" height="120" rx="10" fill="#0A59CD"/>
+          <circle cx="111" cy="28" r="18" fill="#F97005"/>
+        </svg>
+        <svg width="16" height="16" viewBox="0 0 220 220">
+          <rect x="20"  y="100" width="50" height="100" rx="14" fill="#0A59CD" opacity="0.45"/>
+          <rect x="86"  y="60"  width="50" height="140" rx="14" fill="#F97005"/>
+          <rect x="152" y="80"  width="50" height="120" rx="14" fill="#0A59CD"/>
+        </svg>
+      </div>
+      <div class="lab"><b>FAVICON</b>48 · 32 · 16 px<br>tira a coroa</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     VOTING / COMPARISON
+     ============================================ -->
+<section class="vote">
+  <div class="wrap">
+    <div class="eyebrow" style="color:#FFB57A">Comparativo · todas as 8</div>
+    <h2 style="max-width:18ch">As 8 direções, lado a lado.</h2>
+    <p class="lead" style="margin-top:16px;max-width:60ch">Round 1 (01–04) e Round 2 (05–08). Diga qual número fala mais alto — pode citar mais de uma, posso fazer híbrido.</p>
+
+    <div class="vote-grid">
+
+      <div class="vote-card">
+        <div class="stage">
+          <svg viewBox="0 0 200 200">
+            <g fill="none" stroke="#0A59CD" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M 64 50 L 64 100 C 64 122 80 132 100 132 C 120 132 136 122 136 100 L 136 50 Z"/>
+              <path d="M 64 62 C 40 62 40 92 64 92"/>
+              <path d="M 136 62 C 160 62 160 92 136 92"/>
+              <line x1="100" y1="132" x2="100" y2="152"/>
+            </g>
+            <rect x="74" y="156" width="52" height="10" rx="3" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="num">01</div>
+        <div class="name">Monoline Cup</div>
+        <div class="note">Taça linha única. Minimal.</div>
+      </div>
+
+      <div class="vote-card">
+        <div class="stage">
+          <svg viewBox="0 0 200 200">
+            <path d="M 70 44 L 130 44 L 130 92 C 130 114 116 124 100 124 C 84 124 70 114 70 92 Z" fill="#0A59CD"/>
+            <path d="M 70 56 C 50 56 50 82 70 82" fill="none" stroke="#0A59CD" stroke-width="10" stroke-linecap="round"/>
+            <path d="M 130 56 C 150 56 150 82 130 82" fill="none" stroke="#0A59CD" stroke-width="10" stroke-linecap="round"/>
+            <rect x="93" y="124" width="14" height="14" fill="#0A59CD"/>
+            <rect x="58"  y="158" width="28" height="14" rx="2" fill="#0A59CD" opacity="0.35"/>
+            <rect x="86"  y="146" width="28" height="26" rx="2" fill="#F97005"/>
+            <rect x="114" y="152" width="28" height="20" rx="2" fill="#0A59CD" opacity="0.55"/>
+          </svg>
+        </div>
+        <div class="num">02</div>
+        <div class="name">Trophy + Pódio</div>
+        <div class="note">Taça em cima do pódio.</div>
+      </div>
+
+      <div class="vote-card">
+        <div class="stage">
+          <svg viewBox="0 0 200 200">
+            <path d="M 56 42 L 144 42 L 144 96 C 144 122 124 138 100 138 C 76 138 56 122 56 96 Z" fill="#0A59CD"/>
+            <path d="M 132 64 L 100 64 C 88 64 80 76 80 92 C 80 108 88 116 100 116 L 132 116" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 56 56 C 32 56 32 88 56 88" fill="none" stroke="#0A59CD" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 144 56 C 168 56 168 88 144 88" fill="none" stroke="#0A59CD" stroke-width="12" stroke-linecap="round"/>
+            <rect x="92" y="138" width="16" height="20" fill="#0A59CD"/>
+            <rect x="68" y="158" width="64" height="12" rx="3" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="num">03</div>
+        <div class="name">C-Cup Monograma</div>
+        <div class="note">Taça com C vazado.</div>
+      </div>
+
+      <div class="vote-card">
+        <div class="stage">
+          <svg viewBox="0 0 200 200">
+            <polygon points="60,42 140,42 152,62 124,90 76,90 48,62" fill="#0A59CD"/>
+            <polygon points="48,62 152,62 130,118 100,138 70,118" fill="#0A59CD" opacity="0.85"/>
+            <polygon points="124,90 130,118 100,138" fill="#1B57B7"/>
+            <path d="M 48 62 L 28 76 L 28 92 L 48 80" fill="#0A59CD" opacity="0.85"/>
+            <path d="M 152 62 L 172 76 L 172 92 L 152 80" fill="#0A59CD" opacity="0.85"/>
+            <polygon points="92,138 108,138 110,158 90,158" fill="#0A59CD"/>
+            <rect x="68" y="158" width="64" height="12" rx="2" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="num">04</div>
+        <div class="name">Faceted Gem</div>
+        <div class="note">Taça facetada / tech.</div>
+      </div>
+
+      <div class="vote-card">
+        <div class="stage">
+          <svg viewBox="0 0 200 220">
+            <polygon points="62,8 100,82 100,52" fill="#F97005"/>
+            <polygon points="138,8 100,82 100,52" fill="#D85C00"/>
+            <polygon points="62,8 100,8 100,28" fill="#F99A08"/>
+            <polygon points="138,8 100,8 100,28" fill="#F97005"/>
+            <circle cx="100" cy="140" r="62" fill="#0A59CD"/>
+            <path d="M 124 118 L 100 118 C 86 118 76 128 76 140 C 76 152 86 162 100 162 L 124 162" fill="none" stroke="#FFFFFF" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="num">05</div>
+        <div class="name">Medalha</div>
+        <div class="note">Disco azul + fita laranja.</div>
+      </div>
+
+      <div class="vote-card">
+        <div class="stage">
+          <svg viewBox="0 0 220 240">
+            <rect x="100" y="6" width="20" height="14" rx="2" fill="#0A59CD"/>
+            <rect x="148" y="32" width="22" height="10" rx="2" fill="#0A59CD" transform="rotate(45 159 37)"/>
+            <rect x="94" y="18" width="32" height="14" rx="3" fill="#0A59CD"/>
+            <circle cx="110" cy="140" r="86" fill="#0A59CD"/>
+            <circle cx="110" cy="140" r="68" fill="#FFFFFF"/>
+            <g fill="#0A59CD">
+              <rect x="106" y="78" width="8" height="14" rx="2"/>
+              <rect x="170" y="136" width="14" height="8" rx="2"/>
+              <rect x="106" y="188" width="8" height="14" rx="2"/>
+              <rect x="36" y="136" width="14" height="8" rx="2"/>
+            </g>
+            <path d="M 152 102 A 50 50 0 1 0 152 178" fill="none" stroke="#F97005" stroke-width="14" stroke-linecap="round"/>
+            <circle cx="110" cy="140" r="9" fill="#0F1B2D"/>
+            <circle cx="110" cy="140" r="4" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="num">06</div>
+        <div class="name">Cronômetro</div>
+        <div class="note">Ponteiro como C.</div>
+      </div>
+
+      <div class="vote-card">
+        <div class="stage">
+          <svg viewBox="0 0 200 200">
+            <path d="M 100 22 C 56 22 22 56 22 100 C 22 144 56 178 100 178 C 132 178 160 158 172 130 L 136 116 C 130 130 116 140 100 140 C 78 140 60 122 60 100 C 60 78 78 60 100 60 C 116 60 130 70 136 84 L 172 70 C 160 42 132 22 100 22 Z" fill="#0A59CD"/>
+            <circle cx="148" cy="100" r="13" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="num">07</div>
+        <div class="name">Monograma C</div>
+        <div class="note">Só uma letra + pingo.</div>
+      </div>
+
+      <div class="vote-card">
+        <div class="stage">
+          <svg viewBox="0 0 220 200">
+            <rect x="28"  y="86"  width="50" height="92"  rx="8" fill="#0A59CD" opacity="0.45"/>
+            <rect x="86"  y="48"  width="50" height="130" rx="8" fill="#F97005"/>
+            <rect x="144" y="72"  width="50" height="106" rx="8" fill="#0A59CD"/>
+            <circle cx="111" cy="30" r="14" fill="#F97005"/>
+          </svg>
+        </div>
+        <div class="num">08</div>
+        <div class="name">Pódio</div>
+        <div class="note">3 barras + coroa.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================
+     DECIDE CTA
+     ============================================ -->
+<section class="decide">
+  <div class="wrap">
+    <div class="eyebrow" style="color:rgba(255,255,255,0.75)">Próximo passo</div>
+    <h2>Qual te chama atenção?</h2>
+    <p class="lead" style="max-width:60ch">Pode escolher 1 ou 2. Se duas, faço o cruzamento. Se ainda nenhuma, troco a base outra vez.</p>
+
+    <div class="decide-grid">
+      <div class="decide-card">
+        <h4>A · UMA SÓ</h4>
+        <p>Me diz o número (ex.: "fechar a 06"). Faço SVG limpo, app icon completo, atualizo o site.</p>
+      </div>
+      <div class="decide-card">
+        <h4>B · HÍBRIDO</h4>
+        <p>Duas direções para mesclar (ex.: "07 + 06 — monograma com toque de cronômetro"). Faço 2 ou 3 cruzamentos.</p>
+      </div>
+      <div class="decide-card">
+        <h4>C · OUTRA BASE</h4>
+        <p>Nenhuma ainda. Sugiro: bandeira, chave de torneio, network, alvo, infinito. Diga qual quer ver.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

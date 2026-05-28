@@ -1,512 +1,967 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Competi | Onde o jogo acontece.</title>
+  <title>Competi — O sistema operacional do esporte</title>
+  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/brand/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/brand/favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/brand/favicon-180.png" />
   <link rel="icon" type="image/png" href="assets/img/favicon.png" />
-  <meta
-    name="description"
-    content="Competi é a plataforma que conecta inscrições, operação, resultados e pagamentos em competições esportivas."
-  />
+  <meta name="description" content="A Competi reúne organizadores, atletas, equipes, oficiais e público em uma só plataforma. Da inscrição ao pódio — em 95 esportes." />
+  <meta property="og:title" content="Competi — O sistema operacional do esporte" />
+  <meta property="og:description" content="Organizador, atleta, equipe, oficial e torcida — no mesmo lugar. Da inscrição ao pódio em 95 esportes." />
+  <meta property="og:image" content="https://www.competihub.com.br/assets/brand/logo-symbol-1024.png" />
+  <meta property="og:url" content="https://www.competihub.com.br" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/tokens.css" />
   <link rel="stylesheet" href="assets/css/site.css" />
-  <link rel="stylesheet" href="assets/css/enhancements.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div class="container topbar-inner">
-      <a href="#home" class="brand" aria-label="Competi">
-        <div class="brand-logo-shell">
-          <img src="assets/img/logo-competi-horizontal.png" alt="Logo Competi" class="brand-logo" />
+
+<!-- ========================================================================
+     TOPBAR
+     ======================================================================== -->
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a href="Inicio.html" class="brand" aria-label="Competi" data-comment-anchor="brand">
+      <img src="assets/img/logo-competi-horizontal.png" alt="Competi" class="brand-logo" />
+    </a>
+
+    <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+
+    <nav class="nav" id="mainNav">
+      <a href="Inicio.html">Início</a>
+      <a href="#plataforma" class="active">A plataforma</a>
+      <a href="#esportes">Esportes</a>
+      <a href="#para-quem">Para quem é</a>
+      <a href="#ciclo">Como funciona</a>
+      <a href="#planos">Planos</a>
+      <a href="#faq">FAQ</a>
+      <a href="Entrar.html">Entrar</a>
+      <a href="#contato" class="nav-cta">Falar com a equipe</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ========================================================================
+       1. HERO
+       ======================================================================== -->
+  <section class="hero" id="home" data-screen-label="01 Hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <div class="eyebrow">A plataforma do esporte</div>
+        <h1>Onde o jogo <span class="accent">acontece</span>.</h1>
+        <p class="lead lead-strong">
+          Organizador, atleta, equipe, oficial e torcida — no mesmo lugar, da inscrição ao pódio.
+        </p>
+        <p class="lead">
+          A Competi conecta quem organiza, quem compete, quem treina, quem apita e quem acompanha. Sem planilha paralela, sem grupo de WhatsApp para tudo, sem ficar comparando lista impressa.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#contato">Quero conhecer a Competi <span class="arr">→</span></a>
+          <a class="btn btn-secondary" href="#planos">Ver planos</a>
         </div>
-      </a>
 
-      <button class="menu-btn" id="menuBtn" aria-label="Abrir menu">☰</button>
+        <div class="cycle-chips">
+          <span class="chip"><span class="dot"></span>Descobrir</span>
+          <span class="sep">›</span>
+          <span class="chip"><span class="dot"></span>Inscrever</span>
+          <span class="sep">›</span>
+          <span class="chip"><span class="dot"></span>Operar</span>
+          <span class="sep">›</span>
+          <span class="chip"><span class="dot"></span>Apurar</span>
+          <span class="sep">›</span>
+          <span class="chip"><span class="dot"></span>Publicar</span>
+        </div>
+      </div>
 
-      <nav class="nav" id="mainNav">
-        <a href="#home" class="active">Início</a>
-        <a href="#plataforma">Plataforma</a>
-        <a href="#para-quem">Para quem é</a>
-        <a href="#planos">Planos</a>
-        <a href="#faq">Perguntas frequentes</a>
-        <a href="#contato">Contato</a>
-      </nav>
+      <!-- Hero mosaic — 3 telas (organizador / atleta / operação ao vivo) -->
+      <div class="hero-mosaic" aria-hidden="true">
+        <!-- Mock organizer (laranja) -->
+        <div class="mock mock-organizer">
+          <div class="mock-bar">
+            <span class="pill tag-orange"></span>
+            <span class="pill tag-fill"></span>
+          </div>
+          <div class="mock-body">
+            <div class="mock-h">Painel do organizador</div>
+            <div class="mock-row">
+              <span class="dot" style="background:var(--persona-organizer)"></span>
+              <span class="bar short"></span>
+              <span class="stat">147</span>
+            </div>
+            <div class="mock-row">
+              <span class="dot" style="background:var(--brand-blue-600)"></span>
+              <span class="bar"></span>
+              <span class="stat">R$ 8.4k</span>
+            </div>
+            <div class="mock-row">
+              <span class="dot" style="background:var(--persona-official)"></span>
+              <span class="bar short"></span>
+              <span class="stat">14 of</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mock athlete (azul) -->
+        <div class="mock mock-athlete">
+          <div class="mock-bar">
+            <span class="pill tag-blue"></span>
+            <span class="pill tag-fill"></span>
+          </div>
+          <div class="mock-body">
+            <div class="mock-h">Próxima prova</div>
+            <div class="mock-sub">Estadual — 14/jun</div>
+            <div class="mock-card-bg">100m livre · raia 4</div>
+            <div class="mock-cta">Confirmar presença</div>
+          </div>
+        </div>
+
+        <!-- Mock live ops (verde-petróleo) -->
+        <div class="mock mock-live">
+          <div class="mock-bar">
+            <span class="pill tag-green"></span>
+            <span class="pill tag-fill"></span>
+          </div>
+          <div class="mock-body">
+            <div class="mock-lane-grid">
+              <span class="lane-n">1</span><span class="lane"></span><span class="lane live"></span><span class="lane live"></span><span class="lane"></span><span class="lane"></span><span class="lane"></span>
+              <span class="lane-n">2</span><span class="lane"></span><span class="lane live"></span><span class="lane live"></span><span class="lane live"></span><span class="lane"></span><span class="lane"></span>
+              <span class="lane-n">3</span><span class="lane"></span><span class="lane live"></span><span class="lane live"></span><span class="lane"></span><span class="lane"></span><span class="lane"></span>
+              <span class="lane-n">4</span><span class="lane"></span><span class="lane"></span><span class="lane live"></span><span class="lane live"></span><span class="lane live"></span><span class="lane"></span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main>
-    <section class="hero" id="home" data-page="Início">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <div class="eyebrow">Tecnologia para competições esportivas</div>
-          <h1>Onde o jogo acontece.</h1>
 
-          <p class="lead lead-strong">
-            A Competi coloca sua competição em movimento.
-          </p>
+  <!-- ========================================================================
+       2. PROVA SOCIAL NUMÉRICA
+       Substitui Venda/Opere/Comunique/Escale com números reais do banco.
+       ======================================================================== -->
+  <section class="section section-tight" data-screen-label="02 Métricas">
+    <div class="container">
+      <div class="metrics-grid">
+        <article class="metric-card">
+          <div class="metric-num">95</div>
+          <div class="metric-label">esportes — do seu favorito ao que você ainda nem imaginou cobrir</div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-num">11</div>
+          <div class="metric-label">grandes famílias — água, pista, bola, raquete, combate, ginástica, alvo, ciclismo, força, equestre, inverno</div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-num">14</div>
+          <div class="metric-label">jeitos de competir — chave, baterias, pontos corridos, revezamento, repescagem, etapas…</div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-num">10</div>
+          <div class="metric-label">jeitos de medir — tempo, distância, altura, peso, pontos, notas, colocação…</div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-num">333</div>
+          <div class="metric-label">formações de competição prontas — você não configura do zero, escolhe e ajusta</div>
+        </article>
+        <article class="metric-card">
+          <div class="metric-num">47</div>
+          <div class="metric-label">funções de oficial reconhecidas — do mesário ao árbitro-chefe, cada um com sua permissão</div>
+        </article>
+      </div>
+    </div>
+  </section>
 
-          <p class="lead">
-            Organize inscrições, acompanhe pagamentos, opere o evento, publique resultados e entregue uma experiência mais rápida para atletas, equipes e público.
-          </p>
 
-          <p class="lead">
-            Tudo em um só lugar. Mais controle para quem organiza. Mais clareza para quem compete.
-          </p>
+  <!-- ========================================================================
+       3. PLATAFORMA — 4 capacidades reais e entregues
+       ======================================================================== -->
+  <section class="section soft" id="plataforma" data-screen-label="03 Plataforma">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-kicker">A plataforma</span>
+        <h2>Quatro coisas que tiram peso de quem organiza, e atrito de quem compete.</h2>
+        <p>Tudo que vai a seguir já está funcionando no ar. Não é promessa.</p>
+      </div>
 
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#contato">Quero conhecer a Competi</a>
-            <a class="btn btn-secondary" href="#planos">Ver planos</a>
+      <div class="feature-stack">
+
+        <!-- Capacidade 1 -->
+        <article class="feature-row">
+          <div>
+            <div class="feature-step">01 · Inscrição</div>
+            <h3>O atleta cria conta uma vez e participa do quanto evento quiser.</h3>
+            <p>A competição aparece numa página pública — dá pra ver tudo sem login. Na hora de se inscrever, o atleta cria a conta dele na Competi (ou usa a que já tem) e a partir daí está dentro pra sempre: histórico, agenda, pagamentos. O sistema confere idade, categoria e índice automaticamente.</p>
+            <div class="feature-tags">
+              <span class="tag done">No ar</span>
+              <span class="tag">Pagamento por Mercado Pago</span>
+              <span class="tag">Categoria conferida</span>
+            </div>
+          </div>
+          <div class="feature-vis">
+            <div class="viz-inscricao">
+              <div class="row">
+                <div class="avatar">MC</div>
+                <div class="name">Mariana Castro<br><span style="font-size:.74rem;color:var(--muted);font-weight:500">100m livre · F · sub-18</span></div>
+                <span class="badge badge-paid">paga</span>
+              </div>
+              <div class="row">
+                <div class="avatar" style="background:linear-gradient(135deg,var(--persona-organizer),var(--brand-orange-400))">RT</div>
+                <div class="name">Rafael Toledo<br><span style="font-size:.74rem;color:var(--muted);font-weight:500">200m medley · M · adulto</span></div>
+                <span class="badge badge-elig">elegível</span>
+              </div>
+              <div class="row">
+                <div class="avatar" style="background:linear-gradient(135deg,var(--persona-tm),#9F67F0)">LP</div>
+                <div class="name">Lucas Paiva<br><span style="font-size:.74rem;color:var(--muted);font-weight:500">50m peito · M · master</span></div>
+                <span class="badge badge-pending">pendente</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Capacidade 2 -->
+        <article class="feature-row reverse">
+          <div>
+            <div class="feature-step">02 · O dia da competição</div>
+            <h3>Quem está no ginásio vê o mesmo que quem está na sala de comissão.</h3>
+            <p>Confirmação de presença, sorteio de raias, montagem das chaves, atribuição dos árbitros: tudo numa tela só, atualizando junto. Acabou a planilha que mora em outro celular e a lista impressa de manhã.</p>
+            <div class="feature-tags">
+              <span class="tag done">No ar</span>
+              <span class="tag">Cada um vê o que precisa ver</span>
+              <span class="tag">Presença no celular</span>
+            </div>
+          </div>
+          <div class="feature-vis">
+            <div class="viz-lanes">
+              <span class="ln">R1</span>
+              <span class="cell done"></span><span class="cell done"></span><span class="cell live"></span><span class="cell live"></span><span class="cell next"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span>
+              <span class="ln">R2</span>
+              <span class="cell done"></span><span class="cell live"></span><span class="cell live"></span><span class="cell live"></span><span class="cell next"></span><span class="cell next"></span><span class="cell"></span><span class="cell"></span>
+              <span class="ln">R3</span>
+              <span class="cell done"></span><span class="cell live"></span><span class="cell live"></span><span class="cell next"></span><span class="cell next"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span>
+              <span class="ln">R4</span>
+              <span class="cell done"></span><span class="cell done"></span><span class="cell live"></span><span class="cell live"></span><span class="cell next"></span><span class="cell next"></span><span class="cell"></span><span class="cell"></span>
+              <span class="ln">R5</span>
+              <span class="cell done"></span><span class="cell live"></span><span class="cell live"></span><span class="cell next"></span><span class="cell next"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span>
+              <span class="ln">R6</span>
+              <span class="cell done"></span><span class="cell done"></span><span class="cell live"></span><span class="cell next"></span><span class="cell next"></span><span class="cell"></span><span class="cell"></span><span class="cell"></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Capacidade 3 -->
+        <article class="feature-row">
+          <div>
+            <div class="feature-step">03 · Resultado oficial</div>
+            <h3>O resultado sai rápido. E não muda depois sem ninguém saber.</h3>
+            <p>O árbitro lança; a plataforma confere. Se alguém altera, fica registrado quem alterou, quando e o que mudou. Atleta, técnico e público veem o mesmo número — sem versão desencontrada em grupo de WhatsApp.</p>
+            <div class="feature-tags">
+              <span class="tag done">No ar</span>
+              <span class="tag">Ranking ao vivo</span>
+              <span class="tag">Histórico de alterações</span>
+            </div>
+          </div>
+          <div class="feature-vis">
+            <div class="viz-results">
+              <div class="hd"><span>#</span><span>Atleta</span><span>Tempo</span></div>
+              <div class="rr">
+                <span class="pos gold">1</span>
+                <span><span class="athl">Mariana Castro</span><br><span class="tm">Clube Aquático Vila Marina</span></span>
+                <span class="time">00:54.12</span>
+              </div>
+              <div class="rr">
+                <span class="pos silver">2</span>
+                <span><span class="athl">Júlia Mendes</span><br><span class="tm">Esporte Clube Mar Aberto</span></span>
+                <span class="time">00:54.87</span>
+              </div>
+              <div class="rr">
+                <span class="pos bronze">3</span>
+                <span><span class="athl">Helena Rocha</span><br><span class="tm">Associação Náutica Vila Alpina</span></span>
+                <span class="time">00:55.03</span>
+              </div>
+              <div class="rr">
+                <span class="pos">4</span>
+                <span><span class="athl">Beatriz Lima</span><br><span class="tm">CR Boa Esperança</span></span>
+                <span class="time">00:55.41</span>
+              </div>
+            </div>
+            <div class="audit" style="margin-top:12px;padding:8px 12px;background:var(--persona-tm-050);border-radius:10px;font-size:.74rem;color:var(--persona-tm);font-weight:700;display:flex;align-items:center;gap:8px">
+              <span class="dot" style="width:6px;height:6px;border-radius:999px;background:var(--persona-tm)"></span>
+              3 lançamentos · árbitra Pereira · 14:22
+            </div>
+          </div>
+        </article>
+
+        <!-- Capacidade 4 -->
+        <article class="feature-row reverse">
+          <div>
+            <div class="feature-step">04 · Sua casa, sua marca, seu esporte</div>
+            <h3>Seus dados só seus. Sua marca em primeiro lugar. Qualquer modalidade.</h3>
+            <p>A Competi serve federação, liga, clube e produtora de evento sem misturar uma com a outra. Cada organização tem o seu ambiente, com a sua identidade visual, e roda do futebol à natação no mesmo motor.</p>
+            <div class="feature-tags">
+              <span class="tag done">No ar</span>
+              <span class="tag">Ambiente isolado</span>
+              <span class="tag">14 jeitos de competir</span>
+              <span class="tag">11 famílias de esporte</span>
+            </div>
+          </div>
+          <div class="feature-vis">
+            <div class="viz-multi" id="vizMulti"></div>
+            <div style="margin-top:14px;font-size:.78rem;color:var(--muted);font-weight:600;display:flex;justify-content:space-between">
+              <span><span style="display:inline-block;width:10px;height:10px;background:var(--brand-blue-600);border-radius:2px;vertical-align:-1px;margin-right:6px"></span>esporte ativo</span>
+              <span>11 grupos × N esportes</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================
+       4. PARA QUEM É — 5 personas
+       ======================================================================== -->
+  <section class="section" id="para-quem" data-screen-label="04 Personas">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-kicker">Para quem é</span>
+        <h2>Cinco papéis no esporte. Um lugar só — que reconhece cada um.</h2>
+        <p>Quem organiza, quem compete, quem treina, quem apita e quem está na arquibancada. Cada um vê o que precisa ver, sem se esbarrar.</p>
+      </div>
+
+      <div class="persona-grid">
+        <article class="persona-card is-organizer">
+          <div class="persona-mark">O</div>
+          <div class="persona-name">Organizador</div>
+          <h3>Sua competição pronta, sem improviso de última hora.</h3>
+          <p>Você publica o evento em poucos passos, abre inscrições, acompanha o caixa e termina o dia com tudo no lugar.</p>
+          <div class="persona-meta"><span class="key">Quem usa</span> federação, liga, clube, produtora</div>
+        </article>
+
+        <article class="persona-card is-athlete">
+          <div class="persona-mark">A</div>
+          <div class="persona-name">Atleta</div>
+          <h3>Uma conta só. Quantas competições ele quiser.</h3>
+          <p>Encontra a competição sem precisar logar, e quando decide entrar cria a conta dele uma vez — dali em diante toda nova inscrição, agenda do dia e tempo da prova ficam no mesmo lugar.</p>
+          <div class="persona-meta"><span class="key">Quem usa</span> federado ou amador, qualquer idade</div>
+        </article>
+
+        <article class="persona-card is-tm">
+          <div class="persona-mark">T</div>
+          <div class="persona-name">Treinador ou Chefe de Equipe</div>
+          <h3>A equipe inteira inscrita de uma vez. Uma conta só.</h3>
+          <p>Você escolhe quem vai em qual prova, o sistema confere categoria por atleta, e você recebe um boleto/PIX único para o clube.</p>
+          <div class="persona-meta"><span class="key">Quem usa</span> técnico, coordenador, chefe de delegação</div>
+        </article>
+
+        <article class="persona-card is-official">
+          <div class="persona-mark">Of</div>
+          <div class="persona-name">Oficial · Árbitro</div>
+          <h3>Você apita o que foi escalado para apitar. E nada além.</h3>
+          <p>Recebe o convite, sabe exatamente em qual prova vai atuar, lança o resultado pelo celular — e tudo o que você fez fica registrado em nome seu.</p>
+          <div class="persona-meta"><span class="key">Quem usa</span> árbitro, mesário, cronometrista, jurado</div>
+        </article>
+
+        <article class="persona-card is-public">
+          <div class="persona-mark">P</div>
+          <div class="persona-name">Torcida e família</div>
+          <h3>Acompanhe sem login. Pelo celular. Em tempo real.</h3>
+          <p>Agenda do dia, resultados saindo na hora, ranking atualizado e a história do atleta num perfil público que dá vontade de compartilhar.</p>
+          <div class="persona-meta"><span class="key">Quem usa</span> pai, mãe, amigo, imprensa, público</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================
+       5. ESPORTES QUE RODAM HOJE — 11 grupos
+       ======================================================================== -->
+  <section class="section soft" id="esportes" data-screen-label="05 Esportes">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-kicker">Esportes</span>
+        <h2>Da natação ao esqui. Do basquete à calistenia.</h2>
+        <p>Você não precisa esperar a Competi “abrir” o seu esporte. Já está aqui, com os jeitos típicos de competir prontos: futebol roda por pontos corridos, copa, playoff. Natação roda baterias, finais, revezamentos, masters. E por aí vai.</p>
+      </div>
+
+      <div class="sports-wrap">
+        <div class="sports-grid">
+          <button class="sport-chip">
+            <span class="n">01</span>
+            <span class="title">Aquáticos</span>
+            <span class="count"><strong>6</strong> esportes</span>
+          </button>
+          <button class="sport-chip">
+            <span class="n">02</span>
+            <span class="title">Atletismo e corrida</span>
+            <span class="count"><strong>6</strong> esportes</span>
+          </button>
+          <button class="sport-chip">
+            <span class="n">03</span>
+            <span class="title">Futebol e coletivos com bola</span>
+            <span class="count"><strong>13</strong> esportes</span>
+          </button>
+          <button class="sport-chip">
+            <span class="n">04</span>
+            <span class="title">Raquete e rede</span>
+            <span class="count"><strong>7</strong> esportes</span>
+          </button>
+          <button class="sport-chip">
+            <span class="n">05</span>
+            <span class="title">Combate</span>
+            <span class="count"><strong>8</strong> esportes</span>
+          </button>
+          <button class="sport-chip">
+            <span class="n">06</span>
+            <span class="title">Precisão e alvo</span>
+            <span class="count"><strong>8</strong> esportes</span>
+          </button>
+          <button class="sport-chip">
+            <span class="n">07</span>
+            <span class="title">Ginástica, julgados e performance</span>
+            <span class="count"><strong>10</strong> esportes</span>
+          </button>
+          <button class="sport-chip">
+            <span class="n">08</span>
+            <span class="title">Ciclismo, remo e resistência</span>
+            <span class="count"><strong>12</strong> esportes</span>
+          </button>
+          <button class="sport-chip">
+            <span class="n">09</span>
+            <span class="title">Força e funcional</span>
+            <span class="count"><strong>7</strong> esportes</span>
+          </button>
+          <button class="sport-chip">
+            <span class="n">10</span>
+            <span class="title">Equestres e multicomponentes</span>
+            <span class="count"><strong>4</strong> esportes</span>
+          </button>
+          <button class="sport-chip">
+            <span class="n">11</span>
+            <span class="title">Esportes de inverno</span>
+            <span class="count"><strong>16</strong> esportes</span>
+          </button>
+          <button class="sport-chip" style="background:var(--brand-blue-050);border-color:rgba(10,89,205,0.18)">
+            <span class="n">+</span>
+            <span class="title">Ver tudo</span>
+            <span class="count" style="color:var(--brand-blue-600)"><strong>514</strong> provas mapeadas</span>
+          </button>
+        </div>
+
+        <aside class="sports-aside">
+          <h4 style="font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin:0 0 4px;font-weight:800">Sem reinventar</h4>
+          <h3>O catálogo já entende o seu esporte.</h3>
+          <p>Você não precisa explicar à plataforma como o seu esporte funciona. A gente já sabe.</p>
+
+          <div class="big">333</div>
+          <div class="big-sub">formações de competição prontas para usar</div>
+
+          <ul>
+            <li>Futebol <strong>5 jeitos</strong></li>
+            <li>Natação <strong>9 jeitos</strong></li>
+            <li>Atletismo <strong>16 jeitos</strong></li>
+            <li>Judô <strong>4 jeitos</strong></li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================
+       6. COMO FUNCIONA O CICLO — 5 marcos
+       ======================================================================== -->
+  <section class="section" id="ciclo" data-screen-label="06 Ciclo">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-kicker">Como funciona</span>
+        <h2>Da publicação à premiação, em cinco passos.</h2>
+        <p>O mesmo caminho serve para um campeonato regional de natação ou para um circuito de BMX. Você pensa no evento; a Competi cuida do trilho.</p>
+      </div>
+
+      <div class="cycle">
+        <div class="cycle-step">
+          <div class="cycle-num">01</div>
+          <h4>Crie a competição</h4>
+          <p>Você escolhe modalidade, datas e locais. A Competi monta o resto.</p>
+        </div>
+        <div class="cycle-step">
+          <div class="cycle-num">02</div>
+          <h4>Abra inscrições</h4>
+          <p>Os atletas se cadastram na Competi e se inscrevem. Pagamento confirmado na hora.</p>
+        </div>
+        <div class="cycle-step">
+          <div class="cycle-num">03</div>
+          <h4>Conduza o dia</h4>
+          <p>Presença, raias, chaves, baterias e árbitros: tudo numa tela só.</p>
+        </div>
+        <div class="cycle-step">
+          <div class="cycle-num">04</div>
+          <h4>Lance o resultado</h4>
+          <p>O árbitro lança, a Competi confere. Ninguém altera às escondidas.</p>
+        </div>
+        <div class="cycle-step">
+          <div class="cycle-num">05</div>
+          <h4>Publique o ranking</h4>
+          <p>Resultado sai para a torcida e entra na história do atleta.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================
+       7. PLANOS — refletindo billing.SubscriptionPlans
+       ======================================================================== -->
+  <section class="section soft" id="planos" data-screen-label="07 Planos">
+    <div class="container">
+      <div class="section-head plans-head" style="margin-bottom:8px">
+        <div>
+          <span class="section-kicker">Planos</span>
+          <h2>Comece de graça.<br>Cresce com você, sem te apertar.</h2>
+          <p style="color:var(--muted)">Quanto mais a sua operação cresce, menor fica a taxa por inscrição. Sem fidelidade. Cancela quando quiser.</p>
+        </div>
+
+        <div class="billing-toggle" role="tablist">
+          <button id="billMonthly" class="active" type="button" role="tab">Mensal</button>
+          <button id="billYearly" type="button" role="tab">Anual <span class="save">economize 16%</span></button>
+        </div>
+      </div>
+
+      <div class="pricing-grid">
+
+        <!-- Free -->
+        <article class="pricing-card" data-plan="free">
+          <div class="plan-name">Free</div>
+          <h3>Para testar</h3>
+          <div class="price-block">
+            <span class="price-currency">R$</span>
+            <span class="price-value" data-monthly="0" data-yearly="0">0</span>
+            <span class="price-period" data-period>/mês</span>
+          </div>
+          <div class="plan-fee">
+            <span>Taxa sobre cada inscrição paga</span>
+            <span class="fee-num">20%</span>
+          </div>
+          <ul class="plan-feat">
+            <li><strong>1</strong> competição por vez</li>
+            <li><strong>100</strong> inscrições por mês</li>
+            <li>Acesso ao catálogo completo de esportes</li>
+            <li>Suficiente para rodar um evento pequeno</li>
+          </ul>
+          <a class="btn btn-secondary" href="#baixar-app">Assinar pelo app <span class="arr">↓</span></a>
+        </article>
+
+        <!-- Starter -->
+        <article class="pricing-card" data-plan="starter">
+          <div class="plan-name">Starter</div>
+          <h3>Para o primeiro circuito</h3>
+          <div class="price-block">
+            <span class="price-currency">R$</span>
+            <span class="price-value" data-monthly="50" data-yearly="42">50</span>
+            <span class="price-period" data-period>/mês</span>
+          </div>
+          <div class="plan-fee">
+            <span>Taxa sobre cada inscrição paga</span>
+            <span class="fee-num">15%</span>
+          </div>
+          <ul class="plan-feat">
+            <li><strong>3</strong> competições ao mesmo tempo</li>
+            <li><strong>500</strong> inscrições por mês</li>
+            <li>Escalação de árbitros e oficiais</li>
+            <li>Resultados com histórico de alterações</li>
+          </ul>
+          <a class="btn btn-secondary" href="#baixar-app">Assinar pelo app <span class="arr">↓</span></a>
+        </article>
+
+        <!-- Pro -->
+        <article class="pricing-card featured" data-plan="pro">
+          <span class="plan-tag">Mais escolhido</span>
+          <div class="plan-name">Pro</div>
+          <h3>Para operação no calendário</h3>
+          <div class="price-block">
+            <span class="price-currency">R$</span>
+            <span class="price-value" data-monthly="200" data-yearly="167">200</span>
+            <span class="price-period" data-period>/mês</span>
+          </div>
+          <div class="plan-fee">
+            <span>Taxa sobre cada inscrição paga</span>
+            <span class="fee-num">10%</span>
+          </div>
+          <ul class="plan-feat">
+            <li><strong>10</strong> competições ao mesmo tempo</li>
+            <li><strong>5.000</strong> inscrições por mês</li>
+            <li>Inscrição em lote por equipe (uma conta só)</li>
+            <li>Todos os 14 jeitos de competir</li>
+            <li>Perfil público do atleta + ranking ao vivo</li>
+          </ul>
+          <a class="btn btn-secondary" href="#baixar-app">Assinar pelo app <span class="arr">↓</span></a>
+        </article>
+
+        <!-- Enterprise -->
+        <article class="pricing-card" data-plan="enterprise">
+          <div class="plan-name">Enterprise</div>
+          <h3>Para federação ou liga</h3>
+          <div class="price-block">
+            <span class="price-currency">R$</span>
+            <span class="price-value" data-monthly="800" data-yearly="667">800</span>
+            <span class="price-period" data-period>/mês</span>
+          </div>
+          <div class="plan-fee">
+            <span>Taxa sobre cada inscrição paga</span>
+            <span class="fee-num">5%</span>
+          </div>
+          <ul class="plan-feat">
+            <li>Competições e inscrições <strong>sem limite</strong></li>
+            <li>Equipe inteira da federação com acessos próprios</li>
+            <li>Implantação acompanhada pelo nosso time</li>
+            <li>Atendimento prioritário</li>
+          </ul>
+          <a class="btn btn-secondary" href="#baixar-app">Assinar pelo app <span class="arr">↓</span></a>
+        </article>
+
+      </div>
+
+      <div class="plans-foot-note">
+        <span class="ico">i</span>
+        <span>
+          <strong>Sobre a taxa:</strong> ela já sai do valor da inscrição no momento em que o pagamento é confirmado. O restante cai direto na conta da sua organização — a Competi nunca segura o dinheiro do organizador.
+        </span>
+      </div>
+
+      <!-- Baixar o app — a assinatura acontece no app -->
+      <div class="app-download" id="baixar-app">
+        <div class="app-download-copy">
+          <span class="app-download-kicker">Como assinar</span>
+          <h3>A assinatura é feita pelo app da Competi.</h3>
+          <p>Baixe na App Store ou na Google Play, crie a sua organização e escolha o plano direto pelo celular. Em poucos minutos sua primeira competição já pode ser publicada.</p>
+        </div>
+        <div class="app-download-badges">
+          <a href="https://apps.apple.com/br/app/competi" class="store-badge" target="_blank" rel="noopener" aria-label="Baixar na App Store">
+            <svg class="store-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-2.93 2.39-4.34 2.5-4.41-1.36-2-3.48-2.27-4.24-2.3-1.81-.18-3.53 1.07-4.45 1.07-.92 0-2.34-1.04-3.84-1.01-1.98.03-3.8 1.15-4.82 2.92-2.05 3.56-.53 8.82 1.47 11.71.98 1.42 2.15 3 3.69 2.94 1.48-.06 2.04-.96 3.83-.96 1.79 0 2.29.96 3.86.93 1.59-.03 2.6-1.44 3.58-2.86 1.12-1.64 1.59-3.23 1.61-3.31-.04-.02-3.09-1.19-3.12-4.72zM14.4 4.27c.8-.97 1.34-2.32 1.19-3.66-1.15.05-2.55.77-3.38 1.74-.74.86-1.39 2.23-1.22 3.55 1.28.1 2.6-.65 3.41-1.63z"/></svg>
+            <div class="store-text">
+              <span class="store-pre">Baixar na</span>
+              <strong class="store-name">App Store</strong>
+            </div>
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=br.com.competi.app" class="store-badge" target="_blank" rel="noopener" aria-label="Disponível na Google Play">
+            <svg class="store-ico" viewBox="0 0 24 24" aria-hidden="true">
+              <defs>
+                <linearGradient id="gpA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00C2FF"/><stop offset="1" stop-color="#0073FF"/></linearGradient>
+                <linearGradient id="gpB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFCE3D"/><stop offset="1" stop-color="#FF9100"/></linearGradient>
+                <linearGradient id="gpC" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF4F4F"/><stop offset="1" stop-color="#D7263D"/></linearGradient>
+                <linearGradient id="gpD" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#43E660"/><stop offset="1" stop-color="#1FB04F"/></linearGradient>
+              </defs>
+              <path d="M3.6 1.9c-.4.3-.6.8-.6 1.5v17.2c0 .7.2 1.2.6 1.5L13 12 3.6 1.9z" fill="url(#gpA)"/>
+              <path d="M16.6 8.7L13 12l3.6 3.3 4.1-2.4c1.2-.7 1.2-1.8 0-2.5l-4.1-1.7z" fill="url(#gpB)"/>
+              <path d="M3.6 22.1c.5.4 1.2.4 2 .1l11-6.9L13 12 3.6 22.1z" fill="url(#gpC)"/>
+              <path d="M5.6 1.8c-.8-.4-1.5-.3-2 .1L13 12l3.6-3.3-11-6.9z" fill="url(#gpD)"/>
+            </svg>
+            <div class="store-text">
+              <span class="store-pre">Disponível na</span>
+              <strong class="store-name">Google Play</strong>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================
+       8. FAQ
+       ======================================================================== -->
+  <section class="section" id="faq" data-screen-label="08 FAQ">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-kicker">Dúvidas comuns</span>
+        <h2>O que costuma vir antes da decisão.</h2>
+      </div>
+
+      <div class="faq-list">
+        <article class="faq-item open">
+          <button class="faq-q" type="button">
+            <span>O meu esporte está aqui?</span>
+            <span class="plus">+</span>
+          </button>
+          <div class="faq-a">
+            <p>Tem grande chance de estar. A Competi reconhece <strong>95 esportes</strong>, agrupados em 11 grandes famílias — da natação ao esqui, passando por futebol, judô, vôlei, ciclismo, ginástica, BMX, calistenia, crosstraining. E não só o nome do esporte: a Competi já sabe os jeitos clássicos de competir em cada um. Futebol roda pontos corridos, copa, playoff. Natação roda baterias, finais, masters. E por aí vai.</p>
+          </div>
+        </article>
+
+        <article class="faq-item">
+          <button class="faq-q" type="button">
+            <span>Quem recebe o dinheiro da inscrição?</span>
+            <span class="plus">+</span>
+          </button>
+          <div class="faq-a">
+            <p>Você — a organização que está rodando a competição. A cobrança passa pelo Mercado Pago e cai direto na sua conta, com a taxa da Competi já descontada. <strong>A gente não segura o seu dinheiro em momento nenhum.</strong></p>
+          </div>
+        </article>
+
+        <article class="faq-item">
+          <button class="faq-q" type="button">
+            <span>Os dados da minha organização ficam misturados com outras?</span>
+            <span class="plus">+</span>
+          </button>
+          <div class="faq-a">
+            <p>Não. Cada organização tem o seu próprio espaço na Competi: seus atletas, seus oficiais, seus eventos, seu financeiro. Outras federações, ligas ou clubes que usam a plataforma <strong>não veem absolutamente nada do que é seu</strong> — e você não vê o que é deles.</p>
+          </div>
+        </article>
+
+        <article class="faq-item">
+          <button class="faq-q" type="button">
+            <span>O resultado oficial pode mudar depois sem ninguém perceber?</span>
+            <span class="plus">+</span>
+          </button>
+          <div class="faq-a">
+            <p>Não. Toda alteração de resultado fica <strong>registrada em nome de quem alterou</strong>, com a hora e o que estava antes. O resultado que vai para o ranking, para o público e para o perfil do atleta é esse mesmo — não existe versão paralela em planilha de alguém.</p>
+          </div>
+        </article>
+
+        <article class="faq-item">
+          <button class="faq-q" type="button">
+            <span>Quem paga a mensalidade da plataforma?</span>
+            <span class="plus">+</span>
+          </button>
+          <div class="faq-a">
+            <p>Só o <strong>organizador</strong> (federação, liga, clube, produtora). O atleta não paga para usar a Competi — ele paga a inscrição do evento, e é sobre essa inscrição que incide a taxa. Torcida e família acompanham tudo de graça, sem login.</p>
+          </div>
+        </article>
+
+        <article class="faq-item">
+          <button class="faq-q" type="button">
+            <span>Dá para inscrever a equipe inteira de uma vez?</span>
+            <span class="plus">+</span>
+          </button>
+          <div class="faq-a">
+            <p>Dá. O treinador ou chefe da equipe escolhe quem vai em cada prova, a Competi confere a categoria de cada atleta automaticamente, e no final sai um <strong>boleto ou PIX único</strong> para o clube — em vez de vários pagamentos avulsos. Disponível a partir do plano Pro.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================
+       9. CONTATO
+       ======================================================================== -->
+  <section class="section warm" id="contato" data-screen-label="09 Contato">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-kicker">Vamos conversar</span>
+        <h2>Tem um evento na manga? A gente começa daqui.</h2>
+        <p>Conta para a gente sobre o seu evento — o esporte, o tamanho, quando vai acontecer. O nosso time responde em até 1 dia útil.</p>
+      </div>
+
+      <div class="contact-grid">
+        <article class="contact-card dark">
+          <h3>Falar com a gente</h3>
+          <p>Conheça a plataforma, tire dúvidas, entenda se faz sentido para o seu evento. A gente atende clube de bairro e federação estadual com o mesmo cuidado.</p>
+
+          <div style="display:grid;gap:12px;margin-top:8px">
+            <a href="mailto:contato@competihub.com.br" style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10);border-radius:12px;color:#fff;font-weight:700">
+              <span style="width:36px;height:36px;border-radius:10px;background:var(--brand-orange-500);display:grid;place-items:center">@</span>
+              contato@competihub.com.br
+            </a>
+            <a href="https://competihub.com.br" style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10);border-radius:12px;color:#fff;font-weight:700">
+              <span style="width:36px;height:36px;border-radius:10px;background:var(--brand-blue-600);display:grid;place-items:center">↗</span>
+              competihub.com.br
+            </a>
           </div>
 
-          <div class="hero-points">
-            <span>Inscrição</span>
-            <span>Operação</span>
-            <span>Resultados</span>
-            <span>Pagamentos</span>
+          <div class="stat">
+            <div><div class="key">Resposta</div><div class="val">até 1 dia útil</div></div>
+            <div><div class="key">Pagamentos</div><div class="val">Mercado Pago</div></div>
+            <div><div class="key">Dados</div><div class="val">Brasil · LGPD</div></div>
           </div>
-        </div>
+        </article>
 
-        <div class="hero-card">
-          <img
-            src="assets/img/tela-login-competi.jpg"
-            alt="Tela do aplicativo Competi"
-            class="hero-image"
-          />
-          <div class="hero-note">
-            <div class="mini-panel">
-              <strong>Para o organizador</strong>
-              <span>mais controle, menos improviso e uma operação mais profissional.</span>
-            </div>
-            <div class="mini-panel">
-              <strong>Para o atleta</strong>
-              <span>inscrição simples, agenda clara e resultado fácil de acompanhar.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-tight">
-      <div class="container">
-        <div class="pillars">
-          <article class="card metric">
-            <strong>Venda melhor</strong>
-            <span>abra inscrições com uma jornada mais clara e profissional.</span>
-          </article>
-          <article class="card metric">
-            <strong>Opere melhor</strong>
-            <span>tenha mais controle no dia do evento, do check-in ao resultado.</span>
-          </article>
-          <article class="card metric">
-            <strong>Comunique melhor</strong>
-            <span>atletas e público enxergam o que importa, sem ruído.</span>
-          </article>
-          <article class="card metric">
-            <strong>Escale melhor</strong>
-            <span>cresça com uma plataforma pensada para recorrência e volume.</span>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section soft" id="plataforma" data-page="Plataforma">
-      <div class="container">
-        <div class="section-head">
-          <h2>Uma plataforma que acompanha a competição do começo ao fim</h2>
-          <p>
-            A Competi foi pensada para tirar atrito da operação e deixar a experiência mais simples para todo mundo envolvido no evento.
-          </p>
-        </div>
-
-        <div class="grid-4">
-          <article class="feature-card">
-            <div class="icon-box">
-              <span>01</span>
-            </div>
-            <h3>Inscrições que convertem</h3>
-            <p>
-              Organizador publica, atleta encontra, se inscreve e paga com mais confiança.
-            </p>
-            <ul class="bullets">
-              <li>fluxo mais claro para inscrição</li>
-              <li>confirmação de pagamento</li>
-              <li>mais credibilidade para o evento</li>
-            </ul>
-          </article>
-
-          <article class="feature-card">
-            <div class="icon-box">
-              <span>02</span>
-            </div>
-            <h3>Operação sem caos</h3>
-            <p>
-              No dia do evento, a informação precisa circular rápido e com clareza.
-            </p>
-            <ul class="bullets">
-              <li>agenda operacional</li>
-              <li>check-in e acompanhamento</li>
-              <li>mais visibilidade para a equipe</li>
-            </ul>
-          </article>
-
-          <article class="feature-card">
-            <div class="icon-box">
-              <span>03</span>
-            </div>
-            <h3>Resultados com agilidade</h3>
-            <p>
-              Menos demora para publicar. Mais transparência para atleta, técnico e público.
-            </p>
-            <ul class="bullets">
-              <li>publicação de resultados</li>
-              <li>consulta rápida</li>
-              <li>experiência mais moderna</li>
-            </ul>
-          </article>
-
-          <article class="feature-card">
-            <div class="icon-box">
-              <span>04</span>
-            </div>
-            <h3>Modelo que cresce com você</h3>
-            <p>
-              A estrutura comercial acompanha o volume da sua operação, sem travar seu crescimento.
-            </p>
-            <ul class="bullets">
-              <li>planos por volume mensal</li>
-              <li>recorrência previsível</li>
-              <li>taxa alinhada ao uso real</li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="para-quem" data-page="Para quem é">
-      <div class="container">
-        <div class="section-head">
-          <h2>Feita para quem vive a competição de verdade</h2>
-          <p>
-            A comunicação da Competi fala com quem organiza, com quem compete e com quem acompanha.
-          </p>
-        </div>
-
-        <div class="persona-grid">
-          <article class="persona-card">
-            <div class="persona-badge">Organizador</div>
-            <h3>Mais controle. Mais visão. Mais resultado.</h3>
-            <p>
-              A Competi ajuda você a profissionalizar sua operação e entregar um evento mais confiável.
-            </p>
-            <ul class="bullets">
-              <li>gestão de inscrições</li>
-              <li>visão operacional do evento</li>
-              <li>publicação e acompanhamento</li>
-            </ul>
-          </article>
-
-          <article class="persona-card">
-            <div class="persona-badge">Atleta</div>
-            <h3>Menos dúvida. Mais foco na prova.</h3>
-            <p>
-              O atleta encontra o evento, faz a inscrição, acompanha sua agenda e consulta resultados com facilidade.
-            </p>
-            <ul class="bullets">
-              <li>inscrição simplificada</li>
-              <li>informação clara</li>
-              <li>resultado acessível</li>
-            </ul>
-          </article>
-
-          <article class="persona-card">
-            <div class="persona-badge">Staff</div>
-            <h3>Operação mais fluida no dia do evento.</h3>
-            <p>
-              Quem está na linha de frente precisa de rapidez, organização e menos retrabalho.
-            </p>
-            <ul class="bullets">
-              <li>execução mais organizada</li>
-              <li>menos improviso</li>
-              <li>mais previsibilidade</li>
-            </ul>
-          </article>
-
-          <article class="persona-card">
-            <div class="persona-badge">Público</div>
-            <h3>Acompanhar a competição fica mais fácil.</h3>
-            <p>
-              Cronograma, informações e resultados em uma experiência mais limpa e objetiva.
-            </p>
-            <ul class="bullets">
-              <li>consulta pública</li>
-              <li>mais clareza</li>
-              <li>mais engajamento com o evento</li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section soft">
-      <div class="container">
-        <div class="section-head">
-          <h2>Mais força para sua marca, seu evento e sua operação</h2>
-          <p>
-            A Competi não é só uma ferramenta. É a base digital para elevar a percepção do seu evento.
-          </p>
-        </div>
-
-        <div class="showcase-grid">
-          <article class="showcase-copy">
-            <div class="quote-box">
-              Competição boa não acontece só na piscina, na pista ou na quadra. Ela também acontece na experiência digital.
-            </div>
-
-            <ul class="bullets bullets-lg">
-              <li>mais confiança na hora da inscrição</li>
-              <li>mais clareza para atleta e equipe</li>
-              <li>mais consistência para publicar resultados</li>
-              <li>mais profissionalismo para vender e crescer</li>
-            </ul>
-          </article>
-
-          <article class="showcase-image-card">
-            <img
-              src="assets/img/ecossistema-competi.jpg"
-              alt="Ecossistema visual da marca Competi"
-              class="showcase-image"
-            />
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="planos" data-page="Planos">
-      <div class="container">
-        <div class="section-head">
-          <h2>Planos para diferentes momentos da sua operação</h2>
-          <p>
-            Você escolhe o plano conforme o volume do seu evento. A plataforma acompanha sua evolução.
-          </p>
-        </div>
-
-        <div class="quote-box">
-          Inscrição paga válida é a inscrição com pagamento aprovado e confirmado pelo parceiro de pagamento no mês de competência.
-        </div>
-
-        <div class="pricing-grid">
-          <article class="pricing-card">
-            <div class="plan-badge">Básico</div>
-            <div class="price-value">R$ 149<span>/mês</span></div>
-            <div class="price-note">Taxa Competi: 1,49%</div>
-            <ul class="bullets">
-              <li>até 200 inscrições pagas válidas por mês</li>
-              <li>ideal para eventos menores</li>
-              <li>entrada acessível para começar</li>
-            </ul>
-          </article>
-
-          <article class="pricing-card featured">
-            <div class="plan-badge">Intermediário</div>
-            <div class="price-value">R$ 349<span>/mês</span></div>
-            <div class="price-note">Taxa Competi: 1,19%</div>
-            <ul class="bullets">
-              <li>até 800 inscrições pagas válidas por mês</li>
-              <li>bom equilíbrio entre custo e escala</li>
-              <li>ideal para operação recorrente</li>
-            </ul>
-          </article>
-
-          <article class="pricing-card">
-            <div class="plan-badge">Avançado</div>
-            <div class="price-value">R$ 799<span>/mês</span></div>
-            <div class="price-note">Taxa Competi: 0,89%</div>
-            <ul class="bullets">
-              <li>até 2.500 inscrições pagas válidas por mês</li>
-              <li>mais volume, taxa menor</li>
-              <li>ideal para operações maiores</li>
-            </ul>
-          </article>
-        </div>
-
-        <div class="table-wrap">
-          <details class="plans-accordion">
-            <summary>Ver tabela-resumo dos planos</summary>
-            <div class="table-scroll">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Plano</th>
-                    <th>Mensalidade</th>
-                    <th>Taxa Competi</th>
-                    <th>Limite mensal</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Básico</td>
-                    <td>R$ 149</td>
-                    <td>1,49%</td>
-                    <td>200 inscrições válidas</td>
-                  </tr>
-                  <tr>
-                    <td>Intermediário</td>
-                    <td>R$ 349</td>
-                    <td>1,19%</td>
-                    <td>800 inscrições válidas</td>
-                  </tr>
-                  <tr>
-                    <td>Avançado</td>
-                    <td>R$ 799</td>
-                    <td>0,89%</td>
-                    <td>2.500 inscrições válidas</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <section class="section soft" id="faq" data-page="Perguntas frequentes">
-      <div class="container">
-        <div class="section-head">
-          <h2>Perguntas frequentes</h2>
-          <p>
-            O essencial, com linguagem clara e direta.
-          </p>
-        </div>
-
-        <div class="faq-list">
-          <article class="faq-item open">
-            <button class="faq-question" type="button">
-              <span>O que a Competi entrega?</span>
-              <span>+</span>
-            </button>
-            <div class="faq-answer">
-              A Competi conecta inscrições, operação do evento, resultados e pagamentos em uma experiência mais simples e profissional.
-            </div>
-          </article>
-
-          <article class="faq-item">
-            <button class="faq-question" type="button">
-              <span>A Competi serve só para atleta?</span>
-              <span>+</span>
-            </button>
-            <div class="faq-answer">
-              Não. A plataforma foi pensada para organizadores, atletas, staff e público.
-            </div>
-          </article>
-
-          <article class="faq-item">
-            <button class="faq-question" type="button">
-              <span>Quem recebe o valor da inscrição?</span>
-              <span>+</span>
-            </button>
-            <div class="faq-answer">
-              A cobrança acontece por meio de um parceiro de pagamento, com confirmação financeira e repasse direto ao organizador.
-            </div>
-          </article>
-
-          <article class="faq-item">
-            <button class="faq-question" type="button">
-              <span>O produto pode crescer para outras modalidades?</span>
-              <span>+</span>
-            </button>
-            <div class="faq-answer">
-              Sim. A base foi pensada para evoluir sem retrabalho estrutural, começando pela natação e abrindo espaço para novos esportes.
-            </div>
-          </article>
-
-          <article class="faq-item">
-            <button class="faq-question" type="button">
-              <span>Por que usar a Competi no meu evento?</span>
-              <span>+</span>
-            </button>
-            <div class="faq-answer">
-              Porque ela ajuda você a vender melhor, operar melhor e entregar uma experiência mais forte para quem participa e acompanha.
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="contato" data-page="Contato">
-      <div class="container">
-        <div class="section-head">
-          <h2>Vamos colocar sua competição em outro nível</h2>
-          <p>
-            Fale com a equipe da Competi e entenda como a plataforma pode apoiar seu evento.
-          </p>
-        </div>
-
-        <div class="contact-grid">
-          <article class="contact-card">
-            <h3>Fale com a Competi</h3>
-            <p>
-              Tire dúvidas, conheça os planos e veja como a plataforma se encaixa no seu cenário.
-            </p>
-            <ul class="bullets">
-              <li>eventos pontuais ou recorrentes</li>
-              <li>implantação e operação</li>
-              <li>planos e crescimento da operação</li>
-            </ul>
-            <div class="contact-actions">
-              <a href="mailto:contato@competihub.com.br" class="btn btn-primary">contato@competihub.com.br</a>
-            </div>
-          </article>
-
-          <article class="contact-card">
-            <form class="contact-form" id="contactForm">
+        <article class="contact-card">
+          <h3 style="margin:0">Mande uma mensagem</h3>
+          <p style="color:var(--muted);margin:0">Conta brevemente o que você organiza e em que pé você está.</p>
+          <form class="contact-form" id="contactForm">
+            <div class="field-grid">
               <input class="input" type="text" name="nome" placeholder="Seu nome" required />
               <input class="input" type="email" name="email" placeholder="Seu e-mail" required />
-              <input class="input" type="text" name="organizacao" placeholder="Organização, equipe ou evento" />
-              <textarea class="textarea" name="mensagem" placeholder="Como a Competi pode ajudar?" required></textarea>
-              <button class="btn btn-primary" type="submit">Enviar mensagem</button>
-            </form>
-          </article>
-        </div>
+            </div>
+            <input class="input" type="text" name="org" placeholder="Federação, liga, clube ou evento" />
+            <select class="input" name="momento">
+              <option value="">Em que pé você está?</option>
+              <option>Só estou avaliando, para o próximo ano</option>
+              <option>Tenho um evento confirmado em menos de 90 dias</option>
+              <option>Já organizo e quero migrar para a Competi</option>
+              <option>Outro</option>
+            </select>
+            <textarea class="textarea" name="mensagem" placeholder="Pode contar tudo: o esporte, o tamanho, o calendário…" required></textarea>
+            <button class="btn btn-primary" type="submit">Enviar mensagem <span class="arr">→</span></button>
+          </form>
+        </article>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
 
-  <footer class="footer">
-    <div class="container footer-grid">
-      <div>
-        <img src="assets/img/logo-competi-horizontal-Footer.png" alt="Logo Competi" class="footer-logo" />
-        <p class="footer-text">
-          Competi é a plataforma para quem quer organizar melhor, competir com mais clareza e entregar uma experiência mais forte.
-        </p>
+</main>
+
+
+<!-- ========================================================================
+     FOOTER
+     ======================================================================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand-block">
+        <img src="assets/img/logo-competi-footer-cropped.png" alt="Competi" class="footer-logo" />
+        <p class="footer-tag">A plataforma que coloca quem organiza, quem compete, quem treina, quem apita e quem assiste no mesmo lugar.</p>
       </div>
 
       <div>
-        <h4>Navegação</h4>
+        <h4>Produto</h4>
         <div class="footer-links">
-          <a href="#home">Início</a>
           <a href="#plataforma">Plataforma</a>
-          <a href="#para-quem">Para quem é</a>
+          <a href="#ciclo">Como funciona</a>
           <a href="#planos">Planos</a>
-          <a href="#faq">Perguntas frequentes</a>
+          <a href="#faq">FAQ</a>
         </div>
       </div>
 
       <div>
-        <h4>Ação</h4>
+        <h4>Personas</h4>
         <div class="footer-links">
-          <a href="#contato">Falar com a equipe</a>
-          <a href="#planos">Ver planos</a>
-          <a href="#plataforma">Entender a plataforma</a>
+          <a href="#para-quem">Para Organizadores</a>
+          <a href="#para-quem">Para Atletas</a>
+          <a href="#para-quem">Para Equipes</a>
+          <a href="#para-quem">Para Oficiais</a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Esportes</h4>
+        <div class="footer-sports">
+          <a href="#esportes">Aquáticos</a>
+          <a href="#esportes">Atletismo</a>
+          <a href="#esportes">Futebol</a>
+          <a href="#esportes">Raquete</a>
+          <a href="#esportes">Combate</a>
+          <a href="#esportes">Precisão</a>
+          <a href="#esportes">Ginástica</a>
+          <a href="#esportes">Ciclismo</a>
+          <a href="#esportes">Força</a>
+          <a href="#esportes">Equestres</a>
+          <a href="#esportes">Inverno</a>
         </div>
       </div>
     </div>
-  </footer>
 
-  <button class="to-top" id="toTop" aria-label="Voltar ao topo">↑</button>
+    <div class="footer-bottom">
+      <div>© 2026 Competi — Todos os direitos reservados.</div>
+      <div class="footer-badges">
+        <span class="footer-badge"><span class="d"></span> Pagamentos · Mercado Pago</span>
+        <span class="footer-badge">LGPD</span>
+        <span class="footer-badge">Dados no Brasil</span>
+      </div>
+    </div>
+  </div>
+</footer>
 
-  <script src="assets/js/site-enhanced.js"></script>
+<button class="to-top" id="toTop" aria-label="Voltar ao topo">↑</button>
+
+
+<!-- ========================================================================
+     SCRIPTS — interações
+     ======================================================================== -->
+<script>
+  // Mobile nav
+  const menuBtn = document.getElementById('menuBtn');
+  const mainNav = document.getElementById('mainNav');
+  menuBtn?.addEventListener('click', () => mainNav.classList.toggle('open'));
+  mainNav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mainNav.classList.remove('open')));
+
+  // Active nav on scroll
+  const links = [...document.querySelectorAll('.nav a[href^="#"]')];
+  const sections = links.map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = '#' + e.target.id;
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === id && !l.classList.contains('nav-cta')));
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => io.observe(s));
+
+  // FAQ
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => btn.closest('.faq-item').classList.toggle('open'));
+  });
+
+  // Billing toggle
+  const fmt = (n) => n === 0 ? '0' : new Intl.NumberFormat('pt-BR').format(n);
+  const monthlyBtn = document.getElementById('billMonthly');
+  const yearlyBtn = document.getElementById('billYearly');
+  function setBilling(mode) {
+    const isYearly = mode === 'yearly';
+    monthlyBtn.classList.toggle('active', !isYearly);
+    yearlyBtn.classList.toggle('active', isYearly);
+    document.querySelectorAll('.pricing-card').forEach(card => {
+      const v = card.querySelector('.price-value');
+      const p = card.querySelector('[data-period]');
+      const m = +v.dataset.monthly;
+      const y = +v.dataset.yearly;
+      v.textContent = fmt(isYearly ? y : m);
+      p.textContent = isYearly ? '/mês · cobrado anual' : '/mês';
+    });
+  }
+  monthlyBtn?.addEventListener('click', () => setBilling('monthly'));
+  yearlyBtn?.addEventListener('click', () => setBilling('yearly'));
+
+  // Multi-sport viz — generate 11 × 6 grid
+  (function buildMulti() {
+    const root = document.getElementById('vizMulti');
+    if (!root) return;
+    // 11 columns × 6 rows. Some cells lit, some lit alt (orange), some dim.
+    const lit = new Set(['0,0','0,1','0,3','1,0','1,2','1,4','2,0','2,1','2,2','2,5','3,0','3,3','4,0','4,1','5,0','5,2','5,3','6,0','6,1','6,4','7,0','7,2','8,0','8,1','9,0','10,0','10,1','10,3','10,5']);
+    const orange = new Set(['2,0','5,0','8,0','10,0']); // active "now" indicators
+    for (let r = 0; r < 6; r++) {
+      for (let c = 0; c < 11; c++) {
+        const key = `${c},${r}`;
+        const d = document.createElement('span');
+        d.className = 'sw' + (lit.has(key) ? ' lit' : '') + (orange.has(key) ? ' alt' : '');
+        root.appendChild(d);
+      }
+    }
+  })();
+
+  // To-top
+  const toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', () => {
+    toTop.classList.toggle('show', window.scrollY > 480);
+  });
+  toTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // Contact form — decorativo
+  document.getElementById('contactForm')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]');
+    const original = btn.innerHTML;
+    btn.innerHTML = '✓ Mensagem enviada';
+    btn.style.background = 'var(--success)';
+    setTimeout(() => { btn.innerHTML = original; btn.style.background = ''; e.target.reset(); }, 2400);
+  });
+</script>
+
 </body>
 </html>

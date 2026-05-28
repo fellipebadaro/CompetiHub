@@ -1,0 +1,56 @@
+/* =========================================================================
+   Competi — Tokens canônicos
+   Fonte de verdade visual herdada do produto (CompetiApp tokens.jsx).
+   Não introduzir cores fora desta lista sem revisar §5 do handoff.
+   ========================================================================= */
+
+:root {
+  /* ---------- Brand ---------- */
+  --brand-blue-600: #0A59CD;    /* CTA primário, links, persona Atleta */
+  --brand-blue-700: #1B57B7;    /* hover azul */
+  --brand-blue-050: #EAF2FD;    /* superfícies azul-claras */
+  --brand-orange-500: #F97005;  /* acento, persona Organizador */
+  --brand-orange-400: #F99A08;  /* hover/secundário laranja */
+  --brand-orange-050: #FFF1E4;  /* superfícies laranja-claras */
+
+  /* ---------- Neutros ---------- */
+  --graphite: #243B53;          /* títulos, texto forte */
+  --graphite-700: #34495F;
+  --ink: #0F1B2D;               /* texto mais forte (h1 hero) */
+  --text: #334155;
+  --muted: #64748B;
+  --hairline: #E6ECF4;
+  --border: #DCE6F3;
+  --cool-surface: #F6F9FE;
+  --warm-surface: #FBFBF8;
+  --paper: #FFFFFF;
+
+  /* ---------- Persona accents (5) ---------- */
+  --persona-organizer: #F97005;     /* laranja */
+  --persona-organizer-050: #FFF1E4;
+  --persona-athlete: #0A59CD;       /* azul */
+  --persona-athlete-050: #EAF2FD;
+  --persona-tm: #7C3AED;            /* roxo — NOVO */
+  --persona-tm-050: #F1E9FE;
+  --persona-official: #0F766E;      /* verde-petróleo — NOVO */
+  --persona-official-050: #E2F1EE;
+  --persona-public: #059669;        /* esmeralda — mesmo hue do app */
+  --persona-public-050: #DCFCE7;
+  --persona-public-700: #047857;
+
+  /* ---------- Estados ---------- */
+  --success: #16A34A;
+  --error: #DC2626;
+  --warn: #B45309;
+
+  /* ---------- Forma ---------- */
+  --shadow-soft: 0 18px 45px rgba(10, 89, 205, 0.10);
+  --shadow-card: 0 12px 30px rgba(36, 59, 83, 0.07);
+  --shadow-lift: 0 24px 60px rgba(36, 59, 83, 0.12);
+  --container: 1220px;
+  --radius-xl: 28px;
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+  --radius-xs: 8px;
+}
